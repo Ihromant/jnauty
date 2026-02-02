@@ -142,7 +142,7 @@ public class JNautyTest {
             }
             GraphWrapper gw = new PlaneGW(inc);
             Automorphisms aut = JNauty.instance().automorphisms(gw);
-            System.out.println(aut.count() + " " + ln.substring(0, sep));
+            assertEquals(504, aut.count());
         });
     }
 }
