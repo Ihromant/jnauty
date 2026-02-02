@@ -31,11 +31,11 @@ public class JNauty {
 
     private JNauty() {
         try {
-            Path path = Files.createTempDirectory("nauty");
-            Path soFile = Paths.get(path.toString(), UUID.randomUUID() + ".so");
+            Path soFile = Paths.get(System.getProperty("java.io.tmpdir"), "nauty-" + UUID.randomUUID() + ".so");
             Files.copy(Objects.requireNonNull(JNauty.class.getResourceAsStream("/libnauty.so")),
                     soFile);
             System.load(soFile.toString());
+            soFile.toFile().deleteOnExit();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
