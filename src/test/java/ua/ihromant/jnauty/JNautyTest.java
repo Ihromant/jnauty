@@ -1,7 +1,13 @@
 package ua.ihromant.jnauty;
 
 import org.junit.jupiter.api.Test;
+import tools.jackson.databind.ObjectMapper;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.Arrays;
 import java.util.Objects;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.IntStream;
@@ -118,5 +124,25 @@ public class JNautyTest {
                 return b < pc && inc[a - pc][b];
             }
         }
+    }
+
+    @Test
+    public void testLarge() throws URISyntaxException, IOException {
+        String s = Files.readString(Path.of(Objects.requireNonNull(
+                getClass().getResource("/S(2,7,175).txt")).toURI()));
+        s.lines().parallel().forEach(ln -> {
+            int sep = ln.indexOf('}') + 1;
+            int[][] arr = new ObjectMapper().readValue(ln.substring(sep), int[][].class);
+            int v = Arrays.stream(arr).mapToInt(a -> a[a.length - 1]).max().orElseThrow() + 1;
+            boolean[][] inc = new boolean[arr.length][v];
+            for (int l = 0; l < arr.length; l++) {
+                for (int p : arr[l]) {
+                    inc[l][p] = true;
+                }
+            }
+            GraphWrapper gw = new PlaneGW(inc);
+            Automorphisms aut = JNauty.instance().automorphisms(gw);
+            System.out.println(aut.count() + " " + ln.substring(0, sep));
+        });
     }
 }

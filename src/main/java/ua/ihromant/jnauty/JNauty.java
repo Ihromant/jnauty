@@ -4,15 +4,19 @@ import ua.ihromant.jnauty.ffm.nautinv_h;
 import ua.ihromant.jnauty.ffm.optionstruct;
 import ua.ihromant.jnauty.ffm.statsblk;
 
+import java.io.IOException;
 import java.lang.foreign.Arena;
 import java.lang.foreign.MemorySegment;
 import java.lang.foreign.ValueLayout;
 import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -27,9 +31,12 @@ public class JNauty {
 
     private JNauty() {
         try {
-            System.load(Paths.get(Objects.requireNonNull(Objects.requireNonNull(
-                    JNauty.class.getResource("/libnauty.so")).toURI())).toString());
-        } catch (URISyntaxException e) {
+            Path path = Files.createTempDirectory("nauty");
+            Path soFile = Paths.get(path.toString(), UUID.randomUUID() + ".so");
+            Files.copy(Objects.requireNonNull(JNauty.class.getResourceAsStream("/libnauty.so")),
+                    soFile);
+            System.load(soFile.toString());
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
