@@ -127,12 +127,10 @@ public class JNauty {
             MemorySegment nativePtn = arena.allocate(ValueLayout.JAVA_INT, ptn.length);
             nativePtn.copyFrom(MemorySegment.ofArray(ptn));
             MemorySegment nativeOrbits = arena.allocate(ValueLayout.JAVA_INT, sz);
-            int workArea = 5000 * 50;
-            MemorySegment workspace = arena.allocate(ValueLayout.JAVA_LONG, workArea);
             MemorySegment canon = arena.allocate(ValueLayout.JAVA_LONG, g.length);
-            nautinv_h.nauty(nativeG, nativeLab, nativePtn,
-                    MemorySegment.NULL, nativeOrbits, options, stats,
-                    workspace, workArea, rowSize, sz, canon);
+            nautinv_h.densenauty(nativeG, nativeLab, nativePtn,
+                    nativeOrbits, options, stats,
+                    rowSize, sz, canon);
             return new Automorphisms(gens.toArray(int[][]::new),
                     nativeOrbits.toArray(ValueLayout.JAVA_INT),
                     (long) statsblk.grpsize1(stats), canon.toArray(ValueLayout.JAVA_LONG));
