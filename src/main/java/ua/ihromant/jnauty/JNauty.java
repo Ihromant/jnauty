@@ -12,6 +12,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -139,7 +140,9 @@ public class JNauty {
                     rowSize, sz, canon);
             return new GraphData(gens.toArray(int[][]::new),
                     nativeOrbits.toArray(ValueLayout.JAVA_INT),
-                    (long) statsblk.grpsize1(stats), canon.toArray(ValueLayout.JAVA_LONG));
+                    (long) statsblk.grpsize1(stats),
+                    nativeLab.toArray(ValueLayout.JAVA_INT),
+                    Arrays.stream(canon.toArray(ValueLayout.JAVA_LONG)).map(Long::reverse).toArray());
         }
     }
 }

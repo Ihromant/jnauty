@@ -42,8 +42,42 @@ public class JNautyTest {
         for (int i = 0; i < 1000; i++) {
             NautyGraph altGW = new PlaneGW(randomPermutation(inc));
             GraphData altAut = JNauty.instance().automorphisms(altGW);
+            int[] lab = altAut.labeling();
+            boolean[][] byLabeling = applyLabeling(altGW, lab);
+            boolean[][] byCanon = canonToIncidence(altGW.vCount(), altAut.canonical());
+            assertArrayEquals(byLabeling, byCanon);
             assertArrayEquals(aut.canonical(), altAut.canonical());
         }
+    }
+
+    private static boolean[][] applyLabeling(NautyGraph gr, int[] labeling) {
+        int sz = gr.vCount();
+        boolean[][] result = new boolean[sz][sz];
+        for (int i = 0; i < sz; i++) {
+            for (int j = 0; j < sz; j++) {
+                result[i][j] = gr.edge(labeling[i], labeling[j]);
+            }
+        }
+        return result;
+    }
+
+    private static boolean[][] canonToIncidence(int size, long[] canon) {
+        boolean[][] result = new boolean[size][size];
+        int m = (size + Long.SIZE - 1) / Long.SIZE;
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < m; j++) {
+                long packed = canon[i * m + j];
+                for (int k = 0; k < Long.SIZE; k++) {
+                    int l = j * Long.SIZE + k;
+                    if (l >= size) {
+                        continue;
+                    }
+                    boolean edge = (packed & (1L << k)) != 0;
+                    result[i][l] = edge;
+                }
+            }
+        }
+        return result;
     }
 
     private static boolean[][] randomPermutation(boolean[][] inc) {
