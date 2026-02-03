@@ -36,12 +36,12 @@ public class JNautyTest {
                 inc[i][j] = lns[j].charAt(i) == '1';
             }
         }
-        GraphWrapper gw = new PlaneGW(inc);
-        Automorphisms aut = JNauty.instance().automorphisms(gw);
-        assertEquals(168, aut.count());
+        NautyGraph gw = new PlaneGW(inc);
+        GraphData aut = JNauty.instance().automorphisms(gw);
+        assertEquals(168, aut.autCount());
         for (int i = 0; i < 1000; i++) {
-            GraphWrapper altGW = new PlaneGW(randomPermutation(inc));
-            Automorphisms altAut = JNauty.instance().automorphisms(altGW);
+            NautyGraph altGW = new PlaneGW(randomPermutation(inc));
+            GraphData altAut = JNauty.instance().automorphisms(altGW);
             assertArrayEquals(aut.canonical(), altAut.canonical());
         }
     }
@@ -104,14 +104,14 @@ public class JNautyTest {
         return next;
     }
 
-    private record PlaneGW(boolean[][] inc) implements GraphWrapper {
+    private record PlaneGW(boolean[][] inc) implements NautyGraph {
         @Override
-        public int size() {
+        public int vCount() {
             return inc[0].length + inc.length;
         }
 
         @Override
-        public int color(int idx) {
+        public int vColor(int idx) {
             return idx < inc[0].length ? 0 : 1;
         }
 
@@ -140,9 +140,9 @@ public class JNautyTest {
                     inc[l][p] = true;
                 }
             }
-            GraphWrapper gw = new PlaneGW(inc);
-            Automorphisms aut = JNauty.instance().automorphisms(gw);
-            assertEquals(504, aut.count());
+            NautyGraph gw = new PlaneGW(inc);
+            GraphData aut = JNauty.instance().automorphisms(gw);
+            assertEquals(504, aut.autCount());
         });
     }
 }

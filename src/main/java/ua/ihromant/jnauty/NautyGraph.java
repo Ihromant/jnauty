@@ -1,9 +1,9 @@
 package ua.ihromant.jnauty;
 
-public interface GraphWrapper {
-    int size();
+public interface NautyGraph {
+    int vCount();
 
-    default int color(int idx) {
+    default int vColor(int idx) {
         return 0;
     }
 

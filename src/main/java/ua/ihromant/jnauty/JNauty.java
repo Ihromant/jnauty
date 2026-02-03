@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.lang.foreign.Arena;
 import java.lang.foreign.MemorySegment;
 import java.lang.foreign.ValueLayout;
-import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -41,8 +40,8 @@ public class JNauty {
         }
     }
 
-    public Automorphisms automorphisms(GraphWrapper gw) {
-        int sz = gw.size();
+    public GraphData automorphisms(NautyGraph gw) {
+        int sz = gw.vCount();
         List<int[]> gens = new ArrayList<>();
         try (Arena arena = Arena.ofConfined()) {
             MemorySegment options = arena.allocate(optionstruct.layout());
@@ -59,7 +58,7 @@ public class JNauty {
             optionstruct.userrefproc(options, MemorySegment.NULL);
 
             MemorySegment automProc = optionstruct.userautomproc.allocate((_, p, _, _, _, _) -> {
-                int[] arr = p.asSlice(0, (long) Integer.BYTES * gw.size()).toArray(ValueLayout.JAVA_INT);
+                int[] arr = p.asSlice(0, (long) Integer.BYTES * gw.vCount()).toArray(ValueLayout.JAVA_INT);
                 gens.add(arr);
             }, arena);
 
@@ -115,7 +114,7 @@ public class JNauty {
             int[] lab = new int[sz];
             int[] ptn = new int[sz];
             Map<Integer, List<Integer>> grouped = IntStream.range(0, sz).boxed()
-                    .collect(Collectors.groupingBy(gw::color));
+                    .collect(Collectors.groupingBy(gw::vColor));
             int[] colorSet = grouped.keySet().stream().mapToInt(Integer::intValue).sorted().toArray();
             int cnt = 0;
             for (int color : colorSet) {
@@ -138,7 +137,7 @@ public class JNauty {
             nautinv_h.densenauty(nativeG, nativeLab, nativePtn,
                     nativeOrbits, options, stats,
                     rowSize, sz, canon);
-            return new Automorphisms(gens.toArray(int[][]::new),
+            return new GraphData(gens.toArray(int[][]::new),
                     nativeOrbits.toArray(ValueLayout.JAVA_INT),
                     (long) statsblk.grpsize1(stats), canon.toArray(ValueLayout.JAVA_LONG));
         }

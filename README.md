@@ -10,13 +10,13 @@ Requirement: Java 25 or more.
 
 `mvn clean install` from sources and add library as dependency to your maven/gradle/other project.
 
-Usage is very straightforward. You need to implement `GraphWrapper` interface with 2 obligatory and 1 default method. I didn't need oriented graphs, so graph should be non-oriented. Graph vertices are just numbers from 0 to size. It is possible to "color" vertices.
+Usage is very straightforward. You need to implement `NautyGraph` interface with 2 obligatory and 1 default method. I didn't need oriented graphs, so graph should be non-oriented. Graph vertices are just numbers from 0 to size. It is possible to "color" vertices.
 
 ```
-public interface GraphWrapper {
-    int size();
+public interface NautyGraph {
+    int vCount();
 
-    default int color(int idx) {
+    default int vColor(int idx) {
         return 0;
     }
 
@@ -25,7 +25,7 @@ public interface GraphWrapper {
 ```
 
 See tests for examples. Then just invoke
-```JNauty.instance().automorphisms(gw)```. You will get number of automorphisms, generators of automorphism group, orbits and canonical form of graph.
+```GraphData data = JNauty.instance().automorphisms(gw)```. You will get number of automorphisms, generators of automorphism group, orbits and canonical form of graph.
 
 (Optional) If you don't trust `.so` file bundled, then you need to build nauty 2.9.3 from [sources](https://pallini.di.uniroma1.it/) and replace `libnauty.so` in `resources` folder. Important! You should build thread-local version of nauty, or else you'll have issues in multithreaded environment. Command for building this version is:
 
