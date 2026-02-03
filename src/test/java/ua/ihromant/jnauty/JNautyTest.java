@@ -13,8 +13,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class JNautyTest {
     private static final String FANO = """
@@ -47,6 +46,16 @@ public class JNautyTest {
             boolean[][] byCanon = canonToIncidence(altGW.vCount(), altAut.canonical());
             assertArrayEquals(byLabeling, byCanon);
             assertArrayEquals(aut.canonical(), altAut.canonical());
+            int[] isomorphism = aut.isomorphism(altAut);
+            int[] revIso = altAut.isomorphism(aut);
+            assertNotNull(isomorphism);
+            assertNotNull(revIso);
+            for (int j = 0; j < gw.vCount(); j++) {
+                for (int k = 0; k < gw.vCount(); k++) {
+                    assertEquals(altGW.edge(isomorphism[j], isomorphism[k]), gw.edge(j, k));
+                    assertEquals(gw.edge(revIso[j], revIso[k]), altGW.edge(j, k));
+                }
+            }
         }
     }
 
