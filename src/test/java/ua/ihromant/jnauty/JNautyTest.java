@@ -39,7 +39,8 @@ public class JNautyTest {
         GraphData aut = JNauty.instance().automorphisms(gw);
         assertEquals(168, aut.autCount());
         for (int i = 0; i < 1000; i++) {
-            NautyGraph altGW = new PlaneGW(randomPermutation(inc));
+            boolean[][] permuted = randomPermutation(inc);
+            NautyGraph altGW = new PlaneGW(permuted);
             GraphData altAut = JNauty.instance().automorphisms(altGW);
             int[] lab = altAut.labeling();
             boolean[][] byLabeling = applyLabeling(altGW, lab);
@@ -55,6 +56,17 @@ public class JNautyTest {
                     assertEquals(altGW.edge(isomorphism[j], isomorphism[k]), gw.edge(j, k));
                     assertEquals(gw.edge(revIso[j], revIso[k]), altGW.edge(j, k));
                 }
+            }
+            int[][] automorphisms = altAut.automorphisms();
+            assertEquals(altAut.autCount(), automorphisms.length);
+            for (int[] a : automorphisms) {
+                boolean[][] automorphed = new boolean[7][7];
+                for (int j = 0; j < 7; j++) {
+                    for (int k = 0; k < 7; k++) {
+                        automorphed[a[j + 7] - 7][a[k]] = permuted[j][k];
+                    }
+                }
+                assertArrayEquals(automorphed, permuted);
             }
         }
     }
