@@ -2,11 +2,15 @@
 
 package ua.ihromant.jnauty.ffm;
 
-import java.lang.foreign.Arena;
-import java.lang.foreign.FunctionDescriptor;
-import java.lang.foreign.Linker;
-import java.lang.foreign.MemorySegment;
-import java.lang.invoke.MethodHandle;
+import java.lang.invoke.*;
+import java.lang.foreign.*;
+import java.nio.ByteOrder;
+import java.util.*;
+import java.util.function.*;
+import java.util.stream.*;
+
+import static java.lang.foreign.ValueLayout.*;
+import static java.lang.foreign.MemoryLayout.PathElement.*;
 
 /**
  * {@snippet lang=c :
@@ -27,8 +31,8 @@ public final class on_exit$__func {
     }
 
     private static final FunctionDescriptor $DESC = FunctionDescriptor.ofVoid(
-        nautinv_h.C_INT,
-        nautinv_h.C_POINTER
+        NautyTraces.C_INT,
+        NautyTraces.C_POINTER
     );
 
     /**
@@ -38,7 +42,7 @@ public final class on_exit$__func {
         return $DESC;
     }
 
-    private static final MethodHandle UP$MH = nautinv_h.upcallHandle(Function.class, "apply", $DESC);
+    private static final MethodHandle UP$MH = NautyTraces.upcallHandle(Function.class, "apply", $DESC);
 
     /**
      * Allocates a new upcall stub, whose implementation is defined by {@code fi}.

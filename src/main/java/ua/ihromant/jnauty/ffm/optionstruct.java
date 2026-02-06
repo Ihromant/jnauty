@@ -2,19 +2,15 @@
 
 package ua.ihromant.jnauty.ffm;
 
-import java.lang.foreign.AddressLayout;
-import java.lang.foreign.Arena;
-import java.lang.foreign.FunctionDescriptor;
-import java.lang.foreign.GroupLayout;
-import java.lang.foreign.Linker;
-import java.lang.foreign.MemoryLayout;
-import java.lang.foreign.MemorySegment;
-import java.lang.foreign.SegmentAllocator;
-import java.lang.invoke.MethodHandle;
-import java.util.function.Consumer;
+import java.lang.invoke.*;
+import java.lang.foreign.*;
+import java.nio.ByteOrder;
+import java.util.*;
+import java.util.function.*;
+import java.util.stream.*;
 
-import static java.lang.foreign.MemoryLayout.PathElement.groupElement;
-import static java.lang.foreign.ValueLayout.OfInt;
+import static java.lang.foreign.ValueLayout.*;
+import static java.lang.foreign.MemoryLayout.PathElement.*;
 
 /**
  * {@snippet lang=c :
@@ -50,29 +46,29 @@ public class optionstruct {
     }
 
     private static final GroupLayout $LAYOUT = MemoryLayout.structLayout(
-        nautinv_h.C_INT.withName("getcanon"),
-        nautinv_h.C_INT.withName("digraph"),
-        nautinv_h.C_INT.withName("writeautoms"),
-        nautinv_h.C_INT.withName("writemarkers"),
-        nautinv_h.C_INT.withName("defaultptn"),
-        nautinv_h.C_INT.withName("cartesian"),
-        nautinv_h.C_INT.withName("linelength"),
+        NautyTraces.C_INT.withName("getcanon"),
+        NautyTraces.C_INT.withName("digraph"),
+        NautyTraces.C_INT.withName("writeautoms"),
+        NautyTraces.C_INT.withName("writemarkers"),
+        NautyTraces.C_INT.withName("defaultptn"),
+        NautyTraces.C_INT.withName("cartesian"),
+        NautyTraces.C_INT.withName("linelength"),
         MemoryLayout.paddingLayout(4),
-        nautinv_h.C_POINTER.withName("outfile"),
-        nautinv_h.C_POINTER.withName("userrefproc"),
-        nautinv_h.C_POINTER.withName("userautomproc"),
-        nautinv_h.C_POINTER.withName("userlevelproc"),
-        nautinv_h.C_POINTER.withName("usernodeproc"),
-        nautinv_h.C_POINTER.withName("usercanonproc"),
-        nautinv_h.C_POINTER.withName("invarproc"),
-        nautinv_h.C_INT.withName("tc_level"),
-        nautinv_h.C_INT.withName("mininvarlevel"),
-        nautinv_h.C_INT.withName("maxinvarlevel"),
-        nautinv_h.C_INT.withName("invararg"),
-        nautinv_h.C_POINTER.withName("dispatch"),
-        nautinv_h.C_INT.withName("schreier"),
+        NautyTraces.C_POINTER.withName("outfile"),
+        NautyTraces.C_POINTER.withName("userrefproc"),
+        NautyTraces.C_POINTER.withName("userautomproc"),
+        NautyTraces.C_POINTER.withName("userlevelproc"),
+        NautyTraces.C_POINTER.withName("usernodeproc"),
+        NautyTraces.C_POINTER.withName("usercanonproc"),
+        NautyTraces.C_POINTER.withName("invarproc"),
+        NautyTraces.C_INT.withName("tc_level"),
+        NautyTraces.C_INT.withName("mininvarlevel"),
+        NautyTraces.C_INT.withName("maxinvarlevel"),
+        NautyTraces.C_INT.withName("invararg"),
+        NautyTraces.C_POINTER.withName("dispatch"),
+        NautyTraces.C_INT.withName("schreier"),
         MemoryLayout.paddingLayout(4),
-        nautinv_h.C_POINTER.withName("extra_options")
+        NautyTraces.C_POINTER.withName("extra_options")
     ).withName("optionstruct");
 
     /**
@@ -453,16 +449,16 @@ public class optionstruct {
         }
 
         private static final FunctionDescriptor $DESC = FunctionDescriptor.ofVoid(
-            nautinv_h.C_POINTER,
-            nautinv_h.C_POINTER,
-            nautinv_h.C_POINTER,
-            nautinv_h.C_INT,
-            nautinv_h.C_POINTER,
-            nautinv_h.C_POINTER,
-            nautinv_h.C_POINTER,
-            nautinv_h.C_POINTER,
-            nautinv_h.C_INT,
-            nautinv_h.C_INT
+            NautyTraces.C_POINTER,
+            NautyTraces.C_POINTER,
+            NautyTraces.C_POINTER,
+            NautyTraces.C_INT,
+            NautyTraces.C_POINTER,
+            NautyTraces.C_POINTER,
+            NautyTraces.C_POINTER,
+            NautyTraces.C_POINTER,
+            NautyTraces.C_INT,
+            NautyTraces.C_INT
         );
 
         /**
@@ -472,7 +468,7 @@ public class optionstruct {
             return $DESC;
         }
 
-        private static final MethodHandle UP$MH = nautinv_h.upcallHandle(Function.class, "apply", $DESC);
+        private static final MethodHandle UP$MH = NautyTraces.upcallHandle(Function.class, "apply", $DESC);
 
         /**
          * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
@@ -561,12 +557,12 @@ public class optionstruct {
         }
 
         private static final FunctionDescriptor $DESC = FunctionDescriptor.ofVoid(
-            nautinv_h.C_INT,
-            nautinv_h.C_POINTER,
-            nautinv_h.C_POINTER,
-            nautinv_h.C_INT,
-            nautinv_h.C_INT,
-            nautinv_h.C_INT
+            NautyTraces.C_INT,
+            NautyTraces.C_POINTER,
+            NautyTraces.C_POINTER,
+            NautyTraces.C_INT,
+            NautyTraces.C_INT,
+            NautyTraces.C_INT
         );
 
         /**
@@ -576,7 +572,7 @@ public class optionstruct {
             return $DESC;
         }
 
-        private static final MethodHandle UP$MH = nautinv_h.upcallHandle(Function.class, "apply", $DESC);
+        private static final MethodHandle UP$MH = NautyTraces.upcallHandle(Function.class, "apply", $DESC);
 
         /**
          * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
@@ -665,17 +661,17 @@ public class optionstruct {
         }
 
         private static final FunctionDescriptor $DESC = FunctionDescriptor.ofVoid(
-            nautinv_h.C_POINTER,
-            nautinv_h.C_POINTER,
-            nautinv_h.C_INT,
-            nautinv_h.C_POINTER,
-            nautinv_h.C_POINTER,
-            nautinv_h.C_INT,
-            nautinv_h.C_INT,
-            nautinv_h.C_INT,
-            nautinv_h.C_INT,
-            nautinv_h.C_INT,
-            nautinv_h.C_INT
+            NautyTraces.C_POINTER,
+            NautyTraces.C_POINTER,
+            NautyTraces.C_INT,
+            NautyTraces.C_POINTER,
+            NautyTraces.C_POINTER,
+            NautyTraces.C_INT,
+            NautyTraces.C_INT,
+            NautyTraces.C_INT,
+            NautyTraces.C_INT,
+            NautyTraces.C_INT,
+            NautyTraces.C_INT
         );
 
         /**
@@ -685,7 +681,7 @@ public class optionstruct {
             return $DESC;
         }
 
-        private static final MethodHandle UP$MH = nautinv_h.upcallHandle(Function.class, "apply", $DESC);
+        private static final MethodHandle UP$MH = NautyTraces.upcallHandle(Function.class, "apply", $DESC);
 
         /**
          * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
@@ -774,15 +770,15 @@ public class optionstruct {
         }
 
         private static final FunctionDescriptor $DESC = FunctionDescriptor.ofVoid(
-            nautinv_h.C_POINTER,
-            nautinv_h.C_POINTER,
-            nautinv_h.C_POINTER,
-            nautinv_h.C_INT,
-            nautinv_h.C_INT,
-            nautinv_h.C_INT,
-            nautinv_h.C_INT,
-            nautinv_h.C_INT,
-            nautinv_h.C_INT
+            NautyTraces.C_POINTER,
+            NautyTraces.C_POINTER,
+            NautyTraces.C_POINTER,
+            NautyTraces.C_INT,
+            NautyTraces.C_INT,
+            NautyTraces.C_INT,
+            NautyTraces.C_INT,
+            NautyTraces.C_INT,
+            NautyTraces.C_INT
         );
 
         /**
@@ -792,7 +788,7 @@ public class optionstruct {
             return $DESC;
         }
 
-        private static final MethodHandle UP$MH = nautinv_h.upcallHandle(Function.class, "apply", $DESC);
+        private static final MethodHandle UP$MH = NautyTraces.upcallHandle(Function.class, "apply", $DESC);
 
         /**
          * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
@@ -881,14 +877,14 @@ public class optionstruct {
         }
 
         private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
-            nautinv_h.C_INT,
-            nautinv_h.C_POINTER,
-            nautinv_h.C_POINTER,
-            nautinv_h.C_POINTER,
-            nautinv_h.C_LONG,
-            nautinv_h.C_INT,
-            nautinv_h.C_INT,
-            nautinv_h.C_INT
+            NautyTraces.C_INT,
+            NautyTraces.C_POINTER,
+            NautyTraces.C_POINTER,
+            NautyTraces.C_POINTER,
+            NautyTraces.C_LONG,
+            NautyTraces.C_INT,
+            NautyTraces.C_INT,
+            NautyTraces.C_INT
         );
 
         /**
@@ -898,7 +894,7 @@ public class optionstruct {
             return $DESC;
         }
 
-        private static final MethodHandle UP$MH = nautinv_h.upcallHandle(Function.class, "apply", $DESC);
+        private static final MethodHandle UP$MH = NautyTraces.upcallHandle(Function.class, "apply", $DESC);
 
         /**
          * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
@@ -987,17 +983,17 @@ public class optionstruct {
         }
 
         private static final FunctionDescriptor $DESC = FunctionDescriptor.ofVoid(
-            nautinv_h.C_POINTER,
-            nautinv_h.C_POINTER,
-            nautinv_h.C_POINTER,
-            nautinv_h.C_INT,
-            nautinv_h.C_INT,
-            nautinv_h.C_INT,
-            nautinv_h.C_POINTER,
-            nautinv_h.C_INT,
-            nautinv_h.C_INT,
-            nautinv_h.C_INT,
-            nautinv_h.C_INT
+            NautyTraces.C_POINTER,
+            NautyTraces.C_POINTER,
+            NautyTraces.C_POINTER,
+            NautyTraces.C_INT,
+            NautyTraces.C_INT,
+            NautyTraces.C_INT,
+            NautyTraces.C_POINTER,
+            NautyTraces.C_INT,
+            NautyTraces.C_INT,
+            NautyTraces.C_INT,
+            NautyTraces.C_INT
         );
 
         /**
@@ -1007,7 +1003,7 @@ public class optionstruct {
             return $DESC;
         }
 
-        private static final MethodHandle UP$MH = nautinv_h.upcallHandle(Function.class, "apply", $DESC);
+        private static final MethodHandle UP$MH = NautyTraces.upcallHandle(Function.class, "apply", $DESC);
 
         /**
          * Allocates a new upcall stub, whose implementation is defined by {@code fi}.

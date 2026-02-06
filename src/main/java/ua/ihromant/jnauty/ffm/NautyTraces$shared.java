@@ -2,25 +2,19 @@
 
 package ua.ihromant.jnauty.ffm;
 
-import java.lang.foreign.AddressLayout;
-import java.lang.foreign.FunctionDescriptor;
-import java.lang.foreign.GroupLayout;
-import java.lang.foreign.Linker;
-import java.lang.foreign.MemoryLayout;
-import java.lang.foreign.PaddingLayout;
-import java.lang.foreign.SequenceLayout;
-import java.lang.foreign.StructLayout;
-import java.lang.foreign.ValueLayout;
-import java.lang.invoke.MethodHandle;
-import java.lang.invoke.MethodHandles;
-import java.util.Arrays;
-import java.util.stream.Collectors;
+import java.lang.invoke.*;
+import java.lang.foreign.*;
+import java.nio.ByteOrder;
+import java.util.*;
+import java.util.function.*;
+import java.util.stream.*;
 
 import static java.lang.foreign.ValueLayout.*;
+import static java.lang.foreign.MemoryLayout.PathElement.*;
 
-public class nautinv_h$shared {
+public class NautyTraces$shared {
 
-    nautinv_h$shared() {
+    NautyTraces$shared() {
         // Should not be called directly
     }
 

@@ -2,16 +2,15 @@
 
 package ua.ihromant.jnauty.ffm;
 
-import java.lang.foreign.Arena;
-import java.lang.foreign.GroupLayout;
-import java.lang.foreign.MemoryLayout;
-import java.lang.foreign.MemorySegment;
-import java.lang.foreign.SegmentAllocator;
-import java.util.function.Consumer;
+import java.lang.invoke.*;
+import java.lang.foreign.*;
+import java.nio.ByteOrder;
+import java.util.*;
+import java.util.function.*;
+import java.util.stream.*;
 
-import static java.lang.foreign.MemoryLayout.PathElement.groupElement;
-import static java.lang.foreign.ValueLayout.OfInt;
-import static java.lang.foreign.ValueLayout.OfShort;
+import static java.lang.foreign.ValueLayout.*;
+import static java.lang.foreign.MemoryLayout.PathElement.*;
 
 /**
  * {@snippet lang=c :
@@ -34,13 +33,13 @@ public class __pthread_mutex_s {
     }
 
     private static final GroupLayout $LAYOUT = MemoryLayout.structLayout(
-        nautinv_h.C_INT.withName("__lock"),
-        nautinv_h.C_INT.withName("__count"),
-        nautinv_h.C_INT.withName("__owner"),
-        nautinv_h.C_INT.withName("__nusers"),
-        nautinv_h.C_INT.withName("__kind"),
-        nautinv_h.C_SHORT.withName("__spins"),
-        nautinv_h.C_SHORT.withName("__elision"),
+        NautyTraces.C_INT.withName("__lock"),
+        NautyTraces.C_INT.withName("__count"),
+        NautyTraces.C_INT.withName("__owner"),
+        NautyTraces.C_INT.withName("__nusers"),
+        NautyTraces.C_INT.withName("__kind"),
+        NautyTraces.C_SHORT.withName("__spins"),
+        NautyTraces.C_SHORT.withName("__elision"),
         __pthread_internal_list.layout().withName("__list")
     ).withName("__pthread_mutex_s");
 

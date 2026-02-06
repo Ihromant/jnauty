@@ -1,6 +1,6 @@
 package ua.ihromant.jnauty;
 
-import ua.ihromant.jnauty.ffm.nautinv_h;
+import ua.ihromant.jnauty.ffm.NautyTraces_1;
 import ua.ihromant.jnauty.ffm.optionstruct;
 import ua.ihromant.jnauty.ffm.statsblk;
 
@@ -72,13 +72,13 @@ public class JNauty {
             optionstruct.mininvarlevel(options, 0);
             optionstruct.maxinvarlevel(options, 1);
             optionstruct.invararg(options, 0);
-            optionstruct.dispatch(options, nautinv_h.dispatch_graph());
+            optionstruct.dispatch(options, NautyTraces_1.dispatch_graph());
             optionstruct.schreier(options, NAUTY_FALSE);
             optionstruct.extra_options(options, MemorySegment.NULL);
 
             // update defaults
             optionstruct.defaultptn(options, NAUTY_FALSE);
-            optionstruct.invarproc(options, nautinv_h.adjtriang.ADDR);
+            optionstruct.invarproc(options, NautyTraces_1.adjtriang.ADDR);
             optionstruct.mininvarlevel(options, 1);
             optionstruct.maxinvarlevel(options, 2);
             optionstruct.tc_level(options, 10);
@@ -135,7 +135,7 @@ public class JNauty {
             nativePtn.copyFrom(MemorySegment.ofArray(ptn));
             MemorySegment nativeOrbits = arena.allocate(ValueLayout.JAVA_INT, sz);
             MemorySegment canon = arena.allocate(ValueLayout.JAVA_LONG, g.length);
-            nautinv_h.densenauty(nativeG, nativeLab, nativePtn,
+            NautyTraces_1.densenauty(nativeG, nativeLab, nativePtn,
                     nativeOrbits, options, stats,
                     rowSize, sz, canon);
             return new GraphData(gens.toArray(int[][]::new),

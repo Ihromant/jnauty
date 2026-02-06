@@ -2,18 +2,15 @@
 
 package ua.ihromant.jnauty.ffm;
 
-import java.lang.foreign.Arena;
-import java.lang.foreign.GroupLayout;
-import java.lang.foreign.MemoryLayout;
-import java.lang.foreign.MemorySegment;
-import java.lang.foreign.SegmentAllocator;
-import java.lang.foreign.SequenceLayout;
-import java.lang.invoke.VarHandle;
-import java.util.function.Consumer;
+import java.lang.invoke.*;
+import java.lang.foreign.*;
+import java.nio.ByteOrder;
+import java.util.*;
+import java.util.function.*;
+import java.util.stream.*;
 
-import static java.lang.foreign.MemoryLayout.PathElement.groupElement;
-import static java.lang.foreign.MemoryLayout.PathElement.sequenceElement;
-import static java.lang.foreign.ValueLayout.OfInt;
+import static java.lang.foreign.ValueLayout.*;
+import static java.lang.foreign.MemoryLayout.PathElement.*;
 
 /**
  * {@snippet lang=c :
@@ -33,7 +30,7 @@ public class __mbstate_t {
     }
 
     private static final GroupLayout $LAYOUT = MemoryLayout.structLayout(
-        nautinv_h.C_INT.withName("__count"),
+        NautyTraces.C_INT.withName("__count"),
         __value.layout().withName("__value")
     ).withName("$anon$13:9");
 
@@ -103,8 +100,8 @@ public class __mbstate_t {
         }
 
         private static final GroupLayout $LAYOUT = MemoryLayout.unionLayout(
-            nautinv_h.C_INT.withName("__wch"),
-            MemoryLayout.sequenceLayout(4, nautinv_h.C_CHAR).withName("__wchb")
+            NautyTraces.C_INT.withName("__wch"),
+            MemoryLayout.sequenceLayout(4, NautyTraces.C_CHAR).withName("__wchb")
         ).withName("$anon$16:3");
 
         /**

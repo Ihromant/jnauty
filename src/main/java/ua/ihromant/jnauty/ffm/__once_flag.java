@@ -2,15 +2,15 @@
 
 package ua.ihromant.jnauty.ffm;
 
-import java.lang.foreign.Arena;
-import java.lang.foreign.GroupLayout;
-import java.lang.foreign.MemoryLayout;
-import java.lang.foreign.MemorySegment;
-import java.lang.foreign.SegmentAllocator;
-import java.util.function.Consumer;
+import java.lang.invoke.*;
+import java.lang.foreign.*;
+import java.nio.ByteOrder;
+import java.util.*;
+import java.util.function.*;
+import java.util.stream.*;
 
-import static java.lang.foreign.MemoryLayout.PathElement.groupElement;
-import static java.lang.foreign.ValueLayout.OfInt;
+import static java.lang.foreign.ValueLayout.*;
+import static java.lang.foreign.MemoryLayout.PathElement.*;
 
 /**
  * {@snippet lang=c :
@@ -26,7 +26,7 @@ public class __once_flag {
     }
 
     private static final GroupLayout $LAYOUT = MemoryLayout.structLayout(
-        nautinv_h.C_INT.withName("__data")
+        NautyTraces.C_INT.withName("__data")
     ).withName("$anon$108:9");
 
     /**

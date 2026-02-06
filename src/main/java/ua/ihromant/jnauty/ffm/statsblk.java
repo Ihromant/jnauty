@@ -2,15 +2,15 @@
 
 package ua.ihromant.jnauty.ffm;
 
-import java.lang.foreign.Arena;
-import java.lang.foreign.GroupLayout;
-import java.lang.foreign.MemoryLayout;
-import java.lang.foreign.MemorySegment;
-import java.lang.foreign.SegmentAllocator;
-import java.util.function.Consumer;
+import java.lang.invoke.*;
+import java.lang.foreign.*;
+import java.nio.ByteOrder;
+import java.util.*;
+import java.util.function.*;
+import java.util.stream.*;
 
-import static java.lang.foreign.MemoryLayout.PathElement.groupElement;
 import static java.lang.foreign.ValueLayout.*;
+import static java.lang.foreign.MemoryLayout.PathElement.*;
 
 /**
  * {@snippet lang=c :
@@ -38,20 +38,20 @@ public class statsblk {
     }
 
     private static final GroupLayout $LAYOUT = MemoryLayout.structLayout(
-        nautinv_h.C_DOUBLE.withName("grpsize1"),
-        nautinv_h.C_INT.withName("grpsize2"),
-        nautinv_h.C_INT.withName("numorbits"),
-        nautinv_h.C_INT.withName("numgenerators"),
-        nautinv_h.C_INT.withName("errstatus"),
-        nautinv_h.C_LONG.withName("numnodes"),
-        nautinv_h.C_LONG.withName("numbadleaves"),
-        nautinv_h.C_INT.withName("maxlevel"),
+        NautyTraces.C_DOUBLE.withName("grpsize1"),
+        NautyTraces.C_INT.withName("grpsize2"),
+        NautyTraces.C_INT.withName("numorbits"),
+        NautyTraces.C_INT.withName("numgenerators"),
+        NautyTraces.C_INT.withName("errstatus"),
+        NautyTraces.C_LONG.withName("numnodes"),
+        NautyTraces.C_LONG.withName("numbadleaves"),
+        NautyTraces.C_INT.withName("maxlevel"),
         MemoryLayout.paddingLayout(4),
-        nautinv_h.C_LONG.withName("tctotal"),
-        nautinv_h.C_LONG.withName("canupdates"),
-        nautinv_h.C_LONG.withName("invapplics"),
-        nautinv_h.C_LONG.withName("invsuccesses"),
-        nautinv_h.C_INT.withName("invarsuclevel"),
+        NautyTraces.C_LONG.withName("tctotal"),
+        NautyTraces.C_LONG.withName("canupdates"),
+        NautyTraces.C_LONG.withName("invapplics"),
+        NautyTraces.C_LONG.withName("invsuccesses"),
+        NautyTraces.C_INT.withName("invarsuclevel"),
         MemoryLayout.paddingLayout(4)
     ).withName("$anon$1118:9");
 

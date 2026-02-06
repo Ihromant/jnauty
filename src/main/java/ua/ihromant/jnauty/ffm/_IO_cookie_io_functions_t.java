@@ -2,15 +2,15 @@
 
 package ua.ihromant.jnauty.ffm;
 
-import java.lang.foreign.AddressLayout;
-import java.lang.foreign.Arena;
-import java.lang.foreign.GroupLayout;
-import java.lang.foreign.MemoryLayout;
-import java.lang.foreign.MemorySegment;
-import java.lang.foreign.SegmentAllocator;
-import java.util.function.Consumer;
+import java.lang.invoke.*;
+import java.lang.foreign.*;
+import java.nio.ByteOrder;
+import java.util.*;
+import java.util.function.*;
+import java.util.stream.*;
 
-import static java.lang.foreign.MemoryLayout.PathElement.groupElement;
+import static java.lang.foreign.ValueLayout.*;
+import static java.lang.foreign.MemoryLayout.PathElement.*;
 
 /**
  * {@snippet lang=c :
@@ -29,10 +29,10 @@ public class _IO_cookie_io_functions_t {
     }
 
     private static final GroupLayout $LAYOUT = MemoryLayout.structLayout(
-        nautinv_h.C_POINTER.withName("read"),
-        nautinv_h.C_POINTER.withName("write"),
-        nautinv_h.C_POINTER.withName("seek"),
-        nautinv_h.C_POINTER.withName("close")
+        NautyTraces.C_POINTER.withName("read"),
+        NautyTraces.C_POINTER.withName("write"),
+        NautyTraces.C_POINTER.withName("seek"),
+        NautyTraces.C_POINTER.withName("close")
     ).withName("_IO_cookie_io_functions_t");
 
     /**

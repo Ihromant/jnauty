@@ -2,18 +2,15 @@
 
 package ua.ihromant.jnauty.ffm;
 
-import java.lang.foreign.AddressLayout;
-import java.lang.foreign.Arena;
-import java.lang.foreign.GroupLayout;
-import java.lang.foreign.MemoryLayout;
-import java.lang.foreign.MemorySegment;
-import java.lang.foreign.SegmentAllocator;
-import java.lang.foreign.SequenceLayout;
-import java.lang.invoke.VarHandle;
-import java.util.function.Consumer;
+import java.lang.invoke.*;
+import java.lang.foreign.*;
+import java.nio.ByteOrder;
+import java.util.*;
+import java.util.function.*;
+import java.util.stream.*;
 
-import static java.lang.foreign.MemoryLayout.PathElement.groupElement;
-import static java.lang.foreign.MemoryLayout.PathElement.sequenceElement;
+import static java.lang.foreign.ValueLayout.*;
+import static java.lang.foreign.MemoryLayout.PathElement.*;
 
 /**
  * {@snippet lang=c :
@@ -33,11 +30,11 @@ public class __locale_struct {
     }
 
     private static final GroupLayout $LAYOUT = MemoryLayout.structLayout(
-        MemoryLayout.sequenceLayout(13, nautinv_h.C_POINTER).withName("__locales"),
-        nautinv_h.C_POINTER.withName("__ctype_b"),
-        nautinv_h.C_POINTER.withName("__ctype_tolower"),
-        nautinv_h.C_POINTER.withName("__ctype_toupper"),
-        MemoryLayout.sequenceLayout(13, nautinv_h.C_POINTER).withName("__names")
+        MemoryLayout.sequenceLayout(13, NautyTraces.C_POINTER).withName("__locales"),
+        NautyTraces.C_POINTER.withName("__ctype_b"),
+        NautyTraces.C_POINTER.withName("__ctype_tolower"),
+        NautyTraces.C_POINTER.withName("__ctype_toupper"),
+        MemoryLayout.sequenceLayout(13, NautyTraces.C_POINTER).withName("__names")
     ).withName("__locale_struct");
 
     /**

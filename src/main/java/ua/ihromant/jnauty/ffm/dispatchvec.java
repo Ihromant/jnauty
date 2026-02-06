@@ -2,18 +2,15 @@
 
 package ua.ihromant.jnauty.ffm;
 
-import java.lang.foreign.AddressLayout;
-import java.lang.foreign.Arena;
-import java.lang.foreign.FunctionDescriptor;
-import java.lang.foreign.GroupLayout;
-import java.lang.foreign.Linker;
-import java.lang.foreign.MemoryLayout;
-import java.lang.foreign.MemorySegment;
-import java.lang.foreign.SegmentAllocator;
-import java.lang.invoke.MethodHandle;
-import java.util.function.Consumer;
+import java.lang.invoke.*;
+import java.lang.foreign.*;
+import java.nio.ByteOrder;
+import java.util.*;
+import java.util.function.*;
+import java.util.stream.*;
 
-import static java.lang.foreign.MemoryLayout.PathElement.groupElement;
+import static java.lang.foreign.ValueLayout.*;
+import static java.lang.foreign.MemoryLayout.PathElement.*;
 
 /**
  * {@snippet lang=c :
@@ -39,17 +36,17 @@ public class dispatchvec {
     }
 
     private static final GroupLayout $LAYOUT = MemoryLayout.structLayout(
-        nautinv_h.C_POINTER.withName("isautom"),
-        nautinv_h.C_POINTER.withName("testcanlab"),
-        nautinv_h.C_POINTER.withName("updatecan"),
-        nautinv_h.C_POINTER.withName("refine"),
-        nautinv_h.C_POINTER.withName("refine1"),
-        nautinv_h.C_POINTER.withName("cheapautom"),
-        nautinv_h.C_POINTER.withName("targetcell"),
-        nautinv_h.C_POINTER.withName("freedyn"),
-        nautinv_h.C_POINTER.withName("check"),
-        nautinv_h.C_POINTER.withName("init"),
-        nautinv_h.C_POINTER.withName("cleanup")
+        NautyTraces.C_POINTER.withName("isautom"),
+        NautyTraces.C_POINTER.withName("testcanlab"),
+        NautyTraces.C_POINTER.withName("updatecan"),
+        NautyTraces.C_POINTER.withName("refine"),
+        NautyTraces.C_POINTER.withName("refine1"),
+        NautyTraces.C_POINTER.withName("cheapautom"),
+        NautyTraces.C_POINTER.withName("targetcell"),
+        NautyTraces.C_POINTER.withName("freedyn"),
+        NautyTraces.C_POINTER.withName("check"),
+        NautyTraces.C_POINTER.withName("init"),
+        NautyTraces.C_POINTER.withName("cleanup")
     ).withName("$anon$1151:9");
 
     /**
@@ -78,12 +75,12 @@ public class dispatchvec {
         }
 
         private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
-            nautinv_h.C_INT,
-            nautinv_h.C_POINTER,
-            nautinv_h.C_POINTER,
-            nautinv_h.C_INT,
-            nautinv_h.C_INT,
-            nautinv_h.C_INT
+            NautyTraces.C_INT,
+            NautyTraces.C_POINTER,
+            NautyTraces.C_POINTER,
+            NautyTraces.C_INT,
+            NautyTraces.C_INT,
+            NautyTraces.C_INT
         );
 
         /**
@@ -93,7 +90,7 @@ public class dispatchvec {
             return $DESC;
         }
 
-        private static final MethodHandle UP$MH = nautinv_h.upcallHandle(Function.class, "apply", $DESC);
+        private static final MethodHandle UP$MH = NautyTraces.upcallHandle(Function.class, "apply", $DESC);
 
         /**
          * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
@@ -182,13 +179,13 @@ public class dispatchvec {
         }
 
         private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
-            nautinv_h.C_INT,
-            nautinv_h.C_POINTER,
-            nautinv_h.C_POINTER,
-            nautinv_h.C_POINTER,
-            nautinv_h.C_POINTER,
-            nautinv_h.C_INT,
-            nautinv_h.C_INT
+            NautyTraces.C_INT,
+            NautyTraces.C_POINTER,
+            NautyTraces.C_POINTER,
+            NautyTraces.C_POINTER,
+            NautyTraces.C_POINTER,
+            NautyTraces.C_INT,
+            NautyTraces.C_INT
         );
 
         /**
@@ -198,7 +195,7 @@ public class dispatchvec {
             return $DESC;
         }
 
-        private static final MethodHandle UP$MH = nautinv_h.upcallHandle(Function.class, "apply", $DESC);
+        private static final MethodHandle UP$MH = NautyTraces.upcallHandle(Function.class, "apply", $DESC);
 
         /**
          * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
@@ -287,12 +284,12 @@ public class dispatchvec {
         }
 
         private static final FunctionDescriptor $DESC = FunctionDescriptor.ofVoid(
-            nautinv_h.C_POINTER,
-            nautinv_h.C_POINTER,
-            nautinv_h.C_POINTER,
-            nautinv_h.C_INT,
-            nautinv_h.C_INT,
-            nautinv_h.C_INT
+            NautyTraces.C_POINTER,
+            NautyTraces.C_POINTER,
+            NautyTraces.C_POINTER,
+            NautyTraces.C_INT,
+            NautyTraces.C_INT,
+            NautyTraces.C_INT
         );
 
         /**
@@ -302,7 +299,7 @@ public class dispatchvec {
             return $DESC;
         }
 
-        private static final MethodHandle UP$MH = nautinv_h.upcallHandle(Function.class, "apply", $DESC);
+        private static final MethodHandle UP$MH = NautyTraces.upcallHandle(Function.class, "apply", $DESC);
 
         /**
          * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
@@ -391,16 +388,16 @@ public class dispatchvec {
         }
 
         private static final FunctionDescriptor $DESC = FunctionDescriptor.ofVoid(
-            nautinv_h.C_POINTER,
-            nautinv_h.C_POINTER,
-            nautinv_h.C_POINTER,
-            nautinv_h.C_INT,
-            nautinv_h.C_POINTER,
-            nautinv_h.C_POINTER,
-            nautinv_h.C_POINTER,
-            nautinv_h.C_POINTER,
-            nautinv_h.C_INT,
-            nautinv_h.C_INT
+            NautyTraces.C_POINTER,
+            NautyTraces.C_POINTER,
+            NautyTraces.C_POINTER,
+            NautyTraces.C_INT,
+            NautyTraces.C_POINTER,
+            NautyTraces.C_POINTER,
+            NautyTraces.C_POINTER,
+            NautyTraces.C_POINTER,
+            NautyTraces.C_INT,
+            NautyTraces.C_INT
         );
 
         /**
@@ -410,7 +407,7 @@ public class dispatchvec {
             return $DESC;
         }
 
-        private static final MethodHandle UP$MH = nautinv_h.upcallHandle(Function.class, "apply", $DESC);
+        private static final MethodHandle UP$MH = NautyTraces.upcallHandle(Function.class, "apply", $DESC);
 
         /**
          * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
@@ -499,16 +496,16 @@ public class dispatchvec {
         }
 
         private static final FunctionDescriptor $DESC = FunctionDescriptor.ofVoid(
-            nautinv_h.C_POINTER,
-            nautinv_h.C_POINTER,
-            nautinv_h.C_POINTER,
-            nautinv_h.C_INT,
-            nautinv_h.C_POINTER,
-            nautinv_h.C_POINTER,
-            nautinv_h.C_POINTER,
-            nautinv_h.C_POINTER,
-            nautinv_h.C_INT,
-            nautinv_h.C_INT
+            NautyTraces.C_POINTER,
+            NautyTraces.C_POINTER,
+            NautyTraces.C_POINTER,
+            NautyTraces.C_INT,
+            NautyTraces.C_POINTER,
+            NautyTraces.C_POINTER,
+            NautyTraces.C_POINTER,
+            NautyTraces.C_POINTER,
+            NautyTraces.C_INT,
+            NautyTraces.C_INT
         );
 
         /**
@@ -518,7 +515,7 @@ public class dispatchvec {
             return $DESC;
         }
 
-        private static final MethodHandle UP$MH = nautinv_h.upcallHandle(Function.class, "apply", $DESC);
+        private static final MethodHandle UP$MH = NautyTraces.upcallHandle(Function.class, "apply", $DESC);
 
         /**
          * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
@@ -607,11 +604,11 @@ public class dispatchvec {
         }
 
         private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
-            nautinv_h.C_INT,
-            nautinv_h.C_POINTER,
-            nautinv_h.C_INT,
-            nautinv_h.C_INT,
-            nautinv_h.C_INT
+            NautyTraces.C_INT,
+            NautyTraces.C_POINTER,
+            NautyTraces.C_INT,
+            NautyTraces.C_INT,
+            NautyTraces.C_INT
         );
 
         /**
@@ -621,7 +618,7 @@ public class dispatchvec {
             return $DESC;
         }
 
-        private static final MethodHandle UP$MH = nautinv_h.upcallHandle(Function.class, "apply", $DESC);
+        private static final MethodHandle UP$MH = NautyTraces.upcallHandle(Function.class, "apply", $DESC);
 
         /**
          * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
@@ -710,16 +707,16 @@ public class dispatchvec {
         }
 
         private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
-            nautinv_h.C_INT,
-            nautinv_h.C_POINTER,
-            nautinv_h.C_POINTER,
-            nautinv_h.C_POINTER,
-            nautinv_h.C_INT,
-            nautinv_h.C_INT,
-            nautinv_h.C_INT,
-            nautinv_h.C_INT,
-            nautinv_h.C_INT,
-            nautinv_h.C_INT
+            NautyTraces.C_INT,
+            NautyTraces.C_POINTER,
+            NautyTraces.C_POINTER,
+            NautyTraces.C_POINTER,
+            NautyTraces.C_INT,
+            NautyTraces.C_INT,
+            NautyTraces.C_INT,
+            NautyTraces.C_INT,
+            NautyTraces.C_INT,
+            NautyTraces.C_INT
         );
 
         /**
@@ -729,7 +726,7 @@ public class dispatchvec {
             return $DESC;
         }
 
-        private static final MethodHandle UP$MH = nautinv_h.upcallHandle(Function.class, "apply", $DESC);
+        private static final MethodHandle UP$MH = NautyTraces.upcallHandle(Function.class, "apply", $DESC);
 
         /**
          * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
@@ -826,7 +823,7 @@ public class dispatchvec {
             return $DESC;
         }
 
-        private static final MethodHandle UP$MH = nautinv_h.upcallHandle(Function.class, "apply", $DESC);
+        private static final MethodHandle UP$MH = NautyTraces.upcallHandle(Function.class, "apply", $DESC);
 
         /**
          * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
@@ -915,10 +912,10 @@ public class dispatchvec {
         }
 
         private static final FunctionDescriptor $DESC = FunctionDescriptor.ofVoid(
-            nautinv_h.C_INT,
-            nautinv_h.C_INT,
-            nautinv_h.C_INT,
-            nautinv_h.C_INT
+            NautyTraces.C_INT,
+            NautyTraces.C_INT,
+            NautyTraces.C_INT,
+            NautyTraces.C_INT
         );
 
         /**
@@ -928,7 +925,7 @@ public class dispatchvec {
             return $DESC;
         }
 
-        private static final MethodHandle UP$MH = nautinv_h.upcallHandle(Function.class, "apply", $DESC);
+        private static final MethodHandle UP$MH = NautyTraces.upcallHandle(Function.class, "apply", $DESC);
 
         /**
          * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
@@ -1017,17 +1014,17 @@ public class dispatchvec {
         }
 
         private static final FunctionDescriptor $DESC = FunctionDescriptor.ofVoid(
-            nautinv_h.C_POINTER,
-            nautinv_h.C_POINTER,
-            nautinv_h.C_POINTER,
-            nautinv_h.C_POINTER,
-            nautinv_h.C_POINTER,
-            nautinv_h.C_POINTER,
-            nautinv_h.C_POINTER,
-            nautinv_h.C_POINTER,
-            nautinv_h.C_POINTER,
-            nautinv_h.C_INT,
-            nautinv_h.C_INT
+            NautyTraces.C_POINTER,
+            NautyTraces.C_POINTER,
+            NautyTraces.C_POINTER,
+            NautyTraces.C_POINTER,
+            NautyTraces.C_POINTER,
+            NautyTraces.C_POINTER,
+            NautyTraces.C_POINTER,
+            NautyTraces.C_POINTER,
+            NautyTraces.C_POINTER,
+            NautyTraces.C_INT,
+            NautyTraces.C_INT
         );
 
         /**
@@ -1037,7 +1034,7 @@ public class dispatchvec {
             return $DESC;
         }
 
-        private static final MethodHandle UP$MH = nautinv_h.upcallHandle(Function.class, "apply", $DESC);
+        private static final MethodHandle UP$MH = NautyTraces.upcallHandle(Function.class, "apply", $DESC);
 
         /**
          * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
@@ -1126,16 +1123,16 @@ public class dispatchvec {
         }
 
         private static final FunctionDescriptor $DESC = FunctionDescriptor.ofVoid(
-            nautinv_h.C_POINTER,
-            nautinv_h.C_POINTER,
-            nautinv_h.C_POINTER,
-            nautinv_h.C_POINTER,
-            nautinv_h.C_POINTER,
-            nautinv_h.C_POINTER,
-            nautinv_h.C_POINTER,
-            nautinv_h.C_POINTER,
-            nautinv_h.C_INT,
-            nautinv_h.C_INT
+            NautyTraces.C_POINTER,
+            NautyTraces.C_POINTER,
+            NautyTraces.C_POINTER,
+            NautyTraces.C_POINTER,
+            NautyTraces.C_POINTER,
+            NautyTraces.C_POINTER,
+            NautyTraces.C_POINTER,
+            NautyTraces.C_POINTER,
+            NautyTraces.C_INT,
+            NautyTraces.C_INT
         );
 
         /**
@@ -1145,7 +1142,7 @@ public class dispatchvec {
             return $DESC;
         }
 
-        private static final MethodHandle UP$MH = nautinv_h.upcallHandle(Function.class, "apply", $DESC);
+        private static final MethodHandle UP$MH = NautyTraces.upcallHandle(Function.class, "apply", $DESC);
 
         /**
          * Allocates a new upcall stub, whose implementation is defined by {@code fi}.

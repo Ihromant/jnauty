@@ -2,19 +2,15 @@
 
 package ua.ihromant.jnauty.ffm;
 
-import java.lang.foreign.AddressLayout;
-import java.lang.foreign.Arena;
-import java.lang.foreign.GroupLayout;
-import java.lang.foreign.MemoryLayout;
-import java.lang.foreign.MemorySegment;
-import java.lang.foreign.SegmentAllocator;
-import java.lang.foreign.SequenceLayout;
-import java.lang.invoke.VarHandle;
-import java.util.function.Consumer;
+import java.lang.invoke.*;
+import java.lang.foreign.*;
+import java.nio.ByteOrder;
+import java.util.*;
+import java.util.function.*;
+import java.util.stream.*;
 
-import static java.lang.foreign.MemoryLayout.PathElement.groupElement;
-import static java.lang.foreign.MemoryLayout.PathElement.sequenceElement;
 import static java.lang.foreign.ValueLayout.*;
+import static java.lang.foreign.MemoryLayout.PathElement.*;
 
 /**
  * {@snippet lang=c :
@@ -58,37 +54,37 @@ public class _IO_FILE {
     }
 
     private static final GroupLayout $LAYOUT = MemoryLayout.structLayout(
-        nautinv_h.C_INT.withName("_flags"),
+        NautyTraces.C_INT.withName("_flags"),
         MemoryLayout.paddingLayout(4),
-        nautinv_h.C_POINTER.withName("_IO_read_ptr"),
-        nautinv_h.C_POINTER.withName("_IO_read_end"),
-        nautinv_h.C_POINTER.withName("_IO_read_base"),
-        nautinv_h.C_POINTER.withName("_IO_write_base"),
-        nautinv_h.C_POINTER.withName("_IO_write_ptr"),
-        nautinv_h.C_POINTER.withName("_IO_write_end"),
-        nautinv_h.C_POINTER.withName("_IO_buf_base"),
-        nautinv_h.C_POINTER.withName("_IO_buf_end"),
-        nautinv_h.C_POINTER.withName("_IO_save_base"),
-        nautinv_h.C_POINTER.withName("_IO_backup_base"),
-        nautinv_h.C_POINTER.withName("_IO_save_end"),
-        nautinv_h.C_POINTER.withName("_markers"),
-        nautinv_h.C_POINTER.withName("_chain"),
-        nautinv_h.C_INT.withName("_fileno"),
-        nautinv_h.C_INT.withName("_flags2"),
-        nautinv_h.C_LONG.withName("_old_offset"),
-        nautinv_h.C_SHORT.withName("_cur_column"),
-        nautinv_h.C_CHAR.withName("_vtable_offset"),
-        MemoryLayout.sequenceLayout(1, nautinv_h.C_CHAR).withName("_shortbuf"),
+        NautyTraces.C_POINTER.withName("_IO_read_ptr"),
+        NautyTraces.C_POINTER.withName("_IO_read_end"),
+        NautyTraces.C_POINTER.withName("_IO_read_base"),
+        NautyTraces.C_POINTER.withName("_IO_write_base"),
+        NautyTraces.C_POINTER.withName("_IO_write_ptr"),
+        NautyTraces.C_POINTER.withName("_IO_write_end"),
+        NautyTraces.C_POINTER.withName("_IO_buf_base"),
+        NautyTraces.C_POINTER.withName("_IO_buf_end"),
+        NautyTraces.C_POINTER.withName("_IO_save_base"),
+        NautyTraces.C_POINTER.withName("_IO_backup_base"),
+        NautyTraces.C_POINTER.withName("_IO_save_end"),
+        NautyTraces.C_POINTER.withName("_markers"),
+        NautyTraces.C_POINTER.withName("_chain"),
+        NautyTraces.C_INT.withName("_fileno"),
+        NautyTraces.C_INT.withName("_flags2"),
+        NautyTraces.C_LONG.withName("_old_offset"),
+        NautyTraces.C_SHORT.withName("_cur_column"),
+        NautyTraces.C_CHAR.withName("_vtable_offset"),
+        MemoryLayout.sequenceLayout(1, NautyTraces.C_CHAR).withName("_shortbuf"),
         MemoryLayout.paddingLayout(4),
-        nautinv_h.C_POINTER.withName("_lock"),
-        nautinv_h.C_LONG.withName("_offset"),
-        nautinv_h.C_POINTER.withName("_codecvt"),
-        nautinv_h.C_POINTER.withName("_wide_data"),
-        nautinv_h.C_POINTER.withName("_freeres_list"),
-        nautinv_h.C_POINTER.withName("_freeres_buf"),
-        nautinv_h.C_LONG.withName("__pad5"),
-        nautinv_h.C_INT.withName("_mode"),
-        MemoryLayout.sequenceLayout(20, nautinv_h.C_CHAR).withName("_unused2")
+        NautyTraces.C_POINTER.withName("_lock"),
+        NautyTraces.C_LONG.withName("_offset"),
+        NautyTraces.C_POINTER.withName("_codecvt"),
+        NautyTraces.C_POINTER.withName("_wide_data"),
+        NautyTraces.C_POINTER.withName("_freeres_list"),
+        NautyTraces.C_POINTER.withName("_freeres_buf"),
+        NautyTraces.C_LONG.withName("__pad5"),
+        NautyTraces.C_INT.withName("_mode"),
+        MemoryLayout.sequenceLayout(20, NautyTraces.C_CHAR).withName("_unused2")
     ).withName("_IO_FILE");
 
     /**

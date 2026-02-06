@@ -2,16 +2,14 @@
 
 package ua.ihromant.jnauty.ffm;
 
-import java.lang.foreign.Arena;
-import java.lang.foreign.GroupLayout;
-import java.lang.foreign.MemoryLayout;
-import java.lang.foreign.MemorySegment;
-import java.lang.foreign.SegmentAllocator;
-import java.util.function.Consumer;
+import java.lang.invoke.*;
+import java.lang.foreign.*;
+import java.util.*;
+import java.util.function.*;
+import java.util.stream.*;
 
-import static java.lang.foreign.MemoryLayout.PathElement.groupElement;
-import static java.lang.foreign.ValueLayout.OfInt;
-import static java.lang.foreign.ValueLayout.OfLong;
+import static java.lang.foreign.ValueLayout.*;
+import static java.lang.foreign.MemoryLayout.PathElement.*;
 
 /**
  * {@snippet lang=c :
@@ -31,7 +29,7 @@ public class __atomic_wide_counter {
     }
 
     private static final GroupLayout $LAYOUT = MemoryLayout.unionLayout(
-        nautinv_h.C_LONG_LONG.withName("__value64"),
+        NautyTraces.C_LONG_LONG.withName("__value64"),
         __value32.layout().withName("__value32")
     ).withName("$anon$25:9");
 
@@ -101,8 +99,8 @@ public class __atomic_wide_counter {
         }
 
         private static final GroupLayout $LAYOUT = MemoryLayout.structLayout(
-            nautinv_h.C_INT.withName("__low"),
-            nautinv_h.C_INT.withName("__high")
+            NautyTraces.C_INT.withName("__low"),
+            NautyTraces.C_INT.withName("__high")
         ).withName("$anon$28:3");
 
         /**

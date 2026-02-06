@@ -2,18 +2,15 @@
 
 package ua.ihromant.jnauty.ffm;
 
-import java.lang.foreign.Arena;
-import java.lang.foreign.GroupLayout;
-import java.lang.foreign.MemoryLayout;
-import java.lang.foreign.MemorySegment;
-import java.lang.foreign.SegmentAllocator;
-import java.lang.foreign.SequenceLayout;
-import java.lang.invoke.VarHandle;
-import java.util.function.Consumer;
+import java.lang.invoke.*;
+import java.lang.foreign.*;
+import java.nio.ByteOrder;
+import java.util.*;
+import java.util.function.*;
+import java.util.stream.*;
 
-import static java.lang.foreign.MemoryLayout.PathElement.groupElement;
-import static java.lang.foreign.MemoryLayout.PathElement.sequenceElement;
-import static java.lang.foreign.ValueLayout.OfInt;
+import static java.lang.foreign.ValueLayout.*;
+import static java.lang.foreign.MemoryLayout.PathElement.*;
 
 /**
  * {@snippet lang=c :
@@ -37,11 +34,11 @@ public class __pthread_cond_s {
     private static final GroupLayout $LAYOUT = MemoryLayout.structLayout(
         __atomic_wide_counter.layout().withName("__wseq"),
         __atomic_wide_counter.layout().withName("__g1_start"),
-        MemoryLayout.sequenceLayout(2, nautinv_h.C_INT).withName("__g_refs"),
-        MemoryLayout.sequenceLayout(2, nautinv_h.C_INT).withName("__g_size"),
-        nautinv_h.C_INT.withName("__g1_orig_size"),
-        nautinv_h.C_INT.withName("__wrefs"),
-        MemoryLayout.sequenceLayout(2, nautinv_h.C_INT).withName("__g_signals")
+        MemoryLayout.sequenceLayout(2, NautyTraces.C_INT).withName("__g_refs"),
+        MemoryLayout.sequenceLayout(2, NautyTraces.C_INT).withName("__g_size"),
+        NautyTraces.C_INT.withName("__g1_orig_size"),
+        NautyTraces.C_INT.withName("__wrefs"),
+        MemoryLayout.sequenceLayout(2, NautyTraces.C_INT).withName("__g_signals")
     ).withName("__pthread_cond_s");
 
     /**

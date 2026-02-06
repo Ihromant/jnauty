@@ -2,19 +2,15 @@
 
 package ua.ihromant.jnauty.ffm;
 
-import java.lang.foreign.Arena;
-import java.lang.foreign.GroupLayout;
-import java.lang.foreign.MemoryLayout;
-import java.lang.foreign.MemorySegment;
-import java.lang.foreign.SegmentAllocator;
-import java.lang.foreign.SequenceLayout;
-import java.lang.invoke.VarHandle;
-import java.util.function.Consumer;
+import java.lang.invoke.*;
+import java.lang.foreign.*;
+import java.nio.ByteOrder;
+import java.util.*;
+import java.util.function.*;
+import java.util.stream.*;
 
-import static java.lang.foreign.MemoryLayout.PathElement.groupElement;
-import static java.lang.foreign.MemoryLayout.PathElement.sequenceElement;
-import static java.lang.foreign.ValueLayout.OfLong;
-import static java.lang.foreign.ValueLayout.OfShort;
+import static java.lang.foreign.ValueLayout.*;
+import static java.lang.foreign.MemoryLayout.PathElement.*;
 
 /**
  * {@snippet lang=c :
@@ -34,11 +30,11 @@ public class drand48_data {
     }
 
     private static final GroupLayout $LAYOUT = MemoryLayout.structLayout(
-        MemoryLayout.sequenceLayout(3, nautinv_h.C_SHORT).withName("__x"),
-        MemoryLayout.sequenceLayout(3, nautinv_h.C_SHORT).withName("__old_x"),
-        nautinv_h.C_SHORT.withName("__c"),
-        nautinv_h.C_SHORT.withName("__init"),
-        nautinv_h.C_LONG_LONG.withName("__a")
+        MemoryLayout.sequenceLayout(3, NautyTraces.C_SHORT).withName("__x"),
+        MemoryLayout.sequenceLayout(3, NautyTraces.C_SHORT).withName("__old_x"),
+        NautyTraces.C_SHORT.withName("__c"),
+        NautyTraces.C_SHORT.withName("__init"),
+        NautyTraces.C_LONG_LONG.withName("__a")
     ).withName("drand48_data");
 
     /**

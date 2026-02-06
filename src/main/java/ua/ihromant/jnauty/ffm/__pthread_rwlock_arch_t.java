@@ -2,18 +2,15 @@
 
 package ua.ihromant.jnauty.ffm;
 
-import java.lang.foreign.Arena;
-import java.lang.foreign.GroupLayout;
-import java.lang.foreign.MemoryLayout;
-import java.lang.foreign.MemorySegment;
-import java.lang.foreign.SegmentAllocator;
-import java.lang.foreign.SequenceLayout;
-import java.lang.invoke.VarHandle;
-import java.util.function.Consumer;
+import java.lang.invoke.*;
+import java.lang.foreign.*;
+import java.nio.ByteOrder;
+import java.util.*;
+import java.util.function.*;
+import java.util.stream.*;
 
-import static java.lang.foreign.MemoryLayout.PathElement.groupElement;
-import static java.lang.foreign.MemoryLayout.PathElement.sequenceElement;
 import static java.lang.foreign.ValueLayout.*;
+import static java.lang.foreign.MemoryLayout.PathElement.*;
 
 /**
  * {@snippet lang=c :
@@ -40,18 +37,18 @@ public class __pthread_rwlock_arch_t {
     }
 
     private static final GroupLayout $LAYOUT = MemoryLayout.structLayout(
-        nautinv_h.C_INT.withName("__readers"),
-        nautinv_h.C_INT.withName("__writers"),
-        nautinv_h.C_INT.withName("__wrphase_futex"),
-        nautinv_h.C_INT.withName("__writers_futex"),
-        nautinv_h.C_INT.withName("__pad3"),
-        nautinv_h.C_INT.withName("__pad4"),
-        nautinv_h.C_INT.withName("__cur_writer"),
-        nautinv_h.C_INT.withName("__shared"),
-        nautinv_h.C_CHAR.withName("__rwelision"),
-        MemoryLayout.sequenceLayout(7, nautinv_h.C_CHAR).withName("__pad1"),
-        nautinv_h.C_LONG.withName("__pad2"),
-        nautinv_h.C_INT.withName("__flags"),
+        NautyTraces.C_INT.withName("__readers"),
+        NautyTraces.C_INT.withName("__writers"),
+        NautyTraces.C_INT.withName("__wrphase_futex"),
+        NautyTraces.C_INT.withName("__writers_futex"),
+        NautyTraces.C_INT.withName("__pad3"),
+        NautyTraces.C_INT.withName("__pad4"),
+        NautyTraces.C_INT.withName("__cur_writer"),
+        NautyTraces.C_INT.withName("__shared"),
+        NautyTraces.C_CHAR.withName("__rwelision"),
+        MemoryLayout.sequenceLayout(7, NautyTraces.C_CHAR).withName("__pad1"),
+        NautyTraces.C_LONG.withName("__pad2"),
+        NautyTraces.C_INT.withName("__flags"),
         MemoryLayout.paddingLayout(4)
     ).withName("__pthread_rwlock_arch_t");
 
