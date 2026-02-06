@@ -27,7 +27,7 @@ public class JNautyTest {
             """;
 
     @Test
-    public void testAuth() {
+    public void testAut() {
         boolean[][] inc = new boolean[7][7];
         String[] lns = FANO.lines().toArray(String[]::new);
         for (int i = 0; i < 7; i++) {
@@ -36,38 +36,45 @@ public class JNautyTest {
             }
         }
         NautyGraph gw = new PlaneGW(inc);
-        GraphData aut = JNauty.instance().automorphisms(gw);
-        assertEquals(168, aut.autCount());
+        GraphData autNauty = JNauty.instance().nauty(gw);
+        GraphData autTraces = JNauty.instance().traces(gw);
+        assertEquals(168, autNauty.autCount());
         for (int i = 0; i < 1000; i++) {
             boolean[][] permuted = randomPermutation(inc);
             NautyGraph altGW = new PlaneGW(permuted);
-            GraphData altAut = JNauty.instance().automorphisms(altGW);
-            int[] lab = altAut.labeling();
-            boolean[][] byLabeling = applyLabeling(altGW, lab);
-            boolean[][] byCanon = canonToIncidence(altGW.vCount(), altAut.canonical());
-            assertArrayEquals(byLabeling, byCanon);
-            assertArrayEquals(aut.canonical(), altAut.canonical());
-            int[] isomorphism = aut.isomorphism(altAut);
-            int[] revIso = altAut.isomorphism(aut);
-            assertNotNull(isomorphism);
-            assertNotNull(revIso);
-            for (int j = 0; j < gw.vCount(); j++) {
-                for (int k = 0; k < gw.vCount(); k++) {
-                    assertEquals(altGW.edge(isomorphism[j], isomorphism[k]), gw.edge(j, k));
-                    assertEquals(gw.edge(revIso[j], revIso[k]), altGW.edge(j, k));
+            GraphData altNauty = JNauty.instance().nauty(altGW);
+            GraphData altTraces = JNauty.instance().traces(altGW);
+            testGraphData(altNauty, altGW, autNauty, gw, permuted);
+            testGraphData(altTraces, altGW, autTraces, gw, permuted);
+        }
+    }
+
+    private static void testGraphData(GraphData permutedData, NautyGraph altGW, GraphData originalData, NautyGraph gw, boolean[][] permuted) {
+        int[] lab = permutedData.labeling();
+        boolean[][] byLabeling = applyLabeling(altGW, lab);
+        boolean[][] byCanon = canonToIncidence(altGW.vCount(), permutedData.canonical());
+        assertArrayEquals(byLabeling, byCanon);
+        assertArrayEquals(originalData.canonical(), permutedData.canonical());
+        int[] isomorphism = originalData.isomorphism(permutedData);
+        int[] revIso = permutedData.isomorphism(originalData);
+        assertNotNull(isomorphism);
+        assertNotNull(revIso);
+        for (int j = 0; j < gw.vCount(); j++) {
+            for (int k = 0; k < gw.vCount(); k++) {
+                assertEquals(altGW.edge(isomorphism[j], isomorphism[k]), gw.edge(j, k));
+                assertEquals(gw.edge(revIso[j], revIso[k]), altGW.edge(j, k));
+            }
+        }
+        int[][] automorphisms = permutedData.automorphisms();
+        assertEquals(permutedData.autCount(), automorphisms.length);
+        for (int[] a : automorphisms) {
+            boolean[][] automorphed = new boolean[7][7];
+            for (int j = 0; j < 7; j++) {
+                for (int k = 0; k < 7; k++) {
+                    automorphed[a[j + 7] - 7][a[k]] = permuted[j][k];
                 }
             }
-            int[][] automorphisms = altAut.automorphisms();
-            assertEquals(altAut.autCount(), automorphisms.length);
-            for (int[] a : automorphisms) {
-                boolean[][] automorphed = new boolean[7][7];
-                for (int j = 0; j < 7; j++) {
-                    for (int k = 0; k < 7; k++) {
-                        automorphed[a[j + 7] - 7][a[k]] = permuted[j][k];
-                    }
-                }
-                assertArrayEquals(automorphed, permuted);
-            }
+            assertArrayEquals(automorphed, permuted);
         }
     }
 
@@ -196,8 +203,10 @@ public class JNautyTest {
                 }
             }
             NautyGraph gw = new PlaneGW(inc);
-            GraphData aut = JNauty.instance().automorphisms(gw);
-            assertEquals(504, aut.autCount());
+            GraphData autNauty = JNauty.instance().nauty(gw);
+            assertEquals(504, autNauty.autCount());
+            GraphData autTraces = JNauty.instance().traces(gw);
+            assertEquals(504, autTraces.autCount());
         });
     }
 }

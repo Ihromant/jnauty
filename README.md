@@ -25,7 +25,7 @@ public interface NautyGraph {
 ```
 
 See tests for examples. Then just invoke
-```GraphData data = JNauty.instance().automorphisms(gw)```. You will get number of automorphisms, generators of automorphism group, orbits and canonical form of graph.
+```GraphData data = JNauty.instance().nauty(gw)``` or ```GraphData data = JNauty.instance().traces(gw)```. You will get number of automorphisms, generators of automorphism group, orbits and canonical form of graph. These are two different algorithms, so test on your data which better suits you by performance.
 
 (Optional) If you don't trust `.so` file bundled, then you need to build nauty 2.9.3 from [sources](https://pallini.di.uniroma1.it/) and replace `libnauty.so` in `resources` folder. Important! You should build thread-local version of nauty, or else you'll have issues in multithreaded environment. Command for building this version is:
 

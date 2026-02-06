@@ -1,7 +1,10 @@
 package ua.ihromant.jnauty;
 
 import ua.ihromant.jnauty.ffm.NautyTraces_1;
+import ua.ihromant.jnauty.ffm.TracesOptions;
+import ua.ihromant.jnauty.ffm.TracesStats;
 import ua.ihromant.jnauty.ffm.optionstruct;
+import ua.ihromant.jnauty.ffm.sparsegraph;
 import ua.ihromant.jnauty.ffm.statsblk;
 
 import java.io.IOException;
@@ -41,7 +44,7 @@ public class JNauty {
         }
     }
 
-    public GraphData automorphisms(NautyGraph gw) {
+    public GraphData nauty(NautyGraph gw) {
         int sz = gw.vCount();
         List<int[]> gens = new ArrayList<>();
         try (Arena arena = Arena.ofConfined()) {
@@ -143,6 +146,103 @@ public class JNauty {
                     (long) statsblk.grpsize1(stats),
                     nativeLab.toArray(ValueLayout.JAVA_INT),
                     Arrays.stream(canon.toArray(ValueLayout.JAVA_LONG)).map(Long::reverse).toArray());
+        }
+    }
+
+    public GraphData traces(NautyGraph gw) {
+        int sz = gw.vCount();
+        List<int[]> gens = new ArrayList<>();
+        try (Arena arena = Arena.ofConfined()) {
+            MemorySegment options = arena.allocate(TracesOptions.layout());
+
+            // defaults
+            TracesOptions.getcanon(options, NAUTY_FALSE);
+            TracesOptions.writeautoms(options, NAUTY_FALSE);
+            TracesOptions.cartesian(options, NAUTY_FALSE);
+            TracesOptions.digraph(options, NAUTY_FALSE);
+            TracesOptions.digraph(options, NAUTY_TRUE);
+            TracesOptions.linelength(options, 0);
+            TracesOptions.outfile(options, MemorySegment.NULL);
+            TracesOptions.strategy(options, 0);
+            TracesOptions.verbosity(options, 0);
+            TracesOptions.generators(options, MemorySegment.NULL);
+            TracesOptions.userautomproc(options, MemorySegment.NULL);
+            TracesOptions.reserved(options, MemorySegment.NULL);
+            TracesOptions.weighted(options, NAUTY_FALSE);
+
+            // override defaults
+            TracesOptions.defaultptn(options, NAUTY_FALSE);
+            TracesOptions.getcanon(options, NAUTY_TRUE);
+            MemorySegment automProc = TracesOptions.userautomproc.allocate((int _, MemorySegment p, int n) -> {
+                int[] arr = p.asSlice(0, (long) Integer.BYTES * n).toArray(ValueLayout.JAVA_INT);
+                gens.add(arr);
+            }, arena);
+            TracesOptions.userautomproc(options, automProc);
+
+            int rowSize = (sz + Long.SIZE - 1) / Long.SIZE;
+            long[] g = new long[rowSize * sz];
+            int sh = 0;
+            for (int i = 0; i < sz; i++) {
+                long word = 0L;
+                int bit = 63;          // MSB → LSB
+                int out = sh;          // index into g for this row
+
+                for (int j = 0; j < sz; j++) {
+                    if (gw.edge(i, j)) {
+                        word |= (1L << bit);
+                    }
+
+                    bit--;
+
+                    if (bit < 0) {     // word full
+                        g[out++] = word;
+                        word = 0L;
+                        bit = 63;
+                    }
+                }
+
+                // flush partial word (if sz not multiple of 64)
+                if (bit != 63) {
+                    g[out] = word;
+                }
+
+                sh += rowSize;
+            }
+            int[] lab = new int[sz];
+            int[] ptn = new int[sz];
+            Map<Integer, List<Integer>> grouped = IntStream.range(0, sz).boxed()
+                    .collect(Collectors.groupingBy(gw::vColor));
+            int[] colorSet = grouped.keySet().stream().mapToInt(Integer::intValue).sorted().toArray();
+            int cnt = 0;
+            for (int color : colorSet) {
+                List<Integer> ints = grouped.get(color);
+                for (int j = 0; j < ints.size() - 1; j++) {
+                    lab[cnt] = ints.get(j);
+                    ptn[cnt++] = 1;
+                }
+                lab[cnt++] = ints.getLast();
+            }
+
+            MemorySegment nativeG = arena.allocate(ValueLayout.JAVA_LONG, g.length);
+            nativeG.copyFrom(MemorySegment.ofArray(g));
+            MemorySegment sparseGraph = NautyTraces_1.nauty_to_sg(nativeG, MemorySegment.NULL, rowSize, sz);
+            MemorySegment stats = arena.allocate(TracesStats.layout());
+            MemorySegment nativeLab = arena.allocate(ValueLayout.JAVA_INT, lab.length);
+            nativeLab.copyFrom(MemorySegment.ofArray(lab));
+            MemorySegment nativePtn = arena.allocate(ValueLayout.JAVA_INT, ptn.length);
+            nativePtn.copyFrom(MemorySegment.ofArray(ptn));
+            MemorySegment nativeOrbits = arena.allocate(ValueLayout.JAVA_INT, sz);
+            MemorySegment sparseCanon = arena.allocate(sparsegraph.layout());
+            NautyTraces_1.Traces(sparseGraph, nativeLab, nativePtn,
+                    nativeOrbits, options, stats, sparseCanon);
+            MemorySegment mc = arena.allocate(ValueLayout.JAVA_INT);
+            MemorySegment canon = NautyTraces_1.sg_to_nauty(sparseCanon, MemorySegment.NULL, rowSize, mc);
+            return new GraphData(gens.toArray(int[][]::new),
+                    nativeOrbits.toArray(ValueLayout.JAVA_INT),
+                    (long) TracesStats.grpsize1(stats),
+                    nativeLab.toArray(ValueLayout.JAVA_INT),
+                    Arrays.stream(canon.asSlice(0, (long) Long.BYTES * g.length)
+                            .toArray(ValueLayout.JAVA_LONG)).map(Long::reverse).toArray());
         }
     }
 }
