@@ -236,7 +236,8 @@ public class JNauty {
             NautyTraces_1.Traces(sparseGraph, nativeLab, nativePtn,
                     nativeOrbits, options, stats, sparseCanon);
             MemorySegment mc = arena.allocate(ValueLayout.JAVA_INT);
-            MemorySegment canon = NautyTraces_1.sg_to_nauty(sparseCanon, MemorySegment.NULL, rowSize, mc);
+            MemorySegment canon = arena.allocate(ValueLayout.JAVA_LONG, g.length);
+            NautyTraces_1.sg_to_nauty(sparseCanon, canon, rowSize, mc);
             return new GraphData(gens.toArray(int[][]::new),
                     nativeOrbits.toArray(ValueLayout.JAVA_INT),
                     (long) TracesStats.grpsize1(stats),
