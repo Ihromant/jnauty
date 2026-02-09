@@ -242,8 +242,7 @@ public class JNauty {
                     nativeOrbits.toArray(ValueLayout.JAVA_INT),
                     (long) TracesStats.grpsize1(stats),
                     nativeLab.toArray(ValueLayout.JAVA_INT),
-                    Arrays.stream(canon.asSlice(0, (long) Long.BYTES * g.length)
-                            .toArray(ValueLayout.JAVA_LONG)).map(Long::reverse).toArray());
+                    Arrays.stream(canon.toArray(ValueLayout.JAVA_LONG)).map(Long::reverse).toArray());
         }
     }
 }
