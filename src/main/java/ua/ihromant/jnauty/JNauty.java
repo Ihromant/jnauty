@@ -239,11 +239,33 @@ public class JNauty {
             MemorySegment mc = arena.allocate(ValueLayout.JAVA_INT);
             MemorySegment canon = arena.allocate(ValueLayout.JAVA_LONG, g.length);
             NautyTraces_1.sg_to_nauty(sparseCanon, canon, rowSize, mc);
-            return new GraphData(gens.toArray(int[][]::new),
+            GraphData result = new GraphData(gens.toArray(int[][]::new),
                     nativeOrbits.toArray(ValueLayout.JAVA_INT),
                     (long) TracesStats.grpsize1(stats),
                     nativeLab.toArray(ValueLayout.JAVA_INT),
                     Arrays.stream(canon.toArray(ValueLayout.JAVA_LONG)).map(Long::reverse).toArray());
+            freeSparse(sparseGraph);
+            freeSparse(sparseCanon);
+            return result;
+        }
+    }
+
+    private static void freeSparse(MemorySegment sg) {
+        MemorySegment v = sparsegraph.v(sg);
+        if (!MemorySegment.NULL.equals(v)) {
+            NautyTraces_1.free(v);
+        }
+        MemorySegment d = sparsegraph.d(sg);
+        if (!MemorySegment.NULL.equals(d)) {
+            NautyTraces_1.free(d);
+        }
+        MemorySegment e = sparsegraph.e(sg);
+        if (!MemorySegment.NULL.equals(e)) {
+            NautyTraces_1.free(e);
+        }
+        MemorySegment w = sparsegraph.w(sg);
+        if (!MemorySegment.NULL.equals(w)) {
+            NautyTraces_1.free(w);
         }
     }
 }
