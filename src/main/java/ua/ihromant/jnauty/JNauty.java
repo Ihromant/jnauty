@@ -225,7 +225,8 @@ public class JNauty {
 
             MemorySegment nativeG = arena.allocate(ValueLayout.JAVA_LONG, g.length);
             nativeG.copyFrom(MemorySegment.ofArray(g));
-            MemorySegment sparseGraph = NautyTraces_1.nauty_to_sg(nativeG, MemorySegment.NULL, rowSize, sz);
+            MemorySegment sparseGraph = arena.allocate(sparsegraph.layout());
+            NautyTraces_1.nauty_to_sg(nativeG, sparseGraph, rowSize, sz);
             MemorySegment stats = arena.allocate(TracesStats.layout());
             MemorySegment nativeLab = arena.allocate(ValueLayout.JAVA_INT, lab.length);
             nativeLab.copyFrom(MemorySegment.ofArray(lab));
