@@ -237,8 +237,8 @@ public class JNauty {
             sparsegraph.d(sparseGraph, nativeD);
             sparsegraph.e(sparseGraph, nativeE);
 
-            int[] lab = new int[sz];
-            int[] ptn = new int[sz];
+            MemorySegment nativeLab = arena.allocate(ValueLayout.JAVA_INT, sz);
+            MemorySegment nativePtn = arena.allocate(ValueLayout.JAVA_INT, sz);
             List<int[]> grouped = new ArrayList<>();
             for (int i = 0; i < sz; i++) {
                 int clr = gw.vColor(i);
@@ -255,17 +255,13 @@ public class JNauty {
                     continue;
                 }
                 for (int j = 1; j < s; j++) {
-                    lab[cnt] = arr[j];
-                    ptn[cnt++] = 1;
+                    nativeLab.set(ValueLayout.JAVA_INT, (long) Integer.BYTES * cnt, arr[j]);
+                    nativePtn.set(ValueLayout.JAVA_INT, (long) Integer.BYTES * cnt++, 1);
                 }
-                lab[cnt++] = arr[s];
+                nativeLab.set(ValueLayout.JAVA_INT, (long) Integer.BYTES * cnt++, arr[s]);
             }
 
             MemorySegment stats = arena.allocate(TracesStats.layout());
-            MemorySegment nativeLab = arena.allocate(ValueLayout.JAVA_INT, lab.length);
-            nativeLab.copyFrom(MemorySegment.ofArray(lab));
-            MemorySegment nativePtn = arena.allocate(ValueLayout.JAVA_INT, ptn.length);
-            nativePtn.copyFrom(MemorySegment.ofArray(ptn));
             MemorySegment nativeOrbits = arena.allocate(ValueLayout.JAVA_INT, sz);
             MemorySegment sparseCanon = arena.allocate(sparsegraph.layout());
             NautyTraces_1.Traces(sparseGraph, nativeLab, nativePtn,
