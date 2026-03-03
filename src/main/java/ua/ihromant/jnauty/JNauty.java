@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.lang.foreign.Arena;
 import java.lang.foreign.MemorySegment;
 import java.lang.foreign.ValueLayout;
+import java.lang.invoke.VarHandle;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -160,6 +161,8 @@ public class JNauty {
         }
     }
 
+    private static final VarHandle ih = ValueLayout.JAVA_INT.varHandle();
+
     public GraphData traces(NautyGraph gw) {
         int sz = gw.vCount();
         List<int[]> gens = new ArrayList<>();
@@ -189,34 +192,35 @@ public class JNauty {
             TracesOptions.userautomproc(options, tracesAutom.segm);
 
             int rowSize = (sz + Long.SIZE - 1) / Long.SIZE;
-            long[] g = new long[rowSize * sz];
-            int sh = 0;
-            for (int i = 0; i < sz; i++) {
-                long word = 0L;
-                int bit = 63;          // MSB → LSB
-                int out = sh;          // index into g for this row
+            int canonSz = rowSize * sz;
 
+            long[] v = new long[sz];
+            int[] d = new int[sz];
+            List<Integer> e = new ArrayList<>(); // TODO implement better
+            for (int i = 0; i < sz; i++) {
+                int od = 0;
                 for (int j = 0; j < sz; j++) {
                     if (gw.edge(i, j)) {
-                        word |= (1L << bit);
-                    }
-
-                    bit--;
-
-                    if (bit < 0) {     // word full
-                        g[out++] = word;
-                        word = 0L;
-                        bit = 63;
+                        e.add(j);
+                        od++;
                     }
                 }
-
-                // flush partial word (if sz not multiple of 64)
-                if (bit != 63) {
-                    g[out] = word;
-                }
-
-                sh += rowSize;
+                d[i] = od;
+                v[i] = i == 0 ? 0 : (v[i - 1] + d[i - 1]);
             }
+            MemorySegment sparseGraph = arena.allocate(sparsegraph.layout());
+            sparsegraph.nde(sparseGraph, e.size());
+            MemorySegment nativeV = arena.allocate(ValueLayout.JAVA_LONG, sz);
+            nativeV.copyFrom(MemorySegment.ofArray(v));
+            sparsegraph.v(sparseGraph, nativeV);
+            sparsegraph.nv(sparseGraph, sz);
+            MemorySegment nativeD = arena.allocate(ValueLayout.JAVA_INT, sz);
+            nativeD.copyFrom(MemorySegment.ofArray(d));
+            sparsegraph.d(sparseGraph, nativeD);
+            MemorySegment nativeE = arena.allocate(ValueLayout.JAVA_INT, e.size());
+            nativeE.copyFrom(MemorySegment.ofArray(e.stream().mapToInt(Integer::intValue).toArray()));
+            sparsegraph.e(sparseGraph, nativeE);
+
             int[] lab = new int[sz];
             int[] ptn = new int[sz];
             List<int[]> grouped = new ArrayList<>();
@@ -241,10 +245,6 @@ public class JNauty {
                 lab[cnt++] = arr[s];
             }
 
-            MemorySegment nativeG = arena.allocate(ValueLayout.JAVA_LONG, g.length);
-            nativeG.copyFrom(MemorySegment.ofArray(g));
-            MemorySegment sparseGraph = arena.allocate(sparsegraph.layout());
-            NautyTraces_1.nauty_to_sg(nativeG, sparseGraph, rowSize, sz);
             MemorySegment stats = arena.allocate(TracesStats.layout());
             MemorySegment nativeLab = arena.allocate(ValueLayout.JAVA_INT, lab.length);
             nativeLab.copyFrom(MemorySegment.ofArray(lab));
@@ -254,15 +254,27 @@ public class JNauty {
             MemorySegment sparseCanon = arena.allocate(sparsegraph.layout());
             NautyTraces_1.Traces(sparseGraph, nativeLab, nativePtn,
                     nativeOrbits, options, stats, sparseCanon);
-            MemorySegment mc = arena.allocate(ValueLayout.JAVA_INT);
-            MemorySegment canon = arena.allocate(ValueLayout.JAVA_LONG, g.length);
-            NautyTraces_1.sg_to_nauty(sparseCanon, canon, rowSize, mc);
+
+            long[] canonArr = new long[canonSz];
+            int[] dCanon = sparsegraph.d(sparseCanon).asSlice(0, (long) Integer.BYTES * sz).toArray(ValueLayout.JAVA_INT);
+            int[] eCanon = sparsegraph.e(sparseCanon).asSlice(0,
+                    (long) Integer.BYTES * sparsegraph.nde(sparseGraph)).toArray(ValueLayout.JAVA_INT);
+            int idx = 0;
+            for (int i = 0; i < dCanon.length; i++) {
+                int nj = dCanon[i];
+                for (int n = 0; n < nj; n++) {
+                    int j = eCanon[idx + n];
+                    int word = j >>> 6;
+                    canonArr[rowSize * i + word] |= (1L << j);
+                }
+                idx = idx + nj;
+            }
+
             GraphData result = new GraphData(gens.toArray(int[][]::new),
                     nativeOrbits.toArray(ValueLayout.JAVA_INT),
                     (long) TracesStats.grpsize1(stats),
                     nativeLab.toArray(ValueLayout.JAVA_INT),
-                    Arrays.stream(canon.toArray(ValueLayout.JAVA_LONG)).map(Long::reverse).toArray());
-            freeSparse(sparseGraph);
+                    canonArr);
             freeSparse(sparseCanon);
             return result;
         }
