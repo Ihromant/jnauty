@@ -38,14 +38,19 @@ public class JNautyTest {
         NautyGraph gw = new PlaneGW(inc);
         GraphData autNauty = JNauty.instance().nauty(gw);
         GraphData autTraces = JNauty.instance().traces(gw);
+        GraphData autSparse = JNauty.instance().sparseNauty(gw);
         assertEquals(168, autNauty.autCount());
+        assertEquals(168, autTraces.autCount());
+        assertEquals(168, autSparse.autCount());
         for (int i = 0; i < 1000; i++) {
             boolean[][] permuted = randomPermutation(inc);
             NautyGraph altGW = new PlaneGW(permuted);
             GraphData altNauty = JNauty.instance().nauty(altGW);
             GraphData altTraces = JNauty.instance().traces(altGW);
+            GraphData altSparse = JNauty.instance().sparseNauty(altGW);
             testGraphData(altNauty, altGW, autNauty, gw, permuted);
             testGraphData(altTraces, altGW, autTraces, gw, permuted);
+            testGraphData(altSparse, altGW, autSparse, gw, permuted);
         }
     }
 
@@ -61,14 +66,19 @@ public class JNautyTest {
         NautyGraph gw = new PlaneGWE(inc);
         GraphData autNauty = JNauty.instance().nauty(gw);
         GraphData autTraces = JNauty.instance().traces(gw);
+        GraphData autSparse = JNauty.instance().sparseNauty(gw);
         assertEquals(168, autNauty.autCount());
+        assertEquals(168, autTraces.autCount());
+        assertEquals(168, autSparse.autCount());
         for (int i = 0; i < 1000; i++) {
             boolean[][] permuted = randomPermutation(inc);
             NautyGraph altGW = new PlaneGWE(permuted);
             GraphData altNauty = JNauty.instance().nauty(altGW);
             GraphData altTraces = JNauty.instance().traces(altGW);
+            GraphData altSparse = JNauty.instance().sparseNauty(altGW);
             testGraphData(altNauty, altGW, autNauty, gw, permuted);
             testGraphData(altTraces, altGW, autTraces, gw, permuted);
+            testGraphData(altSparse, altGW, autSparse, gw, permuted);
         }
     }
 
@@ -265,6 +275,8 @@ public class JNautyTest {
             assertEquals(504, autNauty.autCount());
             GraphData autTraces = JNauty.instance().traces(gw);
             assertEquals(504, autTraces.autCount());
+            GraphData autSparse = JNauty.instance().sparseNauty(gw);
+            assertEquals(504, autSparse.autCount());
         });
     }
 }

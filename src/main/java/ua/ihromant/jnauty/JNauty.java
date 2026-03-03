@@ -68,7 +68,7 @@ public class JNauty {
             optionstruct.outfile(options, MemorySegment.NULL);
             optionstruct.userrefproc(options, MemorySegment.NULL);
 
-            optionstruct.userautomproc(options, nautyAutom.segm);
+            optionstruct.userautomproc(options, MemorySegment.NULL);
             optionstruct.userlevelproc(options, MemorySegment.NULL);
             optionstruct.usernodeproc(options, MemorySegment.NULL);
             optionstruct.usercanonproc(options, MemorySegment.NULL);
@@ -82,8 +82,9 @@ public class JNauty {
             optionstruct.extra_options(options, MemorySegment.NULL);
 
             // update defaults
+            optionstruct.userautomproc(options, nautyAutom.segm);
             optionstruct.defaultptn(options, NAUTY_FALSE);
-            optionstruct.invarproc(options, NautyTraces_1.adjtriang.ADDR);
+            optionstruct.invarproc(options, NautyTraces_1.twopaths$address());
             optionstruct.mininvarlevel(options, 1);
             optionstruct.maxinvarlevel(options, 2);
             optionstruct.tc_level(options, 10);
@@ -157,6 +158,145 @@ public class JNauty {
                     (long) statsblk.grpsize1(stats),
                     nativeLab.toArray(ValueLayout.JAVA_INT),
                     Arrays.stream(canon.toArray(ValueLayout.JAVA_LONG)).map(Long::reverse).toArray());
+        }
+    }
+
+    public GraphData sparseNauty(NautyGraph gw) {
+        int sz = gw.vCount();
+        List<int[]> gens = new ArrayList<>();
+        NautyAutom nautyAutom = na.get();
+        nautyAutom.setCons(gens::add);
+        try (Arena arena = Arena.ofConfined()) {
+            MemorySegment options = arena.allocate(optionstruct.layout());
+
+            // defaults
+            optionstruct.getcanon(options, NAUTY_TRUE);
+            optionstruct.digraph(options, NAUTY_FALSE);
+            optionstruct.writeautoms(options, NAUTY_FALSE);
+            optionstruct.writemarkers(options, NAUTY_FALSE);
+            optionstruct.defaultptn(options, NAUTY_TRUE);
+            optionstruct.cartesian(options, NAUTY_FALSE);
+            optionstruct.linelength(options, 78);
+            optionstruct.outfile(options, MemorySegment.NULL);
+            optionstruct.userrefproc(options, MemorySegment.NULL);
+
+            optionstruct.userautomproc(options, MemorySegment.NULL);
+            optionstruct.userlevelproc(options, MemorySegment.NULL);
+            optionstruct.usernodeproc(options, MemorySegment.NULL);
+            optionstruct.usercanonproc(options, MemorySegment.NULL);
+            optionstruct.invarproc(options, MemorySegment.NULL);
+            optionstruct.tc_level(options, 100);
+            optionstruct.mininvarlevel(options, 0);
+            optionstruct.maxinvarlevel(options, 1);
+            optionstruct.invararg(options, 0);
+            optionstruct.dispatch(options, NautyTraces_1.dispatch_sparse());
+            optionstruct.schreier(options, NAUTY_FALSE);
+            optionstruct.extra_options(options, MemorySegment.NULL);
+
+            // update defaults
+            optionstruct.userautomproc(options, nautyAutom.segm);
+            optionstruct.defaultptn(options, NAUTY_FALSE);
+            optionstruct.tc_level(options, 10);
+
+            int rowSize = (sz + Long.SIZE - 1) / Long.SIZE;
+            int canonSz = rowSize * sz;
+
+            int ec = gw.eCount();
+            MemorySegment sparseGraph = arena.allocate(sparsegraph.layout());
+            MemorySegment nativeV = arena.allocate(ValueLayout.JAVA_LONG, sz);
+            MemorySegment nativeD = arena.allocate(ValueLayout.JAVA_INT, sz);
+            MemorySegment nativeE;
+            if (ec == 0) {
+                List<Integer> e = new ArrayList<>();
+                int prev = 0;
+                int od = 0;
+                for (int i = 0; i < sz; i++) {
+                    prev = prev + od;
+                    od = 0;
+                    for (int j = 0; j < sz; j++) {
+                        if (gw.edge(i, j)) {
+                            e.add(j);
+                            od++;
+                        }
+                    }
+                    nativeD.set(ValueLayout.JAVA_INT, (long) Integer.BYTES * i, od);
+                    nativeV.set(ValueLayout.JAVA_LONG, (long) Long.BYTES * i, prev);
+                }
+                ec = e.size();
+                nativeE = arena.allocate(ValueLayout.JAVA_INT, ec);
+                nativeE.copyFrom(MemorySegment.ofArray(e.stream().mapToInt(Integer::intValue).toArray()));
+            } else {
+                nativeE = arena.allocate(ValueLayout.JAVA_INT, ec);
+                int cnt = 0;
+                for (int i = 0; i < sz; i++) {
+                    int prev = cnt;
+                    for (int j = 0; j < sz; j++) {
+                        if (gw.edge(i, j)) {
+                            nativeE.set(ValueLayout.JAVA_INT, (long) Integer.BYTES * cnt++, j);
+                        }
+                    }
+                    nativeD.set(ValueLayout.JAVA_INT, (long) Integer.BYTES * i, cnt - prev);
+                    nativeV.set(ValueLayout.JAVA_LONG, (long) Long.BYTES * i, prev);
+                }
+            }
+
+            sparsegraph.nde(sparseGraph, ec);
+            sparsegraph.v(sparseGraph, nativeV);
+            sparsegraph.nv(sparseGraph, sz);
+            sparsegraph.d(sparseGraph, nativeD);
+            sparsegraph.e(sparseGraph, nativeE);
+
+            MemorySegment nativeLab = arena.allocate(ValueLayout.JAVA_INT, sz);
+            MemorySegment nativePtn = arena.allocate(ValueLayout.JAVA_INT, sz);
+            List<int[]> grouped = new ArrayList<>();
+            for (int i = 0; i < sz; i++) {
+                int clr = gw.vColor(i);
+                while (grouped.size() <= clr) {
+                    grouped.add(new int[sz + 1]);
+                }
+                int[] arr = grouped.get(clr);
+                arr[++arr[0]] = i;
+            }
+            int cnt = 0;
+            for (int[] arr : grouped) {
+                int s = arr[0];
+                if (s == 0) {
+                    continue;
+                }
+                for (int j = 1; j < s; j++) {
+                    nativeLab.set(ValueLayout.JAVA_INT, (long) Integer.BYTES * cnt, arr[j]);
+                    nativePtn.set(ValueLayout.JAVA_INT, (long) Integer.BYTES * cnt++, 1);
+                }
+                nativeLab.set(ValueLayout.JAVA_INT, (long) Integer.BYTES * cnt++, arr[s]);
+            }
+
+            MemorySegment stats = arena.allocate(statsblk.layout());
+            MemorySegment nativeOrbits = arena.allocate(ValueLayout.JAVA_INT, sz);
+            MemorySegment sparseCanon = arena.allocate(sparsegraph.layout());
+            NautyTraces_1.sparsenauty(sparseGraph, nativeLab, nativePtn,
+                    nativeOrbits, options, stats, sparseCanon);
+
+            long[] canonArr = new long[canonSz];
+            MemorySegment dCanon = sparsegraph.d(sparseCanon);
+            MemorySegment eCanon = sparsegraph.e(sparseCanon);
+            int idx = 0;
+            for (int i = 0; i < sz; i++) {
+                int nj = dCanon.get(ValueLayout.JAVA_INT, (long) Integer.BYTES * i);
+                for (int n = 0; n < nj; n++) {
+                    int j = eCanon.get(ValueLayout.JAVA_INT, (long) Integer.BYTES * (idx + n));
+                    int word = j >>> 6;
+                    canonArr[rowSize * i + word] |= (1L << j);
+                }
+                idx = idx + nj;
+            }
+
+            GraphData result = new GraphData(gens.toArray(int[][]::new),
+                    nativeOrbits.toArray(ValueLayout.JAVA_INT),
+                    (long) TracesStats.grpsize1(stats),
+                    nativeLab.toArray(ValueLayout.JAVA_INT),
+                    canonArr);
+            freeSparse(sparseCanon);
+            return result;
         }
     }
 
