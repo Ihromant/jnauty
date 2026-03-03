@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -27,6 +28,9 @@ public class JNauty {
     private static final int NAUTY_FALSE = 0;
     private static final int NAUTY_TRUE = 1;
     private static final JNauty INSTANCE = new JNauty();
+
+    private static final ThreadLocal<NautyAutom> na = ThreadLocal.withInitial(NautyAutom::new);
+    private static final ThreadLocal<TracesAutom> ta = ThreadLocal.withInitial(TracesAutom::new);
 
     public static JNauty instance() {
         return INSTANCE;
@@ -51,6 +55,8 @@ public class JNauty {
     public GraphData nauty(NautyGraph gw) {
         int sz = gw.vCount();
         List<int[]> gens = new ArrayList<>();
+        NautyAutom nautyAutom = na.get();
+        nautyAutom.setCons(gens::add);
         try (Arena arena = Arena.ofConfined()) {
             MemorySegment options = arena.allocate(optionstruct.layout());
 
@@ -65,12 +71,7 @@ public class JNauty {
             optionstruct.outfile(options, MemorySegment.NULL);
             optionstruct.userrefproc(options, MemorySegment.NULL);
 
-            MemorySegment automProc = optionstruct.userautomproc.allocate((_, p, _, _, _, _) -> {
-                int[] arr = p.asSlice(0, (long) Integer.BYTES * gw.vCount()).toArray(ValueLayout.JAVA_INT);
-                gens.add(arr);
-            }, arena);
-
-            optionstruct.userautomproc(options, automProc);
+            optionstruct.userautomproc(options, nautyAutom.segm);
             optionstruct.userlevelproc(options, MemorySegment.NULL);
             optionstruct.usernodeproc(options, MemorySegment.NULL);
             optionstruct.usercanonproc(options, MemorySegment.NULL);
@@ -156,6 +157,8 @@ public class JNauty {
     public GraphData traces(NautyGraph gw) {
         int sz = gw.vCount();
         List<int[]> gens = new ArrayList<>();
+        TracesAutom tracesAutom = ta.get();
+        tracesAutom.setCons(gens::add);
         try (Arena arena = Arena.ofConfined()) {
             MemorySegment options = arena.allocate(TracesOptions.layout());
 
@@ -177,11 +180,7 @@ public class JNauty {
             // override defaults
             TracesOptions.defaultptn(options, NAUTY_FALSE);
             TracesOptions.getcanon(options, NAUTY_TRUE);
-            MemorySegment automProc = TracesOptions.userautomproc.allocate((int _, MemorySegment p, int n) -> {
-                int[] arr = p.asSlice(0, (long) Integer.BYTES * n).toArray(ValueLayout.JAVA_INT);
-                gens.add(arr);
-            }, arena);
-            TracesOptions.userautomproc(options, automProc);
+            TracesOptions.userautomproc(options, tracesAutom.segm);
 
             int rowSize = (sz + Long.SIZE - 1) / Long.SIZE;
             long[] g = new long[rowSize * sz];
@@ -270,6 +269,38 @@ public class JNauty {
         MemorySegment w = sparsegraph.w(sg);
         if (!MemorySegment.NULL.equals(w)) {
             NautyTraces_1.free(w);
+        }
+    }
+
+    private static class NautyAutom {
+        private final MemorySegment segm;
+        private Consumer<int[]> cons = _ -> {};
+
+        public NautyAutom() {
+            this.segm = optionstruct.userautomproc.allocate((_, p, _, _, _, n) -> {
+                int[] arr = p.asSlice(0, (long) Integer.BYTES * n).toArray(ValueLayout.JAVA_INT);
+                cons.accept(arr);
+            }, Arena.global());
+        }
+
+        private void setCons(Consumer<int[]> cons) {
+            this.cons = cons;
+        }
+    }
+
+    private static class TracesAutom {
+        private final MemorySegment segm;
+        private Consumer<int[]> cons = _ -> {};
+
+        public TracesAutom() {
+            this.segm = TracesOptions.userautomproc.allocate((int _, MemorySegment p, int n) -> {
+                int[] arr = p.asSlice(0, (long) Integer.BYTES * n).toArray(ValueLayout.JAVA_INT);
+                cons.accept(arr);
+            }, Arena.global());
+        }
+
+        private void setCons(Consumer<int[]> cons) {
+            this.cons = cons;
         }
     }
 }
