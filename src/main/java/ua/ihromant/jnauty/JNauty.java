@@ -17,12 +17,9 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
 import java.util.function.Consumer;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 public class JNauty {
     private static final int NAUTY_FALSE = 0;
@@ -122,17 +119,26 @@ public class JNauty {
             }
             int[] lab = new int[sz];
             int[] ptn = new int[sz];
-            Map<Integer, List<Integer>> grouped = IntStream.range(0, sz).boxed()
-                    .collect(Collectors.groupingBy(gw::vColor));
-            int[] colorSet = grouped.keySet().stream().mapToInt(Integer::intValue).sorted().toArray();
+            List<int[]> grouped = new ArrayList<>();
+            for (int i = 0; i < sz; i++) {
+                int clr = gw.vColor(i);
+                while (grouped.size() <= clr) {
+                    grouped.add(new int[sz + 1]);
+                }
+                int[] arr = grouped.get(clr);
+                arr[++arr[0]] = i;
+            }
             int cnt = 0;
-            for (int color : colorSet) {
-                List<Integer> ints = grouped.get(color);
-                for (int j = 0; j < ints.size() - 1; j++) {
-                    lab[cnt] = ints.get(j);
+            for (int[] arr : grouped) {
+                int s = arr[0];
+                if (s == 0) {
+                    continue;
+                }
+                for (int j = 1; j < s; j++) {
+                    lab[cnt] = arr[j];
                     ptn[cnt++] = 1;
                 }
-                lab[cnt++] = ints.getLast();
+                lab[cnt++] = arr[s];
             }
             MemorySegment stats = arena.allocate(statsblk.layout());
             MemorySegment nativeG = arena.allocate(ValueLayout.JAVA_LONG, g.length);
@@ -213,17 +219,26 @@ public class JNauty {
             }
             int[] lab = new int[sz];
             int[] ptn = new int[sz];
-            Map<Integer, List<Integer>> grouped = IntStream.range(0, sz).boxed()
-                    .collect(Collectors.groupingBy(gw::vColor));
-            int[] colorSet = grouped.keySet().stream().mapToInt(Integer::intValue).sorted().toArray();
+            List<int[]> grouped = new ArrayList<>();
+            for (int i = 0; i < sz; i++) {
+                int clr = gw.vColor(i);
+                while (grouped.size() <= clr) {
+                    grouped.add(new int[sz + 1]);
+                }
+                int[] arr = grouped.get(clr);
+                arr[++arr[0]] = i;
+            }
             int cnt = 0;
-            for (int color : colorSet) {
-                List<Integer> ints = grouped.get(color);
-                for (int j = 0; j < ints.size() - 1; j++) {
-                    lab[cnt] = ints.get(j);
+            for (int[] arr : grouped) {
+                int s = arr[0];
+                if (s == 0) {
+                    continue;
+                }
+                for (int j = 1; j < s; j++) {
+                    lab[cnt] = arr[j];
                     ptn[cnt++] = 1;
                 }
-                lab[cnt++] = ints.getLast();
+                lab[cnt++] = arr[s];
             }
 
             MemorySegment nativeG = arena.allocate(ValueLayout.JAVA_LONG, g.length);
