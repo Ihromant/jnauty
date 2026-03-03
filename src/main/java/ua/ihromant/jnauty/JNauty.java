@@ -34,10 +34,14 @@ public class JNauty {
 
     private JNauty() {
         try {
+            String osName = System.getProperty("os.name").toLowerCase();
             Path soFile = Paths.get(System.getProperty("java.io.tmpdir"), "nauty-" + UUID.randomUUID() + ".so");
-            Files.copy(Objects.requireNonNull(JNauty.class.getResourceAsStream("/libnauty.so")),
+            Files.copy(Objects.requireNonNull(JNauty.class.getResourceAsStream("/libnauty_" + osName + ".so")),
                     soFile);
             System.load(soFile.toString());
+            if ("OpenBSD".equalsIgnoreCase(osName)) {
+                System.load("/usr/lib/libc.so.102.0");
+            }
             soFile.toFile().deleteOnExit();
         } catch (IOException e) {
             throw new RuntimeException(e);

@@ -27,9 +27,11 @@ public interface NautyGraph {
 See tests for examples. Then just invoke
 ```GraphData data = JNauty.instance().nauty(gw)``` or ```GraphData data = JNauty.instance().traces(gw)```. You will get number of automorphisms, generators of automorphism group, orbits and canonical form of graph. These are two different algorithms, so test on your data which better suits you by performance.
 
-(Optional) If you don't trust `.so` file bundled, then you need to build nauty 2.9.3 from [sources](https://pallini.di.uniroma1.it/) and replace `libnauty.so` in `resources` folder. Important! You should build thread-local version of nauty, or else you'll have issues in multithreaded environment. Command for building this version is:
+(Optional for Linux, required on other Unix-like OS) If you don't trust `.so` file bundled or have non-Linux, then you need to build nauty 2.9.3 from [sources](https://pallini.di.uniroma1.it/) and (re)place `libnauty_{System.getProperty("os.name").toLowerCase()}.so` in `resources` folder. Important! You should build thread-local version of nauty, or else you'll have issues in multithreaded environment. Command for building this version is:
 
 ```./configure --enable-tls; make clean; make```
+
+Currently on OpenBSD dirty (but working) hack is implemented because I didn't find correct way to load default libc library. Adjust it to your OS if you are using jnauty on OpenBSD or other non-Linux Unix.
 
 ## License
 

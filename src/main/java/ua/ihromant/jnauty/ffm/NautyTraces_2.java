@@ -20,7 +20,7 @@ public class NautyTraces_2 extends NautyTraces$shared {
 
     static final Arena LIBRARY_ARENA = Arena.ofAuto();
 
-    static final SymbolLookup SYMBOL_LOOKUP = SymbolLookup.loaderLookup();
+    static final SymbolLookup SYMBOL_LOOKUP = SymbolLookup.loaderLookup().or(Linker.nativeLinker().defaultLookup());
             // TODO commented default
             // SymbolLookup.libraryLookup(System.mapLibraryName("nauty"), LIBRARY_ARENA)
             //.or(SymbolLookup.loaderLookup())
