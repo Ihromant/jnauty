@@ -27,7 +27,7 @@ public class JNautyTest {
             """;
 
     @Test
-    public void testAut() {
+    public void testAutNoE() {
         boolean[][] inc = new boolean[7][7];
         String[] lns = FANO.lines().toArray(String[]::new);
         for (int i = 0; i < 7; i++) {
@@ -42,6 +42,29 @@ public class JNautyTest {
         for (int i = 0; i < 1000; i++) {
             boolean[][] permuted = randomPermutation(inc);
             NautyGraph altGW = new PlaneGW(permuted);
+            GraphData altNauty = JNauty.instance().nauty(altGW);
+            GraphData altTraces = JNauty.instance().traces(altGW);
+            testGraphData(altNauty, altGW, autNauty, gw, permuted);
+            testGraphData(altTraces, altGW, autTraces, gw, permuted);
+        }
+    }
+
+    @Test
+    public void testAut() {
+        boolean[][] inc = new boolean[7][7];
+        String[] lns = FANO.lines().toArray(String[]::new);
+        for (int i = 0; i < 7; i++) {
+            for (int j = 0; j < 7; j++) {
+                inc[i][j] = lns[j].charAt(i) == '1';
+            }
+        }
+        NautyGraph gw = new PlaneGWE(inc);
+        GraphData autNauty = JNauty.instance().nauty(gw);
+        GraphData autTraces = JNauty.instance().traces(gw);
+        assertEquals(168, autNauty.autCount());
+        for (int i = 0; i < 1000; i++) {
+            boolean[][] permuted = randomPermutation(inc);
+            NautyGraph altGW = new PlaneGWE(permuted);
             GraphData altNauty = JNauty.instance().nauty(altGW);
             GraphData altTraces = JNauty.instance().traces(altGW);
             testGraphData(altNauty, altGW, autNauty, gw, permuted);
@@ -188,6 +211,41 @@ public class JNautyTest {
         }
     }
 
+    private record PlaneGWE(boolean[][] inc) implements NautyGraph {
+        @Override
+        public int vCount() {
+            return inc[0].length + inc.length;
+        }
+
+        @Override
+        public int vColor(int idx) {
+            return idx < inc[0].length ? 0 : 1;
+        }
+
+        @Override
+        public boolean edge(int a, int b) {
+            int pc = inc[0].length;
+            if (a < pc) {
+                return b >= pc && inc[b - pc][a];
+            } else {
+                return b < pc && inc[a - pc][b];
+            }
+        }
+
+        @Override
+        public int eCount() {
+            int res = 0;
+            for (boolean[] arr : inc) {
+                for (boolean b : arr) {
+                    if (b) {
+                        res++;
+                    }
+                }
+            }
+            return 2 * res;
+        }
+    }
+
     @Test
     public void testLarge() throws URISyntaxException, IOException {
         String s = Files.readString(Path.of(Objects.requireNonNull(
@@ -202,7 +260,7 @@ public class JNautyTest {
                     inc[l][p] = true;
                 }
             }
-            NautyGraph gw = new PlaneGW(inc);
+            NautyGraph gw = new PlaneGWE(inc);
             GraphData autNauty = JNauty.instance().nauty(gw);
             assertEquals(504, autNauty.autCount());
             GraphData autTraces = JNauty.instance().traces(gw);

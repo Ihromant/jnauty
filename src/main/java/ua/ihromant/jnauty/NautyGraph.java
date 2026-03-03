@@ -8,4 +8,8 @@ public interface NautyGraph {
     }
 
     boolean edge(int a, int b);
+
+    default int eCount() {
+        return 0;
+    }
 }

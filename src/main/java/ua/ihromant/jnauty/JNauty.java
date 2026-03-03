@@ -25,6 +25,8 @@ import java.util.function.Consumer;
 public class JNauty {
     private static final int NAUTY_FALSE = 0;
     private static final int NAUTY_TRUE = 1;
+    private static final VarHandle ih = ValueLayout.JAVA_INT.varHandle();
+    private static final VarHandle lh = ValueLayout.JAVA_LONG.varHandle();
     private static final JNauty INSTANCE = new JNauty();
 
     private static final ThreadLocal<NautyAutom> na = ThreadLocal.withInitial(NautyAutom::new);
@@ -160,8 +162,6 @@ public class JNauty {
                     Arrays.stream(canon.toArray(ValueLayout.JAVA_LONG)).map(Long::reverse).toArray());
         }
     }
-
-    private static final VarHandle ih = ValueLayout.JAVA_INT.varHandle();
 
     public GraphData traces(NautyGraph gw) {
         int sz = gw.vCount();
