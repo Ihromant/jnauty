@@ -25,8 +25,6 @@ import java.util.function.Consumer;
 public class JNauty {
     private static final int NAUTY_FALSE = 0;
     private static final int NAUTY_TRUE = 1;
-    private static final VarHandle ih = ValueLayout.JAVA_INT.varHandle();
-    private static final VarHandle lh = ValueLayout.JAVA_LONG.varHandle();
     private static final JNauty INSTANCE = new JNauty();
 
     private static final ThreadLocal<NautyAutom> na = ThreadLocal.withInitial(NautyAutom::new);
@@ -194,31 +192,49 @@ public class JNauty {
             int rowSize = (sz + Long.SIZE - 1) / Long.SIZE;
             int canonSz = rowSize * sz;
 
-            long[] v = new long[sz];
-            int[] d = new int[sz];
-            List<Integer> e = new ArrayList<>(); // TODO implement better
-            for (int i = 0; i < sz; i++) {
-                int od = 0;
-                for (int j = 0; j < sz; j++) {
-                    if (gw.edge(i, j)) {
-                        e.add(j);
-                        od++;
-                    }
-                }
-                d[i] = od;
-                v[i] = i == 0 ? 0 : (v[i - 1] + d[i - 1]);
-            }
+            int ec = gw.eCount();
             MemorySegment sparseGraph = arena.allocate(sparsegraph.layout());
-            sparsegraph.nde(sparseGraph, e.size());
             MemorySegment nativeV = arena.allocate(ValueLayout.JAVA_LONG, sz);
-            nativeV.copyFrom(MemorySegment.ofArray(v));
+            MemorySegment nativeD = arena.allocate(ValueLayout.JAVA_INT, sz);
+            MemorySegment nativeE;
+            if (ec == 0) {
+                List<Integer> e = new ArrayList<>();
+                int prev = 0;
+                int od = 0;
+                for (int i = 0; i < sz; i++) {
+                    prev = prev + od;
+                    od = 0;
+                    for (int j = 0; j < sz; j++) {
+                        if (gw.edge(i, j)) {
+                            e.add(j);
+                            od++;
+                        }
+                    }
+                    nativeD.set(ValueLayout.JAVA_INT, (long) Integer.BYTES * i, od);
+                    nativeV.set(ValueLayout.JAVA_LONG, (long) Long.BYTES * i, prev);
+                }
+                ec = e.size();
+                nativeE = arena.allocate(ValueLayout.JAVA_INT, ec);
+                nativeE.copyFrom(MemorySegment.ofArray(e.stream().mapToInt(Integer::intValue).toArray()));
+            } else {
+                nativeE = arena.allocate(ValueLayout.JAVA_INT, ec);
+                int cnt = 0;
+                for (int i = 0; i < sz; i++) {
+                    int prev = cnt;
+                    for (int j = 0; j < sz; j++) {
+                        if (gw.edge(i, j)) {
+                            nativeE.set(ValueLayout.JAVA_INT, (long) Integer.BYTES * cnt++, j);
+                        }
+                    }
+                    nativeD.set(ValueLayout.JAVA_INT, (long) Integer.BYTES * i, cnt - prev);
+                    nativeV.set(ValueLayout.JAVA_LONG, (long) Long.BYTES * i, prev);
+                }
+            }
+
+            sparsegraph.nde(sparseGraph, ec);
             sparsegraph.v(sparseGraph, nativeV);
             sparsegraph.nv(sparseGraph, sz);
-            MemorySegment nativeD = arena.allocate(ValueLayout.JAVA_INT, sz);
-            nativeD.copyFrom(MemorySegment.ofArray(d));
             sparsegraph.d(sparseGraph, nativeD);
-            MemorySegment nativeE = arena.allocate(ValueLayout.JAVA_INT, e.size());
-            nativeE.copyFrom(MemorySegment.ofArray(e.stream().mapToInt(Integer::intValue).toArray()));
             sparsegraph.e(sparseGraph, nativeE);
 
             int[] lab = new int[sz];
