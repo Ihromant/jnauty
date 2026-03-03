@@ -11,7 +11,6 @@ import java.io.IOException;
 import java.lang.foreign.Arena;
 import java.lang.foreign.MemorySegment;
 import java.lang.foreign.ValueLayout;
-import java.lang.invoke.VarHandle;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -174,7 +173,7 @@ public class JNauty {
             TracesOptions.writeautoms(options, NAUTY_FALSE);
             TracesOptions.cartesian(options, NAUTY_FALSE);
             TracesOptions.digraph(options, NAUTY_FALSE);
-            TracesOptions.digraph(options, NAUTY_TRUE);
+            TracesOptions.defaultptn(options, NAUTY_TRUE);
             TracesOptions.linelength(options, 0);
             TracesOptions.outfile(options, MemorySegment.NULL);
             TracesOptions.strategy(options, 0);
