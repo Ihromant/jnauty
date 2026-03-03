@@ -268,14 +268,13 @@ public class JNauty {
                     nativeOrbits, options, stats, sparseCanon);
 
             long[] canonArr = new long[canonSz];
-            int[] dCanon = sparsegraph.d(sparseCanon).asSlice(0, (long) Integer.BYTES * sz).toArray(ValueLayout.JAVA_INT);
-            int[] eCanon = sparsegraph.e(sparseCanon).asSlice(0,
-                    (long) Integer.BYTES * sparsegraph.nde(sparseGraph)).toArray(ValueLayout.JAVA_INT);
+            MemorySegment dCanon = sparsegraph.d(sparseCanon);
+            MemorySegment eCanon = sparsegraph.e(sparseCanon);
             int idx = 0;
-            for (int i = 0; i < dCanon.length; i++) {
-                int nj = dCanon[i];
+            for (int i = 0; i < sz; i++) {
+                int nj = dCanon.get(ValueLayout.JAVA_INT, (long) Integer.BYTES * i);
                 for (int n = 0; n < nj; n++) {
-                    int j = eCanon[idx + n];
+                    int j = eCanon.get(ValueLayout.JAVA_INT, (long) Integer.BYTES * (idx + n));
                     int word = j >>> 6;
                     canonArr[rowSize * i + word] |= (1L << j);
                 }
