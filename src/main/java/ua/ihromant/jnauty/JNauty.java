@@ -30,6 +30,7 @@ public class JNauty {
 
     private static final ThreadLocal<NautyAutom> na = ThreadLocal.withInitial(NautyAutom::new);
     private static final ThreadLocal<TracesAutom> ta = ThreadLocal.withInitial(TracesAutom::new);
+    private static final ThreadLocal<CliqueUF> cu = ThreadLocal.withInitial(CliqueUF::new);
 
     public static JNauty instance() {
         return INSTANCE;
@@ -436,6 +437,8 @@ public class JNauty {
         int sz = gw.vCount();
         int rowSize = (sz + 63) >>> 6;
         List<long[]> result = new ArrayList<>();
+        CliqueUF ufHolder = cu.get();
+        ufHolder.setCons(result::add);
         try (Arena arena = Arena.ofConfined()) {
             MemorySegment edgesArray = arena.allocate(ValueLayout.ADDRESS, sz);
 
@@ -466,11 +469,7 @@ public class JNauty {
             _graph_t.weights(graph, weights);
 
             MemorySegment options = arena.allocate(_clique_options.layout());
-            MemorySegment userFunc = _clique_options.user_function.allocate((set, gh, _) -> {
-                result.add(set.asSlice(0, (long) Long.BYTES * ((_graph_t.n(gh) + 63) >>> 6)).toArray(ValueLayout.JAVA_LONG));
-                return 1;
-            }, arena);
-            _clique_options.user_function(options, userFunc);
+            _clique_options.user_function(options, ufHolder.segm);
             NautyTraces_1.clique_find_all(graph, 0, 0, NAUTY_TRUE, options);
         }
         return result;
@@ -499,7 +498,7 @@ public class JNauty {
         private final MemorySegment segm;
         private Consumer<int[]> cons = _ -> {};
 
-        public NautyAutom() {
+        private NautyAutom() {
             this.segm = optionstruct.userautomproc.allocate((_, p, _, _, _, n) -> {
                 int[] arr = p.asSlice(0, (long) Integer.BYTES * n).toArray(ValueLayout.JAVA_INT);
                 cons.accept(arr);
@@ -515,7 +514,7 @@ public class JNauty {
         private final MemorySegment segm;
         private Consumer<int[]> cons = _ -> {};
 
-        public TracesAutom() {
+        private TracesAutom() {
             this.segm = TracesOptions.userautomproc.allocate((int _, MemorySegment p, int n) -> {
                 int[] arr = p.asSlice(0, (long) Integer.BYTES * n).toArray(ValueLayout.JAVA_INT);
                 cons.accept(arr);
@@ -523,6 +522,22 @@ public class JNauty {
         }
 
         private void setCons(Consumer<int[]> cons) {
+            this.cons = cons;
+        }
+    }
+
+    private static class CliqueUF {
+        private final MemorySegment segm;
+        private Consumer<long[]> cons = _ -> {};
+
+        private CliqueUF() {
+            this.segm = _clique_options.user_function.allocate((set, gh, _) -> {
+                cons.accept(set.asSlice(0, (long) Long.BYTES * ((_graph_t.n(gh) + 63) >>> 6)).toArray(ValueLayout.JAVA_LONG));
+                return 1;
+            }, Arena.global());
+        }
+
+        private void setCons(Consumer<long[]> cons) {
             this.cons = cons;
         }
     }
