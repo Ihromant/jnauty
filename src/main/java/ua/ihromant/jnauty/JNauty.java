@@ -3,6 +3,8 @@ package ua.ihromant.jnauty;
 import ua.ihromant.jnauty.ffm.NautyTraces_1;
 import ua.ihromant.jnauty.ffm.TracesOptions;
 import ua.ihromant.jnauty.ffm.TracesStats;
+import ua.ihromant.jnauty.ffm._clique_options;
+import ua.ihromant.jnauty.ffm._graph_t;
 import ua.ihromant.jnauty.ffm.optionstruct;
 import ua.ihromant.jnauty.ffm.sparsegraph;
 import ua.ihromant.jnauty.ffm.statsblk;
@@ -89,7 +91,7 @@ public class JNauty {
             optionstruct.maxinvarlevel(options, 2);
             optionstruct.tc_level(options, 10);
 
-            int rowSize = (sz + Long.SIZE - 1) / Long.SIZE;
+            int rowSize = (sz + 63) >>> 6;
             long[] g = new long[rowSize * sz];
             int sh = 0;
             for (int i = 0; i < sz; i++) {
@@ -198,7 +200,7 @@ public class JNauty {
             optionstruct.defaultptn(options, NAUTY_FALSE);
             optionstruct.tc_level(options, 10);
 
-            int rowSize = (sz + Long.SIZE - 1) / Long.SIZE;
+            int rowSize = (sz + 63) >>> 6;
             int canonSz = rowSize * sz;
 
             int ec = gw.eCount();
@@ -219,8 +221,8 @@ public class JNauty {
                             od++;
                         }
                     }
-                    nativeD.set(ValueLayout.JAVA_INT, (long) Integer.BYTES * i, od);
-                    nativeV.set(ValueLayout.JAVA_LONG, (long) Long.BYTES * i, prev);
+                    nativeD.setAtIndex(ValueLayout.JAVA_INT, i, od);
+                    nativeV.setAtIndex(ValueLayout.JAVA_LONG, i, prev);
                 }
                 ec = e.size();
                 nativeE = arena.allocate(ValueLayout.JAVA_INT, ec);
@@ -232,11 +234,11 @@ public class JNauty {
                     int prev = cnt;
                     for (int j = 0; j < sz; j++) {
                         if (gw.edge(i, j)) {
-                            nativeE.set(ValueLayout.JAVA_INT, (long) Integer.BYTES * cnt++, j);
+                            nativeE.setAtIndex(ValueLayout.JAVA_INT, cnt++, j);
                         }
                     }
-                    nativeD.set(ValueLayout.JAVA_INT, (long) Integer.BYTES * i, cnt - prev);
-                    nativeV.set(ValueLayout.JAVA_LONG, (long) Long.BYTES * i, prev);
+                    nativeD.setAtIndex(ValueLayout.JAVA_INT, i, cnt - prev);
+                    nativeV.setAtIndex(ValueLayout.JAVA_LONG, i, prev);
                 }
             }
 
@@ -264,10 +266,10 @@ public class JNauty {
                     continue;
                 }
                 for (int j = 1; j < s; j++) {
-                    nativeLab.set(ValueLayout.JAVA_INT, (long) Integer.BYTES * cnt, arr[j]);
-                    nativePtn.set(ValueLayout.JAVA_INT, (long) Integer.BYTES * cnt++, 1);
+                    nativeLab.setAtIndex(ValueLayout.JAVA_INT, cnt, arr[j]);
+                    nativePtn.setAtIndex(ValueLayout.JAVA_INT, cnt++, 1);
                 }
-                nativeLab.set(ValueLayout.JAVA_INT, (long) Integer.BYTES * cnt++, arr[s]);
+                nativeLab.setAtIndex(ValueLayout.JAVA_INT, cnt++, arr[s]);
             }
 
             MemorySegment stats = arena.allocate(statsblk.layout());
@@ -281,9 +283,9 @@ public class JNauty {
             MemorySegment eCanon = sparsegraph.e(sparseCanon);
             int idx = 0;
             for (int i = 0; i < sz; i++) {
-                int nj = dCanon.get(ValueLayout.JAVA_INT, (long) Integer.BYTES * i);
+                int nj = dCanon.getAtIndex(ValueLayout.JAVA_INT, i);
                 for (int n = 0; n < nj; n++) {
-                    int j = eCanon.get(ValueLayout.JAVA_INT, (long) Integer.BYTES * (idx + n));
+                    int j = eCanon.getAtIndex(ValueLayout.JAVA_INT, idx + n);
                     int word = j >>> 6;
                     canonArr[rowSize * i + word] |= (1L << j);
                 }
@@ -328,7 +330,7 @@ public class JNauty {
             TracesOptions.getcanon(options, NAUTY_TRUE);
             TracesOptions.userautomproc(options, tracesAutom.segm);
 
-            int rowSize = (sz + Long.SIZE - 1) / Long.SIZE;
+            int rowSize = (sz + 63) >>> 6;
             int canonSz = rowSize * sz;
 
             int ec = gw.eCount();
@@ -349,8 +351,8 @@ public class JNauty {
                             od++;
                         }
                     }
-                    nativeD.set(ValueLayout.JAVA_INT, (long) Integer.BYTES * i, od);
-                    nativeV.set(ValueLayout.JAVA_LONG, (long) Long.BYTES * i, prev);
+                    nativeD.setAtIndex(ValueLayout.JAVA_INT, i, od);
+                    nativeV.setAtIndex(ValueLayout.JAVA_LONG, i, prev);
                 }
                 ec = e.size();
                 nativeE = arena.allocate(ValueLayout.JAVA_INT, ec);
@@ -362,11 +364,11 @@ public class JNauty {
                     int prev = cnt;
                     for (int j = 0; j < sz; j++) {
                         if (gw.edge(i, j)) {
-                            nativeE.set(ValueLayout.JAVA_INT, (long) Integer.BYTES * cnt++, j);
+                            nativeE.setAtIndex(ValueLayout.JAVA_INT, cnt++, j);
                         }
                     }
-                    nativeD.set(ValueLayout.JAVA_INT, (long) Integer.BYTES * i, cnt - prev);
-                    nativeV.set(ValueLayout.JAVA_LONG, (long) Long.BYTES * i, prev);
+                    nativeD.setAtIndex(ValueLayout.JAVA_INT, i, cnt - prev);
+                    nativeV.setAtIndex(ValueLayout.JAVA_LONG, i, prev);
                 }
             }
 
@@ -394,10 +396,10 @@ public class JNauty {
                     continue;
                 }
                 for (int j = 1; j < s; j++) {
-                    nativeLab.set(ValueLayout.JAVA_INT, (long) Integer.BYTES * cnt, arr[j]);
-                    nativePtn.set(ValueLayout.JAVA_INT, (long) Integer.BYTES * cnt++, 1);
+                    nativeLab.setAtIndex(ValueLayout.JAVA_INT, cnt, arr[j]);
+                    nativePtn.setAtIndex(ValueLayout.JAVA_INT, cnt++, 1);
                 }
-                nativeLab.set(ValueLayout.JAVA_INT, (long) Integer.BYTES * cnt++, arr[s]);
+                nativeLab.setAtIndex(ValueLayout.JAVA_INT, cnt++, arr[s]);
             }
 
             MemorySegment stats = arena.allocate(TracesStats.layout());
@@ -411,9 +413,9 @@ public class JNauty {
             MemorySegment eCanon = sparsegraph.e(sparseCanon);
             int idx = 0;
             for (int i = 0; i < sz; i++) {
-                int nj = dCanon.get(ValueLayout.JAVA_INT, (long) Integer.BYTES * i);
+                int nj = dCanon.getAtIndex(ValueLayout.JAVA_INT, i);
                 for (int n = 0; n < nj; n++) {
-                    int j = eCanon.get(ValueLayout.JAVA_INT, (long) Integer.BYTES * (idx + n));
+                    int j = eCanon.getAtIndex(ValueLayout.JAVA_INT, idx + n);
                     int word = j >>> 6;
                     canonArr[rowSize * i + word] |= (1L << j);
                 }
@@ -428,6 +430,50 @@ public class JNauty {
             freeSparse(sparseCanon);
             return result;
         }
+    }
+
+    public List<long[]> maximalCliques(NautyGraph gw) {
+        int sz = gw.vCount();
+        int rowSize = (sz + 63) >>> 6;
+        List<long[]> result = new ArrayList<>();
+        try (Arena arena = Arena.ofConfined()) {
+            MemorySegment edgesArray = arena.allocate(ValueLayout.ADDRESS, sz);
+
+            long[][] gr = new long[sz][rowSize];
+            for (int i = 0; i < sz; i++) {
+                for (int j = i + 1; j < sz; j++) {
+                    if (gw.edge(i, j)) {
+                        int iWord = j >>> 6;
+                        gr[i][iWord] |= (1L << j);
+                        int jWord = i >>> 6;
+                        gr[j][jWord] |= (1L << i);
+                    }
+                }
+            }
+            for (int i = 0; i < sz; i++) {
+                MemorySegment ms = arena.allocate(ValueLayout.JAVA_LONG, rowSize);
+                ms.copyFrom(MemorySegment.ofArray(gr[i]));
+                edgesArray.setAtIndex(ValueLayout.ADDRESS, i, ms);
+            }
+
+            MemorySegment graph = arena.allocate(_graph_t.layout());
+            _graph_t.n(graph, sz);
+            _graph_t.edges(graph, edgesArray);
+            MemorySegment weights = arena.allocate(ValueLayout.JAVA_INT, sz);
+            for (int i = 0; i < sz; i++) {
+                weights.setAtIndex(ValueLayout.JAVA_INT, i, 1);
+            }
+            _graph_t.weights(graph, weights);
+
+            MemorySegment options = arena.allocate(_clique_options.layout());
+            MemorySegment userFunc = _clique_options.user_function.allocate((set, gh, _) -> {
+                result.add(set.asSlice(0, (long) Long.BYTES * ((_graph_t.n(gh) + 63) >>> 6)).toArray(ValueLayout.JAVA_LONG));
+                return 1;
+            }, arena);
+            _clique_options.user_function(options, userFunc);
+            NautyTraces_1.clique_find_all(graph, 0, 0, NAUTY_TRUE, options);
+        }
+        return result;
     }
 
     private static void freeSparse(MemorySegment sg) {

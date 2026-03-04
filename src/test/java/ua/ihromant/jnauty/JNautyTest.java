@@ -7,8 +7,12 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -278,5 +282,76 @@ public class JNautyTest {
             GraphData autSparse = JNauty.instance().sparseNauty(gw);
             assertEquals(504, autSparse.autCount());
         });
+    }
+
+    @Test
+    public void testCliques() {
+        for (int n = 4; n < 10; n++) {
+            SparseGraph g = new SparseGraph();
+            for (int i = 0; i < n; i++) {
+                for (int j = i + 1; j < n; j++) {
+                    g.connect(i, j);
+                }
+            }
+            assertEquals(1, JNauty.instance().maximalCliques(g).size());
+            SparseGraph g1 = new SparseGraph();
+            for (int i = 0; i < n; i++) {
+                g1.connect(i, (i + 1) % n);
+            }
+            assertEquals(n, JNauty.instance().maximalCliques(g1).size());
+        }
+        int[][] arr = new int[][] {
+                {1, 2, 3},
+                {0, 2, 3, 4},
+                {0, 1, 3, 4},
+                {0, 1, 2, 5},
+                {1, 2, 6},
+                {3, 6, 7},
+                {4, 5, 7, 8},
+                {5, 6, 8},
+                {6, 7, 9},
+                {8, 10, 11},
+                {9, 11},
+                {9, 10}
+        };
+        SparseGraph g = new SparseGraph();
+        for (int i = 0; i < arr.length; i++) {
+            for (int j : arr[i]) {
+                g.connect(i, j);
+            }
+        }
+        assertEquals(1, JNauty.instance().maximalCliques(g).size());
+
+        SparseGraph g2 = new SparseGraph();
+        g2.connect(0, 1);
+        g2.connect(0, 4);
+        g2.connect(1, 4);
+        g2.connect(1, 2);
+        g2.connect(3, 4);
+        g2.connect(2, 3);
+        g2.connect(3, 5);
+        assertEquals(1, JNauty.instance().maximalCliques(g2).size());
+    }
+
+    private static class SparseGraph implements NautyGraph {
+        private final List<Set<Integer>> neighbors = new ArrayList<>();
+
+        public void connect(int a, int b) {
+            while (neighbors.size() <= Math.max(a, b)) {
+                neighbors.add(new HashSet<>());
+            }
+            neighbors.get(a).add(b);
+            neighbors.get(b).add(a);
+        }
+
+        @Override
+        public int vCount() {
+            return neighbors.size();
+        }
+
+        @Override
+        public boolean edge(int a, int b) {
+            return neighbors.get(a).contains(b);
+        }
     }
 }

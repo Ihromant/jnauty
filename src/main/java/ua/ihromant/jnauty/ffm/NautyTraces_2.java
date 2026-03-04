@@ -12,7 +12,7 @@ import java.util.stream.*;
 import static java.lang.foreign.ValueLayout.*;
 import static java.lang.foreign.MemoryLayout.PathElement.*;
 
-public class NautyTraces_2 extends NautyTraces$shared {
+class NautyTraces_2 extends NautyTraces$shared {
 
     NautyTraces_2() {
         // Should not be called directly
@@ -5353,6 +5353,15 @@ public class NautyTraces_2 extends NautyTraces$shared {
      */
     public static int SCHREIERFAILS() {
         return SCHREIERFAILS;
+    }
+    private static final int ELEMENTSIZE = (int)64L;
+    /**
+     * {@snippet lang=c :
+     * #define ELEMENTSIZE 64
+     * }
+     */
+    public static int ELEMENTSIZE() {
+        return ELEMENTSIZE;
     }
     /**
      * {@snippet lang=c :
@@ -15397,15 +15406,6 @@ public class NautyTraces_2 extends NautyTraces$shared {
      */
     public static int _SC_CPUTIME() {
         return _SC_CPUTIME;
-    }
-    private static final int _SC_THREAD_CPUTIME = (int)139L;
-    /**
-     * {@snippet lang=c :
-     * enum <anonymous>._SC_THREAD_CPUTIME = 139
-     * }
-     */
-    public static int _SC_THREAD_CPUTIME() {
-        return _SC_THREAD_CPUTIME;
     }
 }
 

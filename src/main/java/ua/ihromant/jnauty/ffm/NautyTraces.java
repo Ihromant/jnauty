@@ -17,6 +17,414 @@ public class NautyTraces extends NautyTraces_1 {
     NautyTraces() {
         // Should not be called directly
     }
+    private static final long INTPTR_MAX = 9223372036854775807L;
+    /**
+     * {@snippet lang=c :
+     * #define INTPTR_MAX 9223372036854775807
+     * }
+     */
+    public static long INTPTR_MAX() {
+        return INTPTR_MAX;
+    }
+    private static final long UINTPTR_MAX = -1L;
+    /**
+     * {@snippet lang=c :
+     * #define UINTPTR_MAX -1
+     * }
+     */
+    public static long UINTPTR_MAX() {
+        return UINTPTR_MAX;
+    }
+    private static final long INTMAX_MIN = -9223372036854775808L;
+    /**
+     * {@snippet lang=c :
+     * #define INTMAX_MIN -9223372036854775808
+     * }
+     */
+    public static long INTMAX_MIN() {
+        return INTMAX_MIN;
+    }
+    private static final long INTMAX_MAX = 9223372036854775807L;
+    /**
+     * {@snippet lang=c :
+     * #define INTMAX_MAX 9223372036854775807
+     * }
+     */
+    public static long INTMAX_MAX() {
+        return INTMAX_MAX;
+    }
+    private static final long UINTMAX_MAX = -1L;
+    /**
+     * {@snippet lang=c :
+     * #define UINTMAX_MAX -1
+     * }
+     */
+    public static long UINTMAX_MAX() {
+        return UINTMAX_MAX;
+    }
+    private static final long PTRDIFF_MIN = -9223372036854775808L;
+    /**
+     * {@snippet lang=c :
+     * #define PTRDIFF_MIN -9223372036854775808
+     * }
+     */
+    public static long PTRDIFF_MIN() {
+        return PTRDIFF_MIN;
+    }
+    private static final long PTRDIFF_MAX = 9223372036854775807L;
+    /**
+     * {@snippet lang=c :
+     * #define PTRDIFF_MAX 9223372036854775807
+     * }
+     */
+    public static long PTRDIFF_MAX() {
+        return PTRDIFF_MAX;
+    }
+    private static final int SIG_ATOMIC_MIN = (int)-2147483648L;
+    /**
+     * {@snippet lang=c :
+     * #define SIG_ATOMIC_MIN -2147483648
+     * }
+     */
+    public static int SIG_ATOMIC_MIN() {
+        return SIG_ATOMIC_MIN;
+    }
+    private static final int SIG_ATOMIC_MAX = (int)2147483647L;
+    /**
+     * {@snippet lang=c :
+     * #define SIG_ATOMIC_MAX 2147483647
+     * }
+     */
+    public static int SIG_ATOMIC_MAX() {
+        return SIG_ATOMIC_MAX;
+    }
+    private static final long SIZE_MAX = -1L;
+    /**
+     * {@snippet lang=c :
+     * #define SIZE_MAX -1
+     * }
+     */
+    public static long SIZE_MAX() {
+        return SIZE_MAX;
+    }
+    private static final int WCHAR_MIN = (int)-2147483648L;
+    /**
+     * {@snippet lang=c :
+     * #define WCHAR_MIN -2147483648
+     * }
+     */
+    public static int WCHAR_MIN() {
+        return WCHAR_MIN;
+    }
+    private static final int WCHAR_MAX = (int)2147483647L;
+    /**
+     * {@snippet lang=c :
+     * #define WCHAR_MAX 2147483647
+     * }
+     */
+    public static int WCHAR_MAX() {
+        return WCHAR_MAX;
+    }
+    private static final int WINT_MIN = (int)0L;
+    /**
+     * {@snippet lang=c :
+     * #define WINT_MIN 0
+     * }
+     */
+    public static int WINT_MIN() {
+        return WINT_MIN;
+    }
+    private static final int WINT_MAX = (int)4294967295L;
+    /**
+     * {@snippet lang=c :
+     * #define WINT_MAX 4294967295
+     * }
+     */
+    public static int WINT_MAX() {
+        return WINT_MAX;
+    }
+    /**
+     * {@snippet lang=c :
+     * #define COUNTER_FMT "%llu"
+     * }
+     */
+    public static MemorySegment COUNTER_FMT() {
+        class Holder {
+            static final MemorySegment COUNTER_FMT
+                = NautyTraces.LIBRARY_ARENA.allocateFrom("%llu");
+        }
+        return Holder.COUNTER_FMT;
+    }
+    /**
+     * {@snippet lang=c :
+     * #define COUNTER_FMT_RAW "llu"
+     * }
+     */
+    public static MemorySegment COUNTER_FMT_RAW() {
+        class Holder {
+            static final MemorySegment COUNTER_FMT_RAW
+                = NautyTraces.LIBRARY_ARENA.allocateFrom("llu");
+        }
+        return Holder.COUNTER_FMT_RAW;
+    }
+    private static final int NAUTYVERSIONID = (int)29301L;
+    /**
+     * {@snippet lang=c :
+     * #define NAUTYVERSIONID 29301
+     * }
+     */
+    public static int NAUTYVERSIONID() {
+        return NAUTYVERSIONID;
+    }
+    private static final int NAUTYREQUIRED = (int)29301L;
+    /**
+     * {@snippet lang=c :
+     * #define NAUTYREQUIRED 29301
+     * }
+     */
+    public static int NAUTYREQUIRED() {
+        return NAUTYREQUIRED;
+    }
+    /**
+     * {@snippet lang=c :
+     * #define NAUTYVERSION "2.9.3 (64 bits)"
+     * }
+     */
+    public static MemorySegment NAUTYVERSION() {
+        class Holder {
+            static final MemorySegment NAUTYVERSION
+                = NautyTraces.LIBRARY_ARENA.allocateFrom("2.9.3 (64 bits)");
+        }
+        return Holder.NAUTYVERSION;
+    }
+    private static final long MSK3232 = -4294967296L;
+    /**
+     * {@snippet lang=c :
+     * #define MSK3232 -4294967296
+     * }
+     */
+    public static long MSK3232() {
+        return MSK3232;
+    }
+    private static final long MSK1648 = -281474976710656L;
+    /**
+     * {@snippet lang=c :
+     * #define MSK1648 -281474976710656
+     * }
+     */
+    public static long MSK1648() {
+        return MSK1648;
+    }
+    private static final long MSK0856 = -72057594037927936L;
+    /**
+     * {@snippet lang=c :
+     * #define MSK0856 -72057594037927936
+     * }
+     */
+    public static long MSK0856() {
+        return MSK0856;
+    }
+    private static final long MSK1632 = 281470681743360L;
+    /**
+     * {@snippet lang=c :
+     * #define MSK1632 281470681743360
+     * }
+     */
+    public static long MSK1632() {
+        return MSK1632;
+    }
+    private static final long MSK0840 = 280375465082880L;
+    /**
+     * {@snippet lang=c :
+     * #define MSK0840 280375465082880
+     * }
+     */
+    public static long MSK0840() {
+        return MSK0840;
+    }
+    private static final long MSK1616 = 4294901760L;
+    /**
+     * {@snippet lang=c :
+     * #define MSK1616 4294901760
+     * }
+     */
+    public static long MSK1616() {
+        return MSK1616;
+    }
+    private static final long MSK0824 = 4278190080L;
+    /**
+     * {@snippet lang=c :
+     * #define MSK0824 4278190080
+     * }
+     */
+    public static long MSK0824() {
+        return MSK0824;
+    }
+    private static final long MSK0808 = 65280L;
+    /**
+     * {@snippet lang=c :
+     * #define MSK0808 65280
+     * }
+     */
+    public static long MSK0808() {
+        return MSK0808;
+    }
+    private static final long MSK63C = 9223372036854775807L;
+    /**
+     * {@snippet lang=c :
+     * #define MSK63C 9223372036854775807
+     * }
+     */
+    public static long MSK63C() {
+        return MSK63C;
+    }
+    private static final long MSK31C = 2147483647L;
+    /**
+     * {@snippet lang=c :
+     * #define MSK31C 2147483647
+     * }
+     */
+    public static long MSK31C() {
+        return MSK31C;
+    }
+    private static final long MSK15C = 32767L;
+    /**
+     * {@snippet lang=c :
+     * #define MSK15C 32767
+     * }
+     */
+    public static long MSK15C() {
+        return MSK15C;
+    }
+    private static final long MSK64 = -1L;
+    /**
+     * {@snippet lang=c :
+     * #define MSK64 -1
+     * }
+     */
+    public static long MSK64() {
+        return MSK64;
+    }
+    private static final long MSK32 = 4294967295L;
+    /**
+     * {@snippet lang=c :
+     * #define MSK32 4294967295
+     * }
+     */
+    public static long MSK32() {
+        return MSK32;
+    }
+    private static final long MSK16 = 65535L;
+    /**
+     * {@snippet lang=c :
+     * #define MSK16 65535
+     * }
+     */
+    public static long MSK16() {
+        return MSK16;
+    }
+    private static final long MSK8 = 255L;
+    /**
+     * {@snippet lang=c :
+     * #define MSK8 255
+     * }
+     */
+    public static long MSK8() {
+        return MSK8;
+    }
+    /**
+     * {@snippet lang=c :
+     * #define SETWORD_DEC_FORMAT "%lu"
+     * }
+     */
+    public static MemorySegment SETWORD_DEC_FORMAT() {
+        class Holder {
+            static final MemorySegment SETWORD_DEC_FORMAT
+                = NautyTraces.LIBRARY_ARENA.allocateFrom("%lu");
+        }
+        return Holder.SETWORD_DEC_FORMAT;
+    }
+    /**
+     * {@snippet lang=c :
+     * #define SETWORD_FORMAT "%016lx"
+     * }
+     */
+    public static MemorySegment SETWORD_FORMAT() {
+        class Holder {
+            static final MemorySegment SETWORD_FORMAT
+                = NautyTraces.LIBRARY_ARENA.allocateFrom("%016lx");
+        }
+        return Holder.SETWORD_FORMAT;
+    }
+    private static final long ALLBITS = -1L;
+    /**
+     * {@snippet lang=c :
+     * #define ALLBITS -1
+     * }
+     */
+    public static long ALLBITS() {
+        return ALLBITS;
+    }
+    private static final MemorySegment NILFUNCTION = MemorySegment.ofAddress(0L);
+    /**
+     * {@snippet lang=c :
+     * #define NILFUNCTION (void*) 0
+     * }
+     */
+    public static MemorySegment NILFUNCTION() {
+        return NILFUNCTION;
+    }
+    private static final MemorySegment NILSET = MemorySegment.ofAddress(0L);
+    /**
+     * {@snippet lang=c :
+     * #define NILSET (void*) 0
+     * }
+     */
+    public static MemorySegment NILSET() {
+        return NILSET;
+    }
+    private static final MemorySegment NILGRAPH = MemorySegment.ofAddress(0L);
+    /**
+     * {@snippet lang=c :
+     * #define NILGRAPH (void*) 0
+     * }
+     */
+    public static MemorySegment NILGRAPH() {
+        return NILGRAPH;
+    }
+    /**
+     * {@snippet lang=c :
+     * #define SORTPROG "sort"
+     * }
+     */
+    public static MemorySegment SORTPROG() {
+        class Holder {
+            static final MemorySegment SORTPROG
+                = NautyTraces.LIBRARY_ARENA.allocateFrom("sort");
+        }
+        return Holder.SORTPROG;
+    }
+    /**
+     * {@snippet lang=c :
+     * #define SG_WEIGHT_FMT "%d"
+     * }
+     */
+    public static MemorySegment SG_WEIGHT_FMT() {
+        class Holder {
+            static final MemorySegment SG_WEIGHT_FMT
+                = NautyTraces.LIBRARY_ARENA.allocateFrom("%d");
+        }
+        return Holder.SG_WEIGHT_FMT;
+    }
+    private static final int SG_MINWEIGHT = (int)-2000000002L;
+    /**
+     * {@snippet lang=c :
+     * #define SG_MINWEIGHT -2000000002
+     * }
+     */
+    public static int SG_MINWEIGHT() {
+        return SG_MINWEIGHT;
+    }
     private static final long MAXRAN = -1L;
     /**
      * {@snippet lang=c :
@@ -373,6 +781,15 @@ public class NautyTraces extends NautyTraces_1 {
      */
     public static long MAXLONGARG() {
         return MAXLONGARG;
+    }
+    private static final long FULL_ELEMENT = -1L;
+    /**
+     * {@snippet lang=c :
+     * #define FULL_ELEMENT -1
+     * }
+     */
+    public static long FULL_ELEMENT() {
+        return FULL_ELEMENT;
     }
 }
 

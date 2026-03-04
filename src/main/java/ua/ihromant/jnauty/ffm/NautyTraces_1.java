@@ -17,6 +17,15 @@ public class NautyTraces_1 extends NautyTraces_2 {
     NautyTraces_1() {
         // Should not be called directly
     }
+    private static final int _SC_THREAD_CPUTIME = (int)139L;
+    /**
+     * {@snippet lang=c :
+     * enum <anonymous>._SC_THREAD_CPUTIME = 139
+     * }
+     */
+    public static int _SC_THREAD_CPUTIME() {
+        return _SC_THREAD_CPUTIME;
+    }
     private static final int _SC_DEVICE_IO = (int)140L;
     /**
      * {@snippet lang=c :
@@ -17736,7 +17745,7 @@ public class NautyTraces_1 extends NautyTraces_2 {
         }
     }
 
-    public static class adjtriang {
+    private static class adjtriang {
         public static final FunctionDescriptor DESC = FunctionDescriptor.ofVoid(
             NautyTraces.C_POINTER,
             NautyTraces.C_POINTER,
@@ -35874,6 +35883,2458 @@ public class NautyTraces_1 extends NautyTraces_2 {
            throw new AssertionError("should not reach here", ex$);
         }
     }
+    /**
+     * {@snippet lang=c :
+     * typedef unsigned long setelement
+     * }
+     */
+    public static final OfLong setelement = NautyTraces.C_LONG;
+    /**
+     * {@snippet lang=c :
+     * typedef setelement *set_t
+     * }
+     */
+    public static final AddressLayout set_t = NautyTraces.C_POINTER;
+
+    private static class graph_new {
+        public static final FunctionDescriptor DESC = FunctionDescriptor.of(
+            NautyTraces.C_POINTER,
+            NautyTraces.C_INT
+        );
+
+        public static final MemorySegment ADDR = SYMBOL_LOOKUP.findOrThrow("graph_new");
+
+        public static final MethodHandle HANDLE = Linker.nativeLinker().downcallHandle(ADDR, DESC);
+    }
+
+    /**
+     * Function descriptor for:
+     * {@snippet lang=c :
+     * graph_t *graph_new(int n)
+     * }
+     */
+    public static FunctionDescriptor graph_new$descriptor() {
+        return graph_new.DESC;
+    }
+
+    /**
+     * Downcall method handle for:
+     * {@snippet lang=c :
+     * graph_t *graph_new(int n)
+     * }
+     */
+    public static MethodHandle graph_new$handle() {
+        return graph_new.HANDLE;
+    }
+
+    /**
+     * Address for:
+     * {@snippet lang=c :
+     * graph_t *graph_new(int n)
+     * }
+     */
+    public static MemorySegment graph_new$address() {
+        return graph_new.ADDR;
+    }
+
+    /**
+     * {@snippet lang=c :
+     * graph_t *graph_new(int n)
+     * }
+     */
+    public static MemorySegment graph_new(int n) {
+        var mh$ = graph_new.HANDLE;
+        try {
+            if (TRACE_DOWNCALLS) {
+                traceDowncall("graph_new", n);
+            }
+            return (MemorySegment)mh$.invokeExact(n);
+        } catch (Error | RuntimeException ex) {
+           throw ex;
+        } catch (Throwable ex$) {
+           throw new AssertionError("should not reach here", ex$);
+        }
+    }
+
+    private static class graph_free {
+        public static final FunctionDescriptor DESC = FunctionDescriptor.ofVoid(
+            NautyTraces.C_POINTER
+        );
+
+        public static final MemorySegment ADDR = SYMBOL_LOOKUP.findOrThrow("graph_free");
+
+        public static final MethodHandle HANDLE = Linker.nativeLinker().downcallHandle(ADDR, DESC);
+    }
+
+    /**
+     * Function descriptor for:
+     * {@snippet lang=c :
+     * void graph_free(graph_t *g)
+     * }
+     */
+    public static FunctionDescriptor graph_free$descriptor() {
+        return graph_free.DESC;
+    }
+
+    /**
+     * Downcall method handle for:
+     * {@snippet lang=c :
+     * void graph_free(graph_t *g)
+     * }
+     */
+    public static MethodHandle graph_free$handle() {
+        return graph_free.HANDLE;
+    }
+
+    /**
+     * Address for:
+     * {@snippet lang=c :
+     * void graph_free(graph_t *g)
+     * }
+     */
+    public static MemorySegment graph_free$address() {
+        return graph_free.ADDR;
+    }
+
+    /**
+     * {@snippet lang=c :
+     * void graph_free(graph_t *g)
+     * }
+     */
+    public static void graph_free(MemorySegment g) {
+        var mh$ = graph_free.HANDLE;
+        try {
+            if (TRACE_DOWNCALLS) {
+                traceDowncall("graph_free", g);
+            }
+            mh$.invokeExact(g);
+        } catch (Error | RuntimeException ex) {
+           throw ex;
+        } catch (Throwable ex$) {
+           throw new AssertionError("should not reach here", ex$);
+        }
+    }
+
+    private static class graph_resize {
+        public static final FunctionDescriptor DESC = FunctionDescriptor.ofVoid(
+            NautyTraces.C_POINTER,
+            NautyTraces.C_INT
+        );
+
+        public static final MemorySegment ADDR = SYMBOL_LOOKUP.findOrThrow("graph_resize");
+
+        public static final MethodHandle HANDLE = Linker.nativeLinker().downcallHandle(ADDR, DESC);
+    }
+
+    /**
+     * Function descriptor for:
+     * {@snippet lang=c :
+     * void graph_resize(graph_t *g, int size)
+     * }
+     */
+    public static FunctionDescriptor graph_resize$descriptor() {
+        return graph_resize.DESC;
+    }
+
+    /**
+     * Downcall method handle for:
+     * {@snippet lang=c :
+     * void graph_resize(graph_t *g, int size)
+     * }
+     */
+    public static MethodHandle graph_resize$handle() {
+        return graph_resize.HANDLE;
+    }
+
+    /**
+     * Address for:
+     * {@snippet lang=c :
+     * void graph_resize(graph_t *g, int size)
+     * }
+     */
+    public static MemorySegment graph_resize$address() {
+        return graph_resize.ADDR;
+    }
+
+    /**
+     * {@snippet lang=c :
+     * void graph_resize(graph_t *g, int size)
+     * }
+     */
+    public static void graph_resize(MemorySegment g, int size) {
+        var mh$ = graph_resize.HANDLE;
+        try {
+            if (TRACE_DOWNCALLS) {
+                traceDowncall("graph_resize", g, size);
+            }
+            mh$.invokeExact(g, size);
+        } catch (Error | RuntimeException ex) {
+           throw ex;
+        } catch (Throwable ex$) {
+           throw new AssertionError("should not reach here", ex$);
+        }
+    }
+
+    private static class graph_crop {
+        public static final FunctionDescriptor DESC = FunctionDescriptor.ofVoid(
+            NautyTraces.C_POINTER
+        );
+
+        public static final MemorySegment ADDR = SYMBOL_LOOKUP.findOrThrow("graph_crop");
+
+        public static final MethodHandle HANDLE = Linker.nativeLinker().downcallHandle(ADDR, DESC);
+    }
+
+    /**
+     * Function descriptor for:
+     * {@snippet lang=c :
+     * void graph_crop(graph_t *g)
+     * }
+     */
+    public static FunctionDescriptor graph_crop$descriptor() {
+        return graph_crop.DESC;
+    }
+
+    /**
+     * Downcall method handle for:
+     * {@snippet lang=c :
+     * void graph_crop(graph_t *g)
+     * }
+     */
+    public static MethodHandle graph_crop$handle() {
+        return graph_crop.HANDLE;
+    }
+
+    /**
+     * Address for:
+     * {@snippet lang=c :
+     * void graph_crop(graph_t *g)
+     * }
+     */
+    public static MemorySegment graph_crop$address() {
+        return graph_crop.ADDR;
+    }
+
+    /**
+     * {@snippet lang=c :
+     * void graph_crop(graph_t *g)
+     * }
+     */
+    public static void graph_crop(MemorySegment g) {
+        var mh$ = graph_crop.HANDLE;
+        try {
+            if (TRACE_DOWNCALLS) {
+                traceDowncall("graph_crop", g);
+            }
+            mh$.invokeExact(g);
+        } catch (Error | RuntimeException ex) {
+           throw ex;
+        } catch (Throwable ex$) {
+           throw new AssertionError("should not reach here", ex$);
+        }
+    }
+
+    private static class graph_weighted {
+        public static final FunctionDescriptor DESC = FunctionDescriptor.of(
+            NautyTraces.C_INT,
+            NautyTraces.C_POINTER
+        );
+
+        public static final MemorySegment ADDR = SYMBOL_LOOKUP.findOrThrow("graph_weighted");
+
+        public static final MethodHandle HANDLE = Linker.nativeLinker().downcallHandle(ADDR, DESC);
+    }
+
+    /**
+     * Function descriptor for:
+     * {@snippet lang=c :
+     * boolean graph_weighted(graph_t *g)
+     * }
+     */
+    public static FunctionDescriptor graph_weighted$descriptor() {
+        return graph_weighted.DESC;
+    }
+
+    /**
+     * Downcall method handle for:
+     * {@snippet lang=c :
+     * boolean graph_weighted(graph_t *g)
+     * }
+     */
+    public static MethodHandle graph_weighted$handle() {
+        return graph_weighted.HANDLE;
+    }
+
+    /**
+     * Address for:
+     * {@snippet lang=c :
+     * boolean graph_weighted(graph_t *g)
+     * }
+     */
+    public static MemorySegment graph_weighted$address() {
+        return graph_weighted.ADDR;
+    }
+
+    /**
+     * {@snippet lang=c :
+     * boolean graph_weighted(graph_t *g)
+     * }
+     */
+    public static int graph_weighted(MemorySegment g) {
+        var mh$ = graph_weighted.HANDLE;
+        try {
+            if (TRACE_DOWNCALLS) {
+                traceDowncall("graph_weighted", g);
+            }
+            return (int)mh$.invokeExact(g);
+        } catch (Error | RuntimeException ex) {
+           throw ex;
+        } catch (Throwable ex$) {
+           throw new AssertionError("should not reach here", ex$);
+        }
+    }
+
+    private static class graph_edge_count {
+        public static final FunctionDescriptor DESC = FunctionDescriptor.of(
+            NautyTraces.C_INT,
+            NautyTraces.C_POINTER
+        );
+
+        public static final MemorySegment ADDR = SYMBOL_LOOKUP.findOrThrow("graph_edge_count");
+
+        public static final MethodHandle HANDLE = Linker.nativeLinker().downcallHandle(ADDR, DESC);
+    }
+
+    /**
+     * Function descriptor for:
+     * {@snippet lang=c :
+     * int graph_edge_count(graph_t *g)
+     * }
+     */
+    public static FunctionDescriptor graph_edge_count$descriptor() {
+        return graph_edge_count.DESC;
+    }
+
+    /**
+     * Downcall method handle for:
+     * {@snippet lang=c :
+     * int graph_edge_count(graph_t *g)
+     * }
+     */
+    public static MethodHandle graph_edge_count$handle() {
+        return graph_edge_count.HANDLE;
+    }
+
+    /**
+     * Address for:
+     * {@snippet lang=c :
+     * int graph_edge_count(graph_t *g)
+     * }
+     */
+    public static MemorySegment graph_edge_count$address() {
+        return graph_edge_count.ADDR;
+    }
+
+    /**
+     * {@snippet lang=c :
+     * int graph_edge_count(graph_t *g)
+     * }
+     */
+    public static int graph_edge_count(MemorySegment g) {
+        var mh$ = graph_edge_count.HANDLE;
+        try {
+            if (TRACE_DOWNCALLS) {
+                traceDowncall("graph_edge_count", g);
+            }
+            return (int)mh$.invokeExact(g);
+        } catch (Error | RuntimeException ex) {
+           throw ex;
+        } catch (Throwable ex$) {
+           throw new AssertionError("should not reach here", ex$);
+        }
+    }
+
+    private static class graph_read_dimacs {
+        public static final FunctionDescriptor DESC = FunctionDescriptor.of(
+            NautyTraces.C_POINTER,
+            NautyTraces.C_POINTER
+        );
+
+        public static final MemorySegment ADDR = SYMBOL_LOOKUP.findOrThrow("graph_read_dimacs");
+
+        public static final MethodHandle HANDLE = Linker.nativeLinker().downcallHandle(ADDR, DESC);
+    }
+
+    /**
+     * Function descriptor for:
+     * {@snippet lang=c :
+     * graph_t *graph_read_dimacs(FILE *fp)
+     * }
+     */
+    public static FunctionDescriptor graph_read_dimacs$descriptor() {
+        return graph_read_dimacs.DESC;
+    }
+
+    /**
+     * Downcall method handle for:
+     * {@snippet lang=c :
+     * graph_t *graph_read_dimacs(FILE *fp)
+     * }
+     */
+    public static MethodHandle graph_read_dimacs$handle() {
+        return graph_read_dimacs.HANDLE;
+    }
+
+    /**
+     * Address for:
+     * {@snippet lang=c :
+     * graph_t *graph_read_dimacs(FILE *fp)
+     * }
+     */
+    public static MemorySegment graph_read_dimacs$address() {
+        return graph_read_dimacs.ADDR;
+    }
+
+    /**
+     * {@snippet lang=c :
+     * graph_t *graph_read_dimacs(FILE *fp)
+     * }
+     */
+    public static MemorySegment graph_read_dimacs(MemorySegment fp) {
+        var mh$ = graph_read_dimacs.HANDLE;
+        try {
+            if (TRACE_DOWNCALLS) {
+                traceDowncall("graph_read_dimacs", fp);
+            }
+            return (MemorySegment)mh$.invokeExact(fp);
+        } catch (Error | RuntimeException ex) {
+           throw ex;
+        } catch (Throwable ex$) {
+           throw new AssertionError("should not reach here", ex$);
+        }
+    }
+
+    private static class graph_read_dimacs_file {
+        public static final FunctionDescriptor DESC = FunctionDescriptor.of(
+            NautyTraces.C_POINTER,
+            NautyTraces.C_POINTER
+        );
+
+        public static final MemorySegment ADDR = SYMBOL_LOOKUP.findOrThrow("graph_read_dimacs_file");
+
+        public static final MethodHandle HANDLE = Linker.nativeLinker().downcallHandle(ADDR, DESC);
+    }
+
+    /**
+     * Function descriptor for:
+     * {@snippet lang=c :
+     * graph_t *graph_read_dimacs_file(char *file)
+     * }
+     */
+    public static FunctionDescriptor graph_read_dimacs_file$descriptor() {
+        return graph_read_dimacs_file.DESC;
+    }
+
+    /**
+     * Downcall method handle for:
+     * {@snippet lang=c :
+     * graph_t *graph_read_dimacs_file(char *file)
+     * }
+     */
+    public static MethodHandle graph_read_dimacs_file$handle() {
+        return graph_read_dimacs_file.HANDLE;
+    }
+
+    /**
+     * Address for:
+     * {@snippet lang=c :
+     * graph_t *graph_read_dimacs_file(char *file)
+     * }
+     */
+    public static MemorySegment graph_read_dimacs_file$address() {
+        return graph_read_dimacs_file.ADDR;
+    }
+
+    /**
+     * {@snippet lang=c :
+     * graph_t *graph_read_dimacs_file(char *file)
+     * }
+     */
+    public static MemorySegment graph_read_dimacs_file(MemorySegment file) {
+        var mh$ = graph_read_dimacs_file.HANDLE;
+        try {
+            if (TRACE_DOWNCALLS) {
+                traceDowncall("graph_read_dimacs_file", file);
+            }
+            return (MemorySegment)mh$.invokeExact(file);
+        } catch (Error | RuntimeException ex) {
+           throw ex;
+        } catch (Throwable ex$) {
+           throw new AssertionError("should not reach here", ex$);
+        }
+    }
+
+    private static class graph_write_dimacs_ascii {
+        public static final FunctionDescriptor DESC = FunctionDescriptor.of(
+            NautyTraces.C_INT,
+            NautyTraces.C_POINTER,
+            NautyTraces.C_POINTER,
+            NautyTraces.C_POINTER
+        );
+
+        public static final MemorySegment ADDR = SYMBOL_LOOKUP.findOrThrow("graph_write_dimacs_ascii");
+
+        public static final MethodHandle HANDLE = Linker.nativeLinker().downcallHandle(ADDR, DESC);
+    }
+
+    /**
+     * Function descriptor for:
+     * {@snippet lang=c :
+     * boolean graph_write_dimacs_ascii(graph_t *g, char *comment, FILE *fp)
+     * }
+     */
+    public static FunctionDescriptor graph_write_dimacs_ascii$descriptor() {
+        return graph_write_dimacs_ascii.DESC;
+    }
+
+    /**
+     * Downcall method handle for:
+     * {@snippet lang=c :
+     * boolean graph_write_dimacs_ascii(graph_t *g, char *comment, FILE *fp)
+     * }
+     */
+    public static MethodHandle graph_write_dimacs_ascii$handle() {
+        return graph_write_dimacs_ascii.HANDLE;
+    }
+
+    /**
+     * Address for:
+     * {@snippet lang=c :
+     * boolean graph_write_dimacs_ascii(graph_t *g, char *comment, FILE *fp)
+     * }
+     */
+    public static MemorySegment graph_write_dimacs_ascii$address() {
+        return graph_write_dimacs_ascii.ADDR;
+    }
+
+    /**
+     * {@snippet lang=c :
+     * boolean graph_write_dimacs_ascii(graph_t *g, char *comment, FILE *fp)
+     * }
+     */
+    public static int graph_write_dimacs_ascii(MemorySegment g, MemorySegment comment, MemorySegment fp) {
+        var mh$ = graph_write_dimacs_ascii.HANDLE;
+        try {
+            if (TRACE_DOWNCALLS) {
+                traceDowncall("graph_write_dimacs_ascii", g, comment, fp);
+            }
+            return (int)mh$.invokeExact(g, comment, fp);
+        } catch (Error | RuntimeException ex) {
+           throw ex;
+        } catch (Throwable ex$) {
+           throw new AssertionError("should not reach here", ex$);
+        }
+    }
+
+    private static class graph_write_dimacs_ascii_file {
+        public static final FunctionDescriptor DESC = FunctionDescriptor.of(
+            NautyTraces.C_INT,
+            NautyTraces.C_POINTER,
+            NautyTraces.C_POINTER,
+            NautyTraces.C_POINTER
+        );
+
+        public static final MemorySegment ADDR = SYMBOL_LOOKUP.findOrThrow("graph_write_dimacs_ascii_file");
+
+        public static final MethodHandle HANDLE = Linker.nativeLinker().downcallHandle(ADDR, DESC);
+    }
+
+    /**
+     * Function descriptor for:
+     * {@snippet lang=c :
+     * boolean graph_write_dimacs_ascii_file(graph_t *g, char *comment, char *file)
+     * }
+     */
+    public static FunctionDescriptor graph_write_dimacs_ascii_file$descriptor() {
+        return graph_write_dimacs_ascii_file.DESC;
+    }
+
+    /**
+     * Downcall method handle for:
+     * {@snippet lang=c :
+     * boolean graph_write_dimacs_ascii_file(graph_t *g, char *comment, char *file)
+     * }
+     */
+    public static MethodHandle graph_write_dimacs_ascii_file$handle() {
+        return graph_write_dimacs_ascii_file.HANDLE;
+    }
+
+    /**
+     * Address for:
+     * {@snippet lang=c :
+     * boolean graph_write_dimacs_ascii_file(graph_t *g, char *comment, char *file)
+     * }
+     */
+    public static MemorySegment graph_write_dimacs_ascii_file$address() {
+        return graph_write_dimacs_ascii_file.ADDR;
+    }
+
+    /**
+     * {@snippet lang=c :
+     * boolean graph_write_dimacs_ascii_file(graph_t *g, char *comment, char *file)
+     * }
+     */
+    public static int graph_write_dimacs_ascii_file(MemorySegment g, MemorySegment comment, MemorySegment file) {
+        var mh$ = graph_write_dimacs_ascii_file.HANDLE;
+        try {
+            if (TRACE_DOWNCALLS) {
+                traceDowncall("graph_write_dimacs_ascii_file", g, comment, file);
+            }
+            return (int)mh$.invokeExact(g, comment, file);
+        } catch (Error | RuntimeException ex) {
+           throw ex;
+        } catch (Throwable ex$) {
+           throw new AssertionError("should not reach here", ex$);
+        }
+    }
+
+    private static class graph_write_dimacs_binary {
+        public static final FunctionDescriptor DESC = FunctionDescriptor.of(
+            NautyTraces.C_INT,
+            NautyTraces.C_POINTER,
+            NautyTraces.C_POINTER,
+            NautyTraces.C_POINTER
+        );
+
+        public static final MemorySegment ADDR = SYMBOL_LOOKUP.findOrThrow("graph_write_dimacs_binary");
+
+        public static final MethodHandle HANDLE = Linker.nativeLinker().downcallHandle(ADDR, DESC);
+    }
+
+    /**
+     * Function descriptor for:
+     * {@snippet lang=c :
+     * boolean graph_write_dimacs_binary(graph_t *g, char *comment, FILE *fp)
+     * }
+     */
+    public static FunctionDescriptor graph_write_dimacs_binary$descriptor() {
+        return graph_write_dimacs_binary.DESC;
+    }
+
+    /**
+     * Downcall method handle for:
+     * {@snippet lang=c :
+     * boolean graph_write_dimacs_binary(graph_t *g, char *comment, FILE *fp)
+     * }
+     */
+    public static MethodHandle graph_write_dimacs_binary$handle() {
+        return graph_write_dimacs_binary.HANDLE;
+    }
+
+    /**
+     * Address for:
+     * {@snippet lang=c :
+     * boolean graph_write_dimacs_binary(graph_t *g, char *comment, FILE *fp)
+     * }
+     */
+    public static MemorySegment graph_write_dimacs_binary$address() {
+        return graph_write_dimacs_binary.ADDR;
+    }
+
+    /**
+     * {@snippet lang=c :
+     * boolean graph_write_dimacs_binary(graph_t *g, char *comment, FILE *fp)
+     * }
+     */
+    public static int graph_write_dimacs_binary(MemorySegment g, MemorySegment comment, MemorySegment fp) {
+        var mh$ = graph_write_dimacs_binary.HANDLE;
+        try {
+            if (TRACE_DOWNCALLS) {
+                traceDowncall("graph_write_dimacs_binary", g, comment, fp);
+            }
+            return (int)mh$.invokeExact(g, comment, fp);
+        } catch (Error | RuntimeException ex) {
+           throw ex;
+        } catch (Throwable ex$) {
+           throw new AssertionError("should not reach here", ex$);
+        }
+    }
+
+    private static class graph_write_dimacs_binary_file {
+        public static final FunctionDescriptor DESC = FunctionDescriptor.of(
+            NautyTraces.C_INT,
+            NautyTraces.C_POINTER,
+            NautyTraces.C_POINTER,
+            NautyTraces.C_POINTER
+        );
+
+        public static final MemorySegment ADDR = SYMBOL_LOOKUP.findOrThrow("graph_write_dimacs_binary_file");
+
+        public static final MethodHandle HANDLE = Linker.nativeLinker().downcallHandle(ADDR, DESC);
+    }
+
+    /**
+     * Function descriptor for:
+     * {@snippet lang=c :
+     * boolean graph_write_dimacs_binary_file(graph_t *g, char *comment, char *file)
+     * }
+     */
+    public static FunctionDescriptor graph_write_dimacs_binary_file$descriptor() {
+        return graph_write_dimacs_binary_file.DESC;
+    }
+
+    /**
+     * Downcall method handle for:
+     * {@snippet lang=c :
+     * boolean graph_write_dimacs_binary_file(graph_t *g, char *comment, char *file)
+     * }
+     */
+    public static MethodHandle graph_write_dimacs_binary_file$handle() {
+        return graph_write_dimacs_binary_file.HANDLE;
+    }
+
+    /**
+     * Address for:
+     * {@snippet lang=c :
+     * boolean graph_write_dimacs_binary_file(graph_t *g, char *comment, char *file)
+     * }
+     */
+    public static MemorySegment graph_write_dimacs_binary_file$address() {
+        return graph_write_dimacs_binary_file.ADDR;
+    }
+
+    /**
+     * {@snippet lang=c :
+     * boolean graph_write_dimacs_binary_file(graph_t *g, char *comment, char *file)
+     * }
+     */
+    public static int graph_write_dimacs_binary_file(MemorySegment g, MemorySegment comment, MemorySegment file) {
+        var mh$ = graph_write_dimacs_binary_file.HANDLE;
+        try {
+            if (TRACE_DOWNCALLS) {
+                traceDowncall("graph_write_dimacs_binary_file", g, comment, file);
+            }
+            return (int)mh$.invokeExact(g, comment, file);
+        } catch (Error | RuntimeException ex) {
+           throw ex;
+        } catch (Throwable ex$) {
+           throw new AssertionError("should not reach here", ex$);
+        }
+    }
+
+    private static class graph_print {
+        public static final FunctionDescriptor DESC = FunctionDescriptor.ofVoid(
+            NautyTraces.C_POINTER
+        );
+
+        public static final MemorySegment ADDR = SYMBOL_LOOKUP.findOrThrow("graph_print");
+
+        public static final MethodHandle HANDLE = Linker.nativeLinker().downcallHandle(ADDR, DESC);
+    }
+
+    /**
+     * Function descriptor for:
+     * {@snippet lang=c :
+     * void graph_print(graph_t *g)
+     * }
+     */
+    public static FunctionDescriptor graph_print$descriptor() {
+        return graph_print.DESC;
+    }
+
+    /**
+     * Downcall method handle for:
+     * {@snippet lang=c :
+     * void graph_print(graph_t *g)
+     * }
+     */
+    public static MethodHandle graph_print$handle() {
+        return graph_print.HANDLE;
+    }
+
+    /**
+     * Address for:
+     * {@snippet lang=c :
+     * void graph_print(graph_t *g)
+     * }
+     */
+    public static MemorySegment graph_print$address() {
+        return graph_print.ADDR;
+    }
+
+    /**
+     * {@snippet lang=c :
+     * void graph_print(graph_t *g)
+     * }
+     */
+    public static void graph_print(MemorySegment g) {
+        var mh$ = graph_print.HANDLE;
+        try {
+            if (TRACE_DOWNCALLS) {
+                traceDowncall("graph_print", g);
+            }
+            mh$.invokeExact(g);
+        } catch (Error | RuntimeException ex) {
+           throw ex;
+        } catch (Throwable ex$) {
+           throw new AssertionError("should not reach here", ex$);
+        }
+    }
+
+    private static class graph_test {
+        public static final FunctionDescriptor DESC = FunctionDescriptor.of(
+            NautyTraces.C_INT,
+            NautyTraces.C_POINTER,
+            NautyTraces.C_POINTER
+        );
+
+        public static final MemorySegment ADDR = SYMBOL_LOOKUP.findOrThrow("graph_test");
+
+        public static final MethodHandle HANDLE = Linker.nativeLinker().downcallHandle(ADDR, DESC);
+    }
+
+    /**
+     * Function descriptor for:
+     * {@snippet lang=c :
+     * boolean graph_test(graph_t *g, FILE *output)
+     * }
+     */
+    public static FunctionDescriptor graph_test$descriptor() {
+        return graph_test.DESC;
+    }
+
+    /**
+     * Downcall method handle for:
+     * {@snippet lang=c :
+     * boolean graph_test(graph_t *g, FILE *output)
+     * }
+     */
+    public static MethodHandle graph_test$handle() {
+        return graph_test.HANDLE;
+    }
+
+    /**
+     * Address for:
+     * {@snippet lang=c :
+     * boolean graph_test(graph_t *g, FILE *output)
+     * }
+     */
+    public static MemorySegment graph_test$address() {
+        return graph_test.ADDR;
+    }
+
+    /**
+     * {@snippet lang=c :
+     * boolean graph_test(graph_t *g, FILE *output)
+     * }
+     */
+    public static int graph_test(MemorySegment g, MemorySegment output) {
+        var mh$ = graph_test.HANDLE;
+        try {
+            if (TRACE_DOWNCALLS) {
+                traceDowncall("graph_test", g, output);
+            }
+            return (int)mh$.invokeExact(g, output);
+        } catch (Error | RuntimeException ex) {
+           throw ex;
+        } catch (Throwable ex$) {
+           throw new AssertionError("should not reach here", ex$);
+        }
+    }
+
+    private static class graph_test_regular {
+        public static final FunctionDescriptor DESC = FunctionDescriptor.of(
+            NautyTraces.C_INT,
+            NautyTraces.C_POINTER
+        );
+
+        public static final MemorySegment ADDR = SYMBOL_LOOKUP.findOrThrow("graph_test_regular");
+
+        public static final MethodHandle HANDLE = Linker.nativeLinker().downcallHandle(ADDR, DESC);
+    }
+
+    /**
+     * Function descriptor for:
+     * {@snippet lang=c :
+     * int graph_test_regular(graph_t *g)
+     * }
+     */
+    public static FunctionDescriptor graph_test_regular$descriptor() {
+        return graph_test_regular.DESC;
+    }
+
+    /**
+     * Downcall method handle for:
+     * {@snippet lang=c :
+     * int graph_test_regular(graph_t *g)
+     * }
+     */
+    public static MethodHandle graph_test_regular$handle() {
+        return graph_test_regular.HANDLE;
+    }
+
+    /**
+     * Address for:
+     * {@snippet lang=c :
+     * int graph_test_regular(graph_t *g)
+     * }
+     */
+    public static MemorySegment graph_test_regular$address() {
+        return graph_test_regular.ADDR;
+    }
+
+    /**
+     * {@snippet lang=c :
+     * int graph_test_regular(graph_t *g)
+     * }
+     */
+    public static int graph_test_regular(MemorySegment g) {
+        var mh$ = graph_test_regular.HANDLE;
+        try {
+            if (TRACE_DOWNCALLS) {
+                traceDowncall("graph_test_regular", g);
+            }
+            return (int)mh$.invokeExact(g);
+        } catch (Error | RuntimeException ex) {
+           throw ex;
+        } catch (Throwable ex$) {
+           throw new AssertionError("should not reach here", ex$);
+        }
+    }
+
+    private static class reorder_set {
+        public static final FunctionDescriptor DESC = FunctionDescriptor.ofVoid(
+            NautyTraces.C_POINTER,
+            NautyTraces.C_POINTER
+        );
+
+        public static final MemorySegment ADDR = SYMBOL_LOOKUP.findOrThrow("reorder_set");
+
+        public static final MethodHandle HANDLE = Linker.nativeLinker().downcallHandle(ADDR, DESC);
+    }
+
+    /**
+     * Function descriptor for:
+     * {@snippet lang=c :
+     * void reorder_set(set_t s, int *order)
+     * }
+     */
+    public static FunctionDescriptor reorder_set$descriptor() {
+        return reorder_set.DESC;
+    }
+
+    /**
+     * Downcall method handle for:
+     * {@snippet lang=c :
+     * void reorder_set(set_t s, int *order)
+     * }
+     */
+    public static MethodHandle reorder_set$handle() {
+        return reorder_set.HANDLE;
+    }
+
+    /**
+     * Address for:
+     * {@snippet lang=c :
+     * void reorder_set(set_t s, int *order)
+     * }
+     */
+    public static MemorySegment reorder_set$address() {
+        return reorder_set.ADDR;
+    }
+
+    /**
+     * {@snippet lang=c :
+     * void reorder_set(set_t s, int *order)
+     * }
+     */
+    public static void reorder_set(MemorySegment s, MemorySegment order) {
+        var mh$ = reorder_set.HANDLE;
+        try {
+            if (TRACE_DOWNCALLS) {
+                traceDowncall("reorder_set", s, order);
+            }
+            mh$.invokeExact(s, order);
+        } catch (Error | RuntimeException ex) {
+           throw ex;
+        } catch (Throwable ex$) {
+           throw new AssertionError("should not reach here", ex$);
+        }
+    }
+
+    private static class reorder_graph {
+        public static final FunctionDescriptor DESC = FunctionDescriptor.ofVoid(
+            NautyTraces.C_POINTER,
+            NautyTraces.C_POINTER
+        );
+
+        public static final MemorySegment ADDR = SYMBOL_LOOKUP.findOrThrow("reorder_graph");
+
+        public static final MethodHandle HANDLE = Linker.nativeLinker().downcallHandle(ADDR, DESC);
+    }
+
+    /**
+     * Function descriptor for:
+     * {@snippet lang=c :
+     * void reorder_graph(graph_t *g, int *order)
+     * }
+     */
+    public static FunctionDescriptor reorder_graph$descriptor() {
+        return reorder_graph.DESC;
+    }
+
+    /**
+     * Downcall method handle for:
+     * {@snippet lang=c :
+     * void reorder_graph(graph_t *g, int *order)
+     * }
+     */
+    public static MethodHandle reorder_graph$handle() {
+        return reorder_graph.HANDLE;
+    }
+
+    /**
+     * Address for:
+     * {@snippet lang=c :
+     * void reorder_graph(graph_t *g, int *order)
+     * }
+     */
+    public static MemorySegment reorder_graph$address() {
+        return reorder_graph.ADDR;
+    }
+
+    /**
+     * {@snippet lang=c :
+     * void reorder_graph(graph_t *g, int *order)
+     * }
+     */
+    public static void reorder_graph(MemorySegment g, MemorySegment order) {
+        var mh$ = reorder_graph.HANDLE;
+        try {
+            if (TRACE_DOWNCALLS) {
+                traceDowncall("reorder_graph", g, order);
+            }
+            mh$.invokeExact(g, order);
+        } catch (Error | RuntimeException ex) {
+           throw ex;
+        } catch (Throwable ex$) {
+           throw new AssertionError("should not reach here", ex$);
+        }
+    }
+
+    private static class reorder_duplicate {
+        public static final FunctionDescriptor DESC = FunctionDescriptor.of(
+            NautyTraces.C_POINTER,
+            NautyTraces.C_POINTER,
+            NautyTraces.C_INT
+        );
+
+        public static final MemorySegment ADDR = SYMBOL_LOOKUP.findOrThrow("reorder_duplicate");
+
+        public static final MethodHandle HANDLE = Linker.nativeLinker().downcallHandle(ADDR, DESC);
+    }
+
+    /**
+     * Function descriptor for:
+     * {@snippet lang=c :
+     * int *reorder_duplicate(int *order, int n)
+     * }
+     */
+    public static FunctionDescriptor reorder_duplicate$descriptor() {
+        return reorder_duplicate.DESC;
+    }
+
+    /**
+     * Downcall method handle for:
+     * {@snippet lang=c :
+     * int *reorder_duplicate(int *order, int n)
+     * }
+     */
+    public static MethodHandle reorder_duplicate$handle() {
+        return reorder_duplicate.HANDLE;
+    }
+
+    /**
+     * Address for:
+     * {@snippet lang=c :
+     * int *reorder_duplicate(int *order, int n)
+     * }
+     */
+    public static MemorySegment reorder_duplicate$address() {
+        return reorder_duplicate.ADDR;
+    }
+
+    /**
+     * {@snippet lang=c :
+     * int *reorder_duplicate(int *order, int n)
+     * }
+     */
+    public static MemorySegment reorder_duplicate(MemorySegment order, int n) {
+        var mh$ = reorder_duplicate.HANDLE;
+        try {
+            if (TRACE_DOWNCALLS) {
+                traceDowncall("reorder_duplicate", order, n);
+            }
+            return (MemorySegment)mh$.invokeExact(order, n);
+        } catch (Error | RuntimeException ex) {
+           throw ex;
+        } catch (Throwable ex$) {
+           throw new AssertionError("should not reach here", ex$);
+        }
+    }
+
+    private static class reorder_invert {
+        public static final FunctionDescriptor DESC = FunctionDescriptor.ofVoid(
+            NautyTraces.C_POINTER,
+            NautyTraces.C_INT
+        );
+
+        public static final MemorySegment ADDR = SYMBOL_LOOKUP.findOrThrow("reorder_invert");
+
+        public static final MethodHandle HANDLE = Linker.nativeLinker().downcallHandle(ADDR, DESC);
+    }
+
+    /**
+     * Function descriptor for:
+     * {@snippet lang=c :
+     * void reorder_invert(int *order, int n)
+     * }
+     */
+    public static FunctionDescriptor reorder_invert$descriptor() {
+        return reorder_invert.DESC;
+    }
+
+    /**
+     * Downcall method handle for:
+     * {@snippet lang=c :
+     * void reorder_invert(int *order, int n)
+     * }
+     */
+    public static MethodHandle reorder_invert$handle() {
+        return reorder_invert.HANDLE;
+    }
+
+    /**
+     * Address for:
+     * {@snippet lang=c :
+     * void reorder_invert(int *order, int n)
+     * }
+     */
+    public static MemorySegment reorder_invert$address() {
+        return reorder_invert.ADDR;
+    }
+
+    /**
+     * {@snippet lang=c :
+     * void reorder_invert(int *order, int n)
+     * }
+     */
+    public static void reorder_invert(MemorySegment order, int n) {
+        var mh$ = reorder_invert.HANDLE;
+        try {
+            if (TRACE_DOWNCALLS) {
+                traceDowncall("reorder_invert", order, n);
+            }
+            mh$.invokeExact(order, n);
+        } catch (Error | RuntimeException ex) {
+           throw ex;
+        } catch (Throwable ex$) {
+           throw new AssertionError("should not reach here", ex$);
+        }
+    }
+
+    private static class reorder_reverse {
+        public static final FunctionDescriptor DESC = FunctionDescriptor.ofVoid(
+            NautyTraces.C_POINTER,
+            NautyTraces.C_INT
+        );
+
+        public static final MemorySegment ADDR = SYMBOL_LOOKUP.findOrThrow("reorder_reverse");
+
+        public static final MethodHandle HANDLE = Linker.nativeLinker().downcallHandle(ADDR, DESC);
+    }
+
+    /**
+     * Function descriptor for:
+     * {@snippet lang=c :
+     * void reorder_reverse(int *order, int n)
+     * }
+     */
+    public static FunctionDescriptor reorder_reverse$descriptor() {
+        return reorder_reverse.DESC;
+    }
+
+    /**
+     * Downcall method handle for:
+     * {@snippet lang=c :
+     * void reorder_reverse(int *order, int n)
+     * }
+     */
+    public static MethodHandle reorder_reverse$handle() {
+        return reorder_reverse.HANDLE;
+    }
+
+    /**
+     * Address for:
+     * {@snippet lang=c :
+     * void reorder_reverse(int *order, int n)
+     * }
+     */
+    public static MemorySegment reorder_reverse$address() {
+        return reorder_reverse.ADDR;
+    }
+
+    /**
+     * {@snippet lang=c :
+     * void reorder_reverse(int *order, int n)
+     * }
+     */
+    public static void reorder_reverse(MemorySegment order, int n) {
+        var mh$ = reorder_reverse.HANDLE;
+        try {
+            if (TRACE_DOWNCALLS) {
+                traceDowncall("reorder_reverse", order, n);
+            }
+            mh$.invokeExact(order, n);
+        } catch (Error | RuntimeException ex) {
+           throw ex;
+        } catch (Throwable ex$) {
+           throw new AssertionError("should not reach here", ex$);
+        }
+    }
+
+    private static class reorder_ident {
+        public static final FunctionDescriptor DESC = FunctionDescriptor.of(
+            NautyTraces.C_POINTER,
+            NautyTraces.C_INT
+        );
+
+        public static final MemorySegment ADDR = SYMBOL_LOOKUP.findOrThrow("reorder_ident");
+
+        public static final MethodHandle HANDLE = Linker.nativeLinker().downcallHandle(ADDR, DESC);
+    }
+
+    /**
+     * Function descriptor for:
+     * {@snippet lang=c :
+     * int *reorder_ident(int n)
+     * }
+     */
+    public static FunctionDescriptor reorder_ident$descriptor() {
+        return reorder_ident.DESC;
+    }
+
+    /**
+     * Downcall method handle for:
+     * {@snippet lang=c :
+     * int *reorder_ident(int n)
+     * }
+     */
+    public static MethodHandle reorder_ident$handle() {
+        return reorder_ident.HANDLE;
+    }
+
+    /**
+     * Address for:
+     * {@snippet lang=c :
+     * int *reorder_ident(int n)
+     * }
+     */
+    public static MemorySegment reorder_ident$address() {
+        return reorder_ident.ADDR;
+    }
+
+    /**
+     * {@snippet lang=c :
+     * int *reorder_ident(int n)
+     * }
+     */
+    public static MemorySegment reorder_ident(int n) {
+        var mh$ = reorder_ident.HANDLE;
+        try {
+            if (TRACE_DOWNCALLS) {
+                traceDowncall("reorder_ident", n);
+            }
+            return (MemorySegment)mh$.invokeExact(n);
+        } catch (Error | RuntimeException ex) {
+           throw ex;
+        } catch (Throwable ex$) {
+           throw new AssertionError("should not reach here", ex$);
+        }
+    }
+
+    private static class reorder_is_bijection {
+        public static final FunctionDescriptor DESC = FunctionDescriptor.of(
+            NautyTraces.C_INT,
+            NautyTraces.C_POINTER,
+            NautyTraces.C_INT
+        );
+
+        public static final MemorySegment ADDR = SYMBOL_LOOKUP.findOrThrow("reorder_is_bijection");
+
+        public static final MethodHandle HANDLE = Linker.nativeLinker().downcallHandle(ADDR, DESC);
+    }
+
+    /**
+     * Function descriptor for:
+     * {@snippet lang=c :
+     * boolean reorder_is_bijection(int *order, int n)
+     * }
+     */
+    public static FunctionDescriptor reorder_is_bijection$descriptor() {
+        return reorder_is_bijection.DESC;
+    }
+
+    /**
+     * Downcall method handle for:
+     * {@snippet lang=c :
+     * boolean reorder_is_bijection(int *order, int n)
+     * }
+     */
+    public static MethodHandle reorder_is_bijection$handle() {
+        return reorder_is_bijection.HANDLE;
+    }
+
+    /**
+     * Address for:
+     * {@snippet lang=c :
+     * boolean reorder_is_bijection(int *order, int n)
+     * }
+     */
+    public static MemorySegment reorder_is_bijection$address() {
+        return reorder_is_bijection.ADDR;
+    }
+
+    /**
+     * {@snippet lang=c :
+     * boolean reorder_is_bijection(int *order, int n)
+     * }
+     */
+    public static int reorder_is_bijection(MemorySegment order, int n) {
+        var mh$ = reorder_is_bijection.HANDLE;
+        try {
+            if (TRACE_DOWNCALLS) {
+                traceDowncall("reorder_is_bijection", order, n);
+            }
+            return (int)mh$.invokeExact(order, n);
+        } catch (Error | RuntimeException ex) {
+           throw ex;
+        } catch (Throwable ex$) {
+           throw new AssertionError("should not reach here", ex$);
+        }
+    }
+
+    private static class reorder_by_greedy_coloring {
+        public static final FunctionDescriptor DESC = FunctionDescriptor.of(
+            NautyTraces.C_POINTER,
+            NautyTraces.C_POINTER,
+            NautyTraces.C_INT
+        );
+
+        public static final MemorySegment ADDR = SYMBOL_LOOKUP.findOrThrow("reorder_by_greedy_coloring");
+
+        public static final MethodHandle HANDLE = Linker.nativeLinker().downcallHandle(ADDR, DESC);
+    }
+
+    /**
+     * Function descriptor for:
+     * {@snippet lang=c :
+     * int *reorder_by_greedy_coloring(graph_t *g, boolean weighted)
+     * }
+     */
+    public static FunctionDescriptor reorder_by_greedy_coloring$descriptor() {
+        return reorder_by_greedy_coloring.DESC;
+    }
+
+    /**
+     * Downcall method handle for:
+     * {@snippet lang=c :
+     * int *reorder_by_greedy_coloring(graph_t *g, boolean weighted)
+     * }
+     */
+    public static MethodHandle reorder_by_greedy_coloring$handle() {
+        return reorder_by_greedy_coloring.HANDLE;
+    }
+
+    /**
+     * Address for:
+     * {@snippet lang=c :
+     * int *reorder_by_greedy_coloring(graph_t *g, boolean weighted)
+     * }
+     */
+    public static MemorySegment reorder_by_greedy_coloring$address() {
+        return reorder_by_greedy_coloring.ADDR;
+    }
+
+    /**
+     * {@snippet lang=c :
+     * int *reorder_by_greedy_coloring(graph_t *g, boolean weighted)
+     * }
+     */
+    public static MemorySegment reorder_by_greedy_coloring(MemorySegment g, int weighted) {
+        var mh$ = reorder_by_greedy_coloring.HANDLE;
+        try {
+            if (TRACE_DOWNCALLS) {
+                traceDowncall("reorder_by_greedy_coloring", g, weighted);
+            }
+            return (MemorySegment)mh$.invokeExact(g, weighted);
+        } catch (Error | RuntimeException ex) {
+           throw ex;
+        } catch (Throwable ex$) {
+           throw new AssertionError("should not reach here", ex$);
+        }
+    }
+
+    private static class reorder_by_weighted_greedy_coloring {
+        public static final FunctionDescriptor DESC = FunctionDescriptor.of(
+            NautyTraces.C_POINTER,
+            NautyTraces.C_POINTER,
+            NautyTraces.C_INT
+        );
+
+        public static final MemorySegment ADDR = SYMBOL_LOOKUP.findOrThrow("reorder_by_weighted_greedy_coloring");
+
+        public static final MethodHandle HANDLE = Linker.nativeLinker().downcallHandle(ADDR, DESC);
+    }
+
+    /**
+     * Function descriptor for:
+     * {@snippet lang=c :
+     * int *reorder_by_weighted_greedy_coloring(graph_t *g, boolean weighted)
+     * }
+     */
+    public static FunctionDescriptor reorder_by_weighted_greedy_coloring$descriptor() {
+        return reorder_by_weighted_greedy_coloring.DESC;
+    }
+
+    /**
+     * Downcall method handle for:
+     * {@snippet lang=c :
+     * int *reorder_by_weighted_greedy_coloring(graph_t *g, boolean weighted)
+     * }
+     */
+    public static MethodHandle reorder_by_weighted_greedy_coloring$handle() {
+        return reorder_by_weighted_greedy_coloring.HANDLE;
+    }
+
+    /**
+     * Address for:
+     * {@snippet lang=c :
+     * int *reorder_by_weighted_greedy_coloring(graph_t *g, boolean weighted)
+     * }
+     */
+    public static MemorySegment reorder_by_weighted_greedy_coloring$address() {
+        return reorder_by_weighted_greedy_coloring.ADDR;
+    }
+
+    /**
+     * {@snippet lang=c :
+     * int *reorder_by_weighted_greedy_coloring(graph_t *g, boolean weighted)
+     * }
+     */
+    public static MemorySegment reorder_by_weighted_greedy_coloring(MemorySegment g, int weighted) {
+        var mh$ = reorder_by_weighted_greedy_coloring.HANDLE;
+        try {
+            if (TRACE_DOWNCALLS) {
+                traceDowncall("reorder_by_weighted_greedy_coloring", g, weighted);
+            }
+            return (MemorySegment)mh$.invokeExact(g, weighted);
+        } catch (Error | RuntimeException ex) {
+           throw ex;
+        } catch (Throwable ex$) {
+           throw new AssertionError("should not reach here", ex$);
+        }
+    }
+
+    private static class reorder_by_unweighted_greedy_coloring {
+        public static final FunctionDescriptor DESC = FunctionDescriptor.of(
+            NautyTraces.C_POINTER,
+            NautyTraces.C_POINTER,
+            NautyTraces.C_INT
+        );
+
+        public static final MemorySegment ADDR = SYMBOL_LOOKUP.findOrThrow("reorder_by_unweighted_greedy_coloring");
+
+        public static final MethodHandle HANDLE = Linker.nativeLinker().downcallHandle(ADDR, DESC);
+    }
+
+    /**
+     * Function descriptor for:
+     * {@snippet lang=c :
+     * int *reorder_by_unweighted_greedy_coloring(graph_t *g, boolean weighted)
+     * }
+     */
+    public static FunctionDescriptor reorder_by_unweighted_greedy_coloring$descriptor() {
+        return reorder_by_unweighted_greedy_coloring.DESC;
+    }
+
+    /**
+     * Downcall method handle for:
+     * {@snippet lang=c :
+     * int *reorder_by_unweighted_greedy_coloring(graph_t *g, boolean weighted)
+     * }
+     */
+    public static MethodHandle reorder_by_unweighted_greedy_coloring$handle() {
+        return reorder_by_unweighted_greedy_coloring.HANDLE;
+    }
+
+    /**
+     * Address for:
+     * {@snippet lang=c :
+     * int *reorder_by_unweighted_greedy_coloring(graph_t *g, boolean weighted)
+     * }
+     */
+    public static MemorySegment reorder_by_unweighted_greedy_coloring$address() {
+        return reorder_by_unweighted_greedy_coloring.ADDR;
+    }
+
+    /**
+     * {@snippet lang=c :
+     * int *reorder_by_unweighted_greedy_coloring(graph_t *g, boolean weighted)
+     * }
+     */
+    public static MemorySegment reorder_by_unweighted_greedy_coloring(MemorySegment g, int weighted) {
+        var mh$ = reorder_by_unweighted_greedy_coloring.HANDLE;
+        try {
+            if (TRACE_DOWNCALLS) {
+                traceDowncall("reorder_by_unweighted_greedy_coloring", g, weighted);
+            }
+            return (MemorySegment)mh$.invokeExact(g, weighted);
+        } catch (Error | RuntimeException ex) {
+           throw ex;
+        } catch (Throwable ex$) {
+           throw new AssertionError("should not reach here", ex$);
+        }
+    }
+
+    private static class reorder_by_degree {
+        public static final FunctionDescriptor DESC = FunctionDescriptor.of(
+            NautyTraces.C_POINTER,
+            NautyTraces.C_POINTER,
+            NautyTraces.C_INT
+        );
+
+        public static final MemorySegment ADDR = SYMBOL_LOOKUP.findOrThrow("reorder_by_degree");
+
+        public static final MethodHandle HANDLE = Linker.nativeLinker().downcallHandle(ADDR, DESC);
+    }
+
+    /**
+     * Function descriptor for:
+     * {@snippet lang=c :
+     * int *reorder_by_degree(graph_t *g, boolean weighted)
+     * }
+     */
+    public static FunctionDescriptor reorder_by_degree$descriptor() {
+        return reorder_by_degree.DESC;
+    }
+
+    /**
+     * Downcall method handle for:
+     * {@snippet lang=c :
+     * int *reorder_by_degree(graph_t *g, boolean weighted)
+     * }
+     */
+    public static MethodHandle reorder_by_degree$handle() {
+        return reorder_by_degree.HANDLE;
+    }
+
+    /**
+     * Address for:
+     * {@snippet lang=c :
+     * int *reorder_by_degree(graph_t *g, boolean weighted)
+     * }
+     */
+    public static MemorySegment reorder_by_degree$address() {
+        return reorder_by_degree.ADDR;
+    }
+
+    /**
+     * {@snippet lang=c :
+     * int *reorder_by_degree(graph_t *g, boolean weighted)
+     * }
+     */
+    public static MemorySegment reorder_by_degree(MemorySegment g, int weighted) {
+        var mh$ = reorder_by_degree.HANDLE;
+        try {
+            if (TRACE_DOWNCALLS) {
+                traceDowncall("reorder_by_degree", g, weighted);
+            }
+            return (MemorySegment)mh$.invokeExact(g, weighted);
+        } catch (Error | RuntimeException ex) {
+           throw ex;
+        } catch (Throwable ex$) {
+           throw new AssertionError("should not reach here", ex$);
+        }
+    }
+
+    private static class reorder_by_random {
+        public static final FunctionDescriptor DESC = FunctionDescriptor.of(
+            NautyTraces.C_POINTER,
+            NautyTraces.C_POINTER,
+            NautyTraces.C_INT
+        );
+
+        public static final MemorySegment ADDR = SYMBOL_LOOKUP.findOrThrow("reorder_by_random");
+
+        public static final MethodHandle HANDLE = Linker.nativeLinker().downcallHandle(ADDR, DESC);
+    }
+
+    /**
+     * Function descriptor for:
+     * {@snippet lang=c :
+     * int *reorder_by_random(graph_t *g, boolean weighted)
+     * }
+     */
+    public static FunctionDescriptor reorder_by_random$descriptor() {
+        return reorder_by_random.DESC;
+    }
+
+    /**
+     * Downcall method handle for:
+     * {@snippet lang=c :
+     * int *reorder_by_random(graph_t *g, boolean weighted)
+     * }
+     */
+    public static MethodHandle reorder_by_random$handle() {
+        return reorder_by_random.HANDLE;
+    }
+
+    /**
+     * Address for:
+     * {@snippet lang=c :
+     * int *reorder_by_random(graph_t *g, boolean weighted)
+     * }
+     */
+    public static MemorySegment reorder_by_random$address() {
+        return reorder_by_random.ADDR;
+    }
+
+    /**
+     * {@snippet lang=c :
+     * int *reorder_by_random(graph_t *g, boolean weighted)
+     * }
+     */
+    public static MemorySegment reorder_by_random(MemorySegment g, int weighted) {
+        var mh$ = reorder_by_random.HANDLE;
+        try {
+            if (TRACE_DOWNCALLS) {
+                traceDowncall("reorder_by_random", g, weighted);
+            }
+            return (MemorySegment)mh$.invokeExact(g, weighted);
+        } catch (Error | RuntimeException ex) {
+           throw ex;
+        } catch (Throwable ex$) {
+           throw new AssertionError("should not reach here", ex$);
+        }
+    }
+
+    private static class reorder_by_ident {
+        public static final FunctionDescriptor DESC = FunctionDescriptor.of(
+            NautyTraces.C_POINTER,
+            NautyTraces.C_POINTER,
+            NautyTraces.C_INT
+        );
+
+        public static final MemorySegment ADDR = SYMBOL_LOOKUP.findOrThrow("reorder_by_ident");
+
+        public static final MethodHandle HANDLE = Linker.nativeLinker().downcallHandle(ADDR, DESC);
+    }
+
+    /**
+     * Function descriptor for:
+     * {@snippet lang=c :
+     * int *reorder_by_ident(graph_t *g, boolean weighted)
+     * }
+     */
+    public static FunctionDescriptor reorder_by_ident$descriptor() {
+        return reorder_by_ident.DESC;
+    }
+
+    /**
+     * Downcall method handle for:
+     * {@snippet lang=c :
+     * int *reorder_by_ident(graph_t *g, boolean weighted)
+     * }
+     */
+    public static MethodHandle reorder_by_ident$handle() {
+        return reorder_by_ident.HANDLE;
+    }
+
+    /**
+     * Address for:
+     * {@snippet lang=c :
+     * int *reorder_by_ident(graph_t *g, boolean weighted)
+     * }
+     */
+    public static MemorySegment reorder_by_ident$address() {
+        return reorder_by_ident.ADDR;
+    }
+
+    /**
+     * {@snippet lang=c :
+     * int *reorder_by_ident(graph_t *g, boolean weighted)
+     * }
+     */
+    public static MemorySegment reorder_by_ident(MemorySegment g, int weighted) {
+        var mh$ = reorder_by_ident.HANDLE;
+        try {
+            if (TRACE_DOWNCALLS) {
+                traceDowncall("reorder_by_ident", g, weighted);
+            }
+            return (MemorySegment)mh$.invokeExact(g, weighted);
+        } catch (Error | RuntimeException ex) {
+           throw ex;
+        } catch (Throwable ex$) {
+           throw new AssertionError("should not reach here", ex$);
+        }
+    }
+
+    private static class reorder_by_reverse {
+        public static final FunctionDescriptor DESC = FunctionDescriptor.of(
+            NautyTraces.C_POINTER,
+            NautyTraces.C_POINTER,
+            NautyTraces.C_INT
+        );
+
+        public static final MemorySegment ADDR = SYMBOL_LOOKUP.findOrThrow("reorder_by_reverse");
+
+        public static final MethodHandle HANDLE = Linker.nativeLinker().downcallHandle(ADDR, DESC);
+    }
+
+    /**
+     * Function descriptor for:
+     * {@snippet lang=c :
+     * int *reorder_by_reverse(graph_t *g, boolean weighted)
+     * }
+     */
+    public static FunctionDescriptor reorder_by_reverse$descriptor() {
+        return reorder_by_reverse.DESC;
+    }
+
+    /**
+     * Downcall method handle for:
+     * {@snippet lang=c :
+     * int *reorder_by_reverse(graph_t *g, boolean weighted)
+     * }
+     */
+    public static MethodHandle reorder_by_reverse$handle() {
+        return reorder_by_reverse.HANDLE;
+    }
+
+    /**
+     * Address for:
+     * {@snippet lang=c :
+     * int *reorder_by_reverse(graph_t *g, boolean weighted)
+     * }
+     */
+    public static MemorySegment reorder_by_reverse$address() {
+        return reorder_by_reverse.ADDR;
+    }
+
+    /**
+     * {@snippet lang=c :
+     * int *reorder_by_reverse(graph_t *g, boolean weighted)
+     * }
+     */
+    public static MemorySegment reorder_by_reverse(MemorySegment g, int weighted) {
+        var mh$ = reorder_by_reverse.HANDLE;
+        try {
+            if (TRACE_DOWNCALLS) {
+                traceDowncall("reorder_by_reverse", g, weighted);
+            }
+            return (MemorySegment)mh$.invokeExact(g, weighted);
+        } catch (Error | RuntimeException ex) {
+           throw ex;
+        } catch (Throwable ex$) {
+           throw new AssertionError("should not reach here", ex$);
+        }
+    }
+
+    private static class clique_default_options$constants {
+        public static final AddressLayout LAYOUT = NautyTraces.C_POINTER;
+        public static final MemorySegment SEGMENT = SYMBOL_LOOKUP.findOrThrow("clique_default_options").reinterpret(LAYOUT.byteSize());
+    }
+
+    /**
+     * Layout for variable:
+     * {@snippet lang=c :
+     * extern clique_options *clique_default_options
+     * }
+     */
+    public static AddressLayout clique_default_options$layout() {
+        return clique_default_options$constants.LAYOUT;
+    }
+
+    /**
+     * Segment for variable:
+     * {@snippet lang=c :
+     * extern clique_options *clique_default_options
+     * }
+     */
+    public static MemorySegment clique_default_options$segment() {
+        return clique_default_options$constants.SEGMENT;
+    }
+
+    /**
+     * Getter for variable:
+     * {@snippet lang=c :
+     * extern clique_options *clique_default_options
+     * }
+     */
+    public static MemorySegment clique_default_options() {
+        return clique_default_options$constants.SEGMENT.get(clique_default_options$constants.LAYOUT, 0L);
+    }
+
+    /**
+     * Setter for variable:
+     * {@snippet lang=c :
+     * extern clique_options *clique_default_options
+     * }
+     */
+    public static void clique_default_options(MemorySegment varValue) {
+        clique_default_options$constants.SEGMENT.set(clique_default_options$constants.LAYOUT, 0L, varValue);
+    }
+
+    private static class clique_max_weight {
+        public static final FunctionDescriptor DESC = FunctionDescriptor.of(
+            NautyTraces.C_INT,
+            NautyTraces.C_POINTER,
+            NautyTraces.C_POINTER
+        );
+
+        public static final MemorySegment ADDR = SYMBOL_LOOKUP.findOrThrow("clique_max_weight");
+
+        public static final MethodHandle HANDLE = Linker.nativeLinker().downcallHandle(ADDR, DESC);
+    }
+
+    /**
+     * Function descriptor for:
+     * {@snippet lang=c :
+     * int clique_max_weight(graph_t *g, clique_options *opts)
+     * }
+     */
+    public static FunctionDescriptor clique_max_weight$descriptor() {
+        return clique_max_weight.DESC;
+    }
+
+    /**
+     * Downcall method handle for:
+     * {@snippet lang=c :
+     * int clique_max_weight(graph_t *g, clique_options *opts)
+     * }
+     */
+    public static MethodHandle clique_max_weight$handle() {
+        return clique_max_weight.HANDLE;
+    }
+
+    /**
+     * Address for:
+     * {@snippet lang=c :
+     * int clique_max_weight(graph_t *g, clique_options *opts)
+     * }
+     */
+    public static MemorySegment clique_max_weight$address() {
+        return clique_max_weight.ADDR;
+    }
+
+    /**
+     * {@snippet lang=c :
+     * int clique_max_weight(graph_t *g, clique_options *opts)
+     * }
+     */
+    public static int clique_max_weight(MemorySegment g, MemorySegment opts) {
+        var mh$ = clique_max_weight.HANDLE;
+        try {
+            if (TRACE_DOWNCALLS) {
+                traceDowncall("clique_max_weight", g, opts);
+            }
+            return (int)mh$.invokeExact(g, opts);
+        } catch (Error | RuntimeException ex) {
+           throw ex;
+        } catch (Throwable ex$) {
+           throw new AssertionError("should not reach here", ex$);
+        }
+    }
+
+    private static class clique_find_single {
+        public static final FunctionDescriptor DESC = FunctionDescriptor.of(
+            NautyTraces.C_POINTER,
+            NautyTraces.C_POINTER,
+            NautyTraces.C_INT,
+            NautyTraces.C_INT,
+            NautyTraces.C_INT,
+            NautyTraces.C_POINTER
+        );
+
+        public static final MemorySegment ADDR = SYMBOL_LOOKUP.findOrThrow("clique_find_single");
+
+        public static final MethodHandle HANDLE = Linker.nativeLinker().downcallHandle(ADDR, DESC);
+    }
+
+    /**
+     * Function descriptor for:
+     * {@snippet lang=c :
+     * set_t clique_find_single(graph_t *g, int min_weight, int max_weight, boolean maximal, clique_options *opts)
+     * }
+     */
+    public static FunctionDescriptor clique_find_single$descriptor() {
+        return clique_find_single.DESC;
+    }
+
+    /**
+     * Downcall method handle for:
+     * {@snippet lang=c :
+     * set_t clique_find_single(graph_t *g, int min_weight, int max_weight, boolean maximal, clique_options *opts)
+     * }
+     */
+    public static MethodHandle clique_find_single$handle() {
+        return clique_find_single.HANDLE;
+    }
+
+    /**
+     * Address for:
+     * {@snippet lang=c :
+     * set_t clique_find_single(graph_t *g, int min_weight, int max_weight, boolean maximal, clique_options *opts)
+     * }
+     */
+    public static MemorySegment clique_find_single$address() {
+        return clique_find_single.ADDR;
+    }
+
+    /**
+     * {@snippet lang=c :
+     * set_t clique_find_single(graph_t *g, int min_weight, int max_weight, boolean maximal, clique_options *opts)
+     * }
+     */
+    public static MemorySegment clique_find_single(MemorySegment g, int min_weight, int max_weight, int maximal, MemorySegment opts) {
+        var mh$ = clique_find_single.HANDLE;
+        try {
+            if (TRACE_DOWNCALLS) {
+                traceDowncall("clique_find_single", g, min_weight, max_weight, maximal, opts);
+            }
+            return (MemorySegment)mh$.invokeExact(g, min_weight, max_weight, maximal, opts);
+        } catch (Error | RuntimeException ex) {
+           throw ex;
+        } catch (Throwable ex$) {
+           throw new AssertionError("should not reach here", ex$);
+        }
+    }
+
+    private static class clique_find_all {
+        public static final FunctionDescriptor DESC = FunctionDescriptor.of(
+            NautyTraces.C_INT,
+            NautyTraces.C_POINTER,
+            NautyTraces.C_INT,
+            NautyTraces.C_INT,
+            NautyTraces.C_INT,
+            NautyTraces.C_POINTER
+        );
+
+        public static final MemorySegment ADDR = SYMBOL_LOOKUP.findOrThrow("clique_find_all");
+
+        public static final MethodHandle HANDLE = Linker.nativeLinker().downcallHandle(ADDR, DESC);
+    }
+
+    /**
+     * Function descriptor for:
+     * {@snippet lang=c :
+     * int clique_find_all(graph_t *g, int req_weight, boolean exact, boolean maximal, clique_options *opts)
+     * }
+     */
+    public static FunctionDescriptor clique_find_all$descriptor() {
+        return clique_find_all.DESC;
+    }
+
+    /**
+     * Downcall method handle for:
+     * {@snippet lang=c :
+     * int clique_find_all(graph_t *g, int req_weight, boolean exact, boolean maximal, clique_options *opts)
+     * }
+     */
+    public static MethodHandle clique_find_all$handle() {
+        return clique_find_all.HANDLE;
+    }
+
+    /**
+     * Address for:
+     * {@snippet lang=c :
+     * int clique_find_all(graph_t *g, int req_weight, boolean exact, boolean maximal, clique_options *opts)
+     * }
+     */
+    public static MemorySegment clique_find_all$address() {
+        return clique_find_all.ADDR;
+    }
+
+    /**
+     * {@snippet lang=c :
+     * int clique_find_all(graph_t *g, int req_weight, boolean exact, boolean maximal, clique_options *opts)
+     * }
+     */
+    public static int clique_find_all(MemorySegment g, int req_weight, int exact, int maximal, MemorySegment opts) {
+        var mh$ = clique_find_all.HANDLE;
+        try {
+            if (TRACE_DOWNCALLS) {
+                traceDowncall("clique_find_all", g, req_weight, exact, maximal, opts);
+            }
+            return (int)mh$.invokeExact(g, req_weight, exact, maximal, opts);
+        } catch (Error | RuntimeException ex) {
+           throw ex;
+        } catch (Throwable ex$) {
+           throw new AssertionError("should not reach here", ex$);
+        }
+    }
+
+    private static class clique_unweighted_max_weight {
+        public static final FunctionDescriptor DESC = FunctionDescriptor.of(
+            NautyTraces.C_INT,
+            NautyTraces.C_POINTER,
+            NautyTraces.C_POINTER
+        );
+
+        public static final MemorySegment ADDR = SYMBOL_LOOKUP.findOrThrow("clique_unweighted_max_weight");
+
+        public static final MethodHandle HANDLE = Linker.nativeLinker().downcallHandle(ADDR, DESC);
+    }
+
+    /**
+     * Function descriptor for:
+     * {@snippet lang=c :
+     * int clique_unweighted_max_weight(graph_t *g, clique_options *opts)
+     * }
+     */
+    public static FunctionDescriptor clique_unweighted_max_weight$descriptor() {
+        return clique_unweighted_max_weight.DESC;
+    }
+
+    /**
+     * Downcall method handle for:
+     * {@snippet lang=c :
+     * int clique_unweighted_max_weight(graph_t *g, clique_options *opts)
+     * }
+     */
+    public static MethodHandle clique_unweighted_max_weight$handle() {
+        return clique_unweighted_max_weight.HANDLE;
+    }
+
+    /**
+     * Address for:
+     * {@snippet lang=c :
+     * int clique_unweighted_max_weight(graph_t *g, clique_options *opts)
+     * }
+     */
+    public static MemorySegment clique_unweighted_max_weight$address() {
+        return clique_unweighted_max_weight.ADDR;
+    }
+
+    /**
+     * {@snippet lang=c :
+     * int clique_unweighted_max_weight(graph_t *g, clique_options *opts)
+     * }
+     */
+    public static int clique_unweighted_max_weight(MemorySegment g, MemorySegment opts) {
+        var mh$ = clique_unweighted_max_weight.HANDLE;
+        try {
+            if (TRACE_DOWNCALLS) {
+                traceDowncall("clique_unweighted_max_weight", g, opts);
+            }
+            return (int)mh$.invokeExact(g, opts);
+        } catch (Error | RuntimeException ex) {
+           throw ex;
+        } catch (Throwable ex$) {
+           throw new AssertionError("should not reach here", ex$);
+        }
+    }
+
+    private static class clique_unweighted_find_single {
+        public static final FunctionDescriptor DESC = FunctionDescriptor.of(
+            NautyTraces.C_POINTER,
+            NautyTraces.C_POINTER,
+            NautyTraces.C_INT,
+            NautyTraces.C_INT,
+            NautyTraces.C_INT,
+            NautyTraces.C_POINTER
+        );
+
+        public static final MemorySegment ADDR = SYMBOL_LOOKUP.findOrThrow("clique_unweighted_find_single");
+
+        public static final MethodHandle HANDLE = Linker.nativeLinker().downcallHandle(ADDR, DESC);
+    }
+
+    /**
+     * Function descriptor for:
+     * {@snippet lang=c :
+     * set_t clique_unweighted_find_single(graph_t *g, int min_size, int max_size, boolean maximal, clique_options *opts)
+     * }
+     */
+    public static FunctionDescriptor clique_unweighted_find_single$descriptor() {
+        return clique_unweighted_find_single.DESC;
+    }
+
+    /**
+     * Downcall method handle for:
+     * {@snippet lang=c :
+     * set_t clique_unweighted_find_single(graph_t *g, int min_size, int max_size, boolean maximal, clique_options *opts)
+     * }
+     */
+    public static MethodHandle clique_unweighted_find_single$handle() {
+        return clique_unweighted_find_single.HANDLE;
+    }
+
+    /**
+     * Address for:
+     * {@snippet lang=c :
+     * set_t clique_unweighted_find_single(graph_t *g, int min_size, int max_size, boolean maximal, clique_options *opts)
+     * }
+     */
+    public static MemorySegment clique_unweighted_find_single$address() {
+        return clique_unweighted_find_single.ADDR;
+    }
+
+    /**
+     * {@snippet lang=c :
+     * set_t clique_unweighted_find_single(graph_t *g, int min_size, int max_size, boolean maximal, clique_options *opts)
+     * }
+     */
+    public static MemorySegment clique_unweighted_find_single(MemorySegment g, int min_size, int max_size, int maximal, MemorySegment opts) {
+        var mh$ = clique_unweighted_find_single.HANDLE;
+        try {
+            if (TRACE_DOWNCALLS) {
+                traceDowncall("clique_unweighted_find_single", g, min_size, max_size, maximal, opts);
+            }
+            return (MemorySegment)mh$.invokeExact(g, min_size, max_size, maximal, opts);
+        } catch (Error | RuntimeException ex) {
+           throw ex;
+        } catch (Throwable ex$) {
+           throw new AssertionError("should not reach here", ex$);
+        }
+    }
+
+    private static class clique_unweighted_find_all {
+        public static final FunctionDescriptor DESC = FunctionDescriptor.of(
+            NautyTraces.C_INT,
+            NautyTraces.C_POINTER,
+            NautyTraces.C_INT,
+            NautyTraces.C_INT,
+            NautyTraces.C_INT,
+            NautyTraces.C_POINTER
+        );
+
+        public static final MemorySegment ADDR = SYMBOL_LOOKUP.findOrThrow("clique_unweighted_find_all");
+
+        public static final MethodHandle HANDLE = Linker.nativeLinker().downcallHandle(ADDR, DESC);
+    }
+
+    /**
+     * Function descriptor for:
+     * {@snippet lang=c :
+     * int clique_unweighted_find_all(graph_t *g, int min_size, int max_size, boolean maximal, clique_options *opts)
+     * }
+     */
+    public static FunctionDescriptor clique_unweighted_find_all$descriptor() {
+        return clique_unweighted_find_all.DESC;
+    }
+
+    /**
+     * Downcall method handle for:
+     * {@snippet lang=c :
+     * int clique_unweighted_find_all(graph_t *g, int min_size, int max_size, boolean maximal, clique_options *opts)
+     * }
+     */
+    public static MethodHandle clique_unweighted_find_all$handle() {
+        return clique_unweighted_find_all.HANDLE;
+    }
+
+    /**
+     * Address for:
+     * {@snippet lang=c :
+     * int clique_unweighted_find_all(graph_t *g, int min_size, int max_size, boolean maximal, clique_options *opts)
+     * }
+     */
+    public static MemorySegment clique_unweighted_find_all$address() {
+        return clique_unweighted_find_all.ADDR;
+    }
+
+    /**
+     * {@snippet lang=c :
+     * int clique_unweighted_find_all(graph_t *g, int min_size, int max_size, boolean maximal, clique_options *opts)
+     * }
+     */
+    public static int clique_unweighted_find_all(MemorySegment g, int min_size, int max_size, int maximal, MemorySegment opts) {
+        var mh$ = clique_unweighted_find_all.HANDLE;
+        try {
+            if (TRACE_DOWNCALLS) {
+                traceDowncall("clique_unweighted_find_all", g, min_size, max_size, maximal, opts);
+            }
+            return (int)mh$.invokeExact(g, min_size, max_size, maximal, opts);
+        } catch (Error | RuntimeException ex) {
+           throw ex;
+        } catch (Throwable ex$) {
+           throw new AssertionError("should not reach here", ex$);
+        }
+    }
+
+    private static class clique_print_time {
+        public static final FunctionDescriptor DESC = FunctionDescriptor.of(
+            NautyTraces.C_INT,
+            NautyTraces.C_INT,
+            NautyTraces.C_INT,
+            NautyTraces.C_INT,
+            NautyTraces.C_INT,
+            NautyTraces.C_DOUBLE,
+            NautyTraces.C_DOUBLE,
+            NautyTraces.C_POINTER
+        );
+
+        public static final MemorySegment ADDR = SYMBOL_LOOKUP.findOrThrow("clique_print_time");
+
+        public static final MethodHandle HANDLE = Linker.nativeLinker().downcallHandle(ADDR, DESC);
+    }
+
+    /**
+     * Function descriptor for:
+     * {@snippet lang=c :
+     * boolean clique_print_time(int level, int i, int n, int max, double cputime, double realtime, clique_options *opts)
+     * }
+     */
+    public static FunctionDescriptor clique_print_time$descriptor() {
+        return clique_print_time.DESC;
+    }
+
+    /**
+     * Downcall method handle for:
+     * {@snippet lang=c :
+     * boolean clique_print_time(int level, int i, int n, int max, double cputime, double realtime, clique_options *opts)
+     * }
+     */
+    public static MethodHandle clique_print_time$handle() {
+        return clique_print_time.HANDLE;
+    }
+
+    /**
+     * Address for:
+     * {@snippet lang=c :
+     * boolean clique_print_time(int level, int i, int n, int max, double cputime, double realtime, clique_options *opts)
+     * }
+     */
+    public static MemorySegment clique_print_time$address() {
+        return clique_print_time.ADDR;
+    }
+
+    /**
+     * {@snippet lang=c :
+     * boolean clique_print_time(int level, int i, int n, int max, double cputime, double realtime, clique_options *opts)
+     * }
+     */
+    public static int clique_print_time(int level, int i, int n, int max, double cputime, double realtime, MemorySegment opts) {
+        var mh$ = clique_print_time.HANDLE;
+        try {
+            if (TRACE_DOWNCALLS) {
+                traceDowncall("clique_print_time", level, i, n, max, cputime, realtime, opts);
+            }
+            return (int)mh$.invokeExact(level, i, n, max, cputime, realtime, opts);
+        } catch (Error | RuntimeException ex) {
+           throw ex;
+        } catch (Throwable ex$) {
+           throw new AssertionError("should not reach here", ex$);
+        }
+    }
+
+    private static class clique_print_time_always {
+        public static final FunctionDescriptor DESC = FunctionDescriptor.of(
+            NautyTraces.C_INT,
+            NautyTraces.C_INT,
+            NautyTraces.C_INT,
+            NautyTraces.C_INT,
+            NautyTraces.C_INT,
+            NautyTraces.C_DOUBLE,
+            NautyTraces.C_DOUBLE,
+            NautyTraces.C_POINTER
+        );
+
+        public static final MemorySegment ADDR = SYMBOL_LOOKUP.findOrThrow("clique_print_time_always");
+
+        public static final MethodHandle HANDLE = Linker.nativeLinker().downcallHandle(ADDR, DESC);
+    }
+
+    /**
+     * Function descriptor for:
+     * {@snippet lang=c :
+     * boolean clique_print_time_always(int level, int i, int n, int max, double cputime, double realtime, clique_options *opts)
+     * }
+     */
+    public static FunctionDescriptor clique_print_time_always$descriptor() {
+        return clique_print_time_always.DESC;
+    }
+
+    /**
+     * Downcall method handle for:
+     * {@snippet lang=c :
+     * boolean clique_print_time_always(int level, int i, int n, int max, double cputime, double realtime, clique_options *opts)
+     * }
+     */
+    public static MethodHandle clique_print_time_always$handle() {
+        return clique_print_time_always.HANDLE;
+    }
+
+    /**
+     * Address for:
+     * {@snippet lang=c :
+     * boolean clique_print_time_always(int level, int i, int n, int max, double cputime, double realtime, clique_options *opts)
+     * }
+     */
+    public static MemorySegment clique_print_time_always$address() {
+        return clique_print_time_always.ADDR;
+    }
+
+    /**
+     * {@snippet lang=c :
+     * boolean clique_print_time_always(int level, int i, int n, int max, double cputime, double realtime, clique_options *opts)
+     * }
+     */
+    public static int clique_print_time_always(int level, int i, int n, int max, double cputime, double realtime, MemorySegment opts) {
+        var mh$ = clique_print_time_always.HANDLE;
+        try {
+            if (TRACE_DOWNCALLS) {
+                traceDowncall("clique_print_time_always", level, i, n, max, cputime, realtime, opts);
+            }
+            return (int)mh$.invokeExact(level, i, n, max, cputime, realtime, opts);
+        } catch (Error | RuntimeException ex) {
+           throw ex;
+        } catch (Throwable ex$) {
+           throw new AssertionError("should not reach here", ex$);
+        }
+    }
+
+    private static class find_clique {
+        public static final FunctionDescriptor DESC = FunctionDescriptor.of(
+            NautyTraces.C_INT,
+            NautyTraces.C_POINTER,
+            NautyTraces.C_INT,
+            NautyTraces.C_INT,
+            NautyTraces.C_INT,
+            NautyTraces.C_INT,
+            NautyTraces.C_INT
+        );
+
+        public static final MemorySegment ADDR = SYMBOL_LOOKUP.findOrThrow("find_clique");
+
+        public static final MethodHandle HANDLE = Linker.nativeLinker().downcallHandle(ADDR, DESC);
+    }
+
+    /**
+     * Function descriptor for:
+     * {@snippet lang=c :
+     * int find_clique(graph *g, int m, int n, int min, int max, boolean maximal)
+     * }
+     */
+    public static FunctionDescriptor find_clique$descriptor() {
+        return find_clique.DESC;
+    }
+
+    /**
+     * Downcall method handle for:
+     * {@snippet lang=c :
+     * int find_clique(graph *g, int m, int n, int min, int max, boolean maximal)
+     * }
+     */
+    public static MethodHandle find_clique$handle() {
+        return find_clique.HANDLE;
+    }
+
+    /**
+     * Address for:
+     * {@snippet lang=c :
+     * int find_clique(graph *g, int m, int n, int min, int max, boolean maximal)
+     * }
+     */
+    public static MemorySegment find_clique$address() {
+        return find_clique.ADDR;
+    }
+
+    /**
+     * {@snippet lang=c :
+     * int find_clique(graph *g, int m, int n, int min, int max, boolean maximal)
+     * }
+     */
+    public static int find_clique(MemorySegment g, int m, int n, int min, int max, int maximal) {
+        var mh$ = find_clique.HANDLE;
+        try {
+            if (TRACE_DOWNCALLS) {
+                traceDowncall("find_clique", g, m, n, min, max, maximal);
+            }
+            return (int)mh$.invokeExact(g, m, n, min, max, maximal);
+        } catch (Error | RuntimeException ex) {
+           throw ex;
+        } catch (Throwable ex$) {
+           throw new AssertionError("should not reach here", ex$);
+        }
+    }
+
+    private static class find_indset {
+        public static final FunctionDescriptor DESC = FunctionDescriptor.of(
+            NautyTraces.C_INT,
+            NautyTraces.C_POINTER,
+            NautyTraces.C_INT,
+            NautyTraces.C_INT,
+            NautyTraces.C_INT,
+            NautyTraces.C_INT,
+            NautyTraces.C_INT
+        );
+
+        public static final MemorySegment ADDR = SYMBOL_LOOKUP.findOrThrow("find_indset");
+
+        public static final MethodHandle HANDLE = Linker.nativeLinker().downcallHandle(ADDR, DESC);
+    }
+
+    /**
+     * Function descriptor for:
+     * {@snippet lang=c :
+     * int find_indset(graph *g, int m, int n, int min, int max, boolean maximal)
+     * }
+     */
+    public static FunctionDescriptor find_indset$descriptor() {
+        return find_indset.DESC;
+    }
+
+    /**
+     * Downcall method handle for:
+     * {@snippet lang=c :
+     * int find_indset(graph *g, int m, int n, int min, int max, boolean maximal)
+     * }
+     */
+    public static MethodHandle find_indset$handle() {
+        return find_indset.HANDLE;
+    }
+
+    /**
+     * Address for:
+     * {@snippet lang=c :
+     * int find_indset(graph *g, int m, int n, int min, int max, boolean maximal)
+     * }
+     */
+    public static MemorySegment find_indset$address() {
+        return find_indset.ADDR;
+    }
+
+    /**
+     * {@snippet lang=c :
+     * int find_indset(graph *g, int m, int n, int min, int max, boolean maximal)
+     * }
+     */
+    public static int find_indset(MemorySegment g, int m, int n, int min, int max, int maximal) {
+        var mh$ = find_indset.HANDLE;
+        try {
+            if (TRACE_DOWNCALLS) {
+                traceDowncall("find_indset", g, m, n, min, max, maximal);
+            }
+            return (int)mh$.invokeExact(g, m, n, min, max, maximal);
+        } catch (Error | RuntimeException ex) {
+           throw ex;
+        } catch (Throwable ex$) {
+           throw new AssertionError("should not reach here", ex$);
+        }
+    }
     private static final long _POSIX_C_SOURCE = 200809L;
     /**
      * {@snippet lang=c :
@@ -37298,414 +39759,6 @@ public class NautyTraces_1 extends NautyTraces_2 {
      */
     public static long INTPTR_MIN() {
         return INTPTR_MIN;
-    }
-    private static final long INTPTR_MAX = 9223372036854775807L;
-    /**
-     * {@snippet lang=c :
-     * #define INTPTR_MAX 9223372036854775807
-     * }
-     */
-    public static long INTPTR_MAX() {
-        return INTPTR_MAX;
-    }
-    private static final long UINTPTR_MAX = -1L;
-    /**
-     * {@snippet lang=c :
-     * #define UINTPTR_MAX -1
-     * }
-     */
-    public static long UINTPTR_MAX() {
-        return UINTPTR_MAX;
-    }
-    private static final long INTMAX_MIN = -9223372036854775808L;
-    /**
-     * {@snippet lang=c :
-     * #define INTMAX_MIN -9223372036854775808
-     * }
-     */
-    public static long INTMAX_MIN() {
-        return INTMAX_MIN;
-    }
-    private static final long INTMAX_MAX = 9223372036854775807L;
-    /**
-     * {@snippet lang=c :
-     * #define INTMAX_MAX 9223372036854775807
-     * }
-     */
-    public static long INTMAX_MAX() {
-        return INTMAX_MAX;
-    }
-    private static final long UINTMAX_MAX = -1L;
-    /**
-     * {@snippet lang=c :
-     * #define UINTMAX_MAX -1
-     * }
-     */
-    public static long UINTMAX_MAX() {
-        return UINTMAX_MAX;
-    }
-    private static final long PTRDIFF_MIN = -9223372036854775808L;
-    /**
-     * {@snippet lang=c :
-     * #define PTRDIFF_MIN -9223372036854775808
-     * }
-     */
-    public static long PTRDIFF_MIN() {
-        return PTRDIFF_MIN;
-    }
-    private static final long PTRDIFF_MAX = 9223372036854775807L;
-    /**
-     * {@snippet lang=c :
-     * #define PTRDIFF_MAX 9223372036854775807
-     * }
-     */
-    public static long PTRDIFF_MAX() {
-        return PTRDIFF_MAX;
-    }
-    private static final int SIG_ATOMIC_MIN = (int)-2147483648L;
-    /**
-     * {@snippet lang=c :
-     * #define SIG_ATOMIC_MIN -2147483648
-     * }
-     */
-    public static int SIG_ATOMIC_MIN() {
-        return SIG_ATOMIC_MIN;
-    }
-    private static final int SIG_ATOMIC_MAX = (int)2147483647L;
-    /**
-     * {@snippet lang=c :
-     * #define SIG_ATOMIC_MAX 2147483647
-     * }
-     */
-    public static int SIG_ATOMIC_MAX() {
-        return SIG_ATOMIC_MAX;
-    }
-    private static final long SIZE_MAX = -1L;
-    /**
-     * {@snippet lang=c :
-     * #define SIZE_MAX -1
-     * }
-     */
-    public static long SIZE_MAX() {
-        return SIZE_MAX;
-    }
-    private static final int WCHAR_MIN = (int)-2147483648L;
-    /**
-     * {@snippet lang=c :
-     * #define WCHAR_MIN -2147483648
-     * }
-     */
-    public static int WCHAR_MIN() {
-        return WCHAR_MIN;
-    }
-    private static final int WCHAR_MAX = (int)2147483647L;
-    /**
-     * {@snippet lang=c :
-     * #define WCHAR_MAX 2147483647
-     * }
-     */
-    public static int WCHAR_MAX() {
-        return WCHAR_MAX;
-    }
-    private static final int WINT_MIN = (int)0L;
-    /**
-     * {@snippet lang=c :
-     * #define WINT_MIN 0
-     * }
-     */
-    public static int WINT_MIN() {
-        return WINT_MIN;
-    }
-    private static final int WINT_MAX = (int)4294967295L;
-    /**
-     * {@snippet lang=c :
-     * #define WINT_MAX 4294967295
-     * }
-     */
-    public static int WINT_MAX() {
-        return WINT_MAX;
-    }
-    /**
-     * {@snippet lang=c :
-     * #define COUNTER_FMT "%llu"
-     * }
-     */
-    public static MemorySegment COUNTER_FMT() {
-        class Holder {
-            static final MemorySegment COUNTER_FMT
-                = NautyTraces.LIBRARY_ARENA.allocateFrom("%llu");
-        }
-        return Holder.COUNTER_FMT;
-    }
-    /**
-     * {@snippet lang=c :
-     * #define COUNTER_FMT_RAW "llu"
-     * }
-     */
-    public static MemorySegment COUNTER_FMT_RAW() {
-        class Holder {
-            static final MemorySegment COUNTER_FMT_RAW
-                = NautyTraces.LIBRARY_ARENA.allocateFrom("llu");
-        }
-        return Holder.COUNTER_FMT_RAW;
-    }
-    private static final int NAUTYVERSIONID = (int)29301L;
-    /**
-     * {@snippet lang=c :
-     * #define NAUTYVERSIONID 29301
-     * }
-     */
-    public static int NAUTYVERSIONID() {
-        return NAUTYVERSIONID;
-    }
-    private static final int NAUTYREQUIRED = (int)29301L;
-    /**
-     * {@snippet lang=c :
-     * #define NAUTYREQUIRED 29301
-     * }
-     */
-    public static int NAUTYREQUIRED() {
-        return NAUTYREQUIRED;
-    }
-    /**
-     * {@snippet lang=c :
-     * #define NAUTYVERSION "2.9.3 (64 bits)"
-     * }
-     */
-    public static MemorySegment NAUTYVERSION() {
-        class Holder {
-            static final MemorySegment NAUTYVERSION
-                = NautyTraces.LIBRARY_ARENA.allocateFrom("2.9.3 (64 bits)");
-        }
-        return Holder.NAUTYVERSION;
-    }
-    private static final long MSK3232 = -4294967296L;
-    /**
-     * {@snippet lang=c :
-     * #define MSK3232 -4294967296
-     * }
-     */
-    public static long MSK3232() {
-        return MSK3232;
-    }
-    private static final long MSK1648 = -281474976710656L;
-    /**
-     * {@snippet lang=c :
-     * #define MSK1648 -281474976710656
-     * }
-     */
-    public static long MSK1648() {
-        return MSK1648;
-    }
-    private static final long MSK0856 = -72057594037927936L;
-    /**
-     * {@snippet lang=c :
-     * #define MSK0856 -72057594037927936
-     * }
-     */
-    public static long MSK0856() {
-        return MSK0856;
-    }
-    private static final long MSK1632 = 281470681743360L;
-    /**
-     * {@snippet lang=c :
-     * #define MSK1632 281470681743360
-     * }
-     */
-    public static long MSK1632() {
-        return MSK1632;
-    }
-    private static final long MSK0840 = 280375465082880L;
-    /**
-     * {@snippet lang=c :
-     * #define MSK0840 280375465082880
-     * }
-     */
-    public static long MSK0840() {
-        return MSK0840;
-    }
-    private static final long MSK1616 = 4294901760L;
-    /**
-     * {@snippet lang=c :
-     * #define MSK1616 4294901760
-     * }
-     */
-    public static long MSK1616() {
-        return MSK1616;
-    }
-    private static final long MSK0824 = 4278190080L;
-    /**
-     * {@snippet lang=c :
-     * #define MSK0824 4278190080
-     * }
-     */
-    public static long MSK0824() {
-        return MSK0824;
-    }
-    private static final long MSK0808 = 65280L;
-    /**
-     * {@snippet lang=c :
-     * #define MSK0808 65280
-     * }
-     */
-    public static long MSK0808() {
-        return MSK0808;
-    }
-    private static final long MSK63C = 9223372036854775807L;
-    /**
-     * {@snippet lang=c :
-     * #define MSK63C 9223372036854775807
-     * }
-     */
-    public static long MSK63C() {
-        return MSK63C;
-    }
-    private static final long MSK31C = 2147483647L;
-    /**
-     * {@snippet lang=c :
-     * #define MSK31C 2147483647
-     * }
-     */
-    public static long MSK31C() {
-        return MSK31C;
-    }
-    private static final long MSK15C = 32767L;
-    /**
-     * {@snippet lang=c :
-     * #define MSK15C 32767
-     * }
-     */
-    public static long MSK15C() {
-        return MSK15C;
-    }
-    private static final long MSK64 = -1L;
-    /**
-     * {@snippet lang=c :
-     * #define MSK64 -1
-     * }
-     */
-    public static long MSK64() {
-        return MSK64;
-    }
-    private static final long MSK32 = 4294967295L;
-    /**
-     * {@snippet lang=c :
-     * #define MSK32 4294967295
-     * }
-     */
-    public static long MSK32() {
-        return MSK32;
-    }
-    private static final long MSK16 = 65535L;
-    /**
-     * {@snippet lang=c :
-     * #define MSK16 65535
-     * }
-     */
-    public static long MSK16() {
-        return MSK16;
-    }
-    private static final long MSK8 = 255L;
-    /**
-     * {@snippet lang=c :
-     * #define MSK8 255
-     * }
-     */
-    public static long MSK8() {
-        return MSK8;
-    }
-    /**
-     * {@snippet lang=c :
-     * #define SETWORD_DEC_FORMAT "%lu"
-     * }
-     */
-    public static MemorySegment SETWORD_DEC_FORMAT() {
-        class Holder {
-            static final MemorySegment SETWORD_DEC_FORMAT
-                = NautyTraces.LIBRARY_ARENA.allocateFrom("%lu");
-        }
-        return Holder.SETWORD_DEC_FORMAT;
-    }
-    /**
-     * {@snippet lang=c :
-     * #define SETWORD_FORMAT "%016lx"
-     * }
-     */
-    public static MemorySegment SETWORD_FORMAT() {
-        class Holder {
-            static final MemorySegment SETWORD_FORMAT
-                = NautyTraces.LIBRARY_ARENA.allocateFrom("%016lx");
-        }
-        return Holder.SETWORD_FORMAT;
-    }
-    private static final long ALLBITS = -1L;
-    /**
-     * {@snippet lang=c :
-     * #define ALLBITS -1
-     * }
-     */
-    public static long ALLBITS() {
-        return ALLBITS;
-    }
-    private static final MemorySegment NILFUNCTION = MemorySegment.ofAddress(0L);
-    /**
-     * {@snippet lang=c :
-     * #define NILFUNCTION (void*) 0
-     * }
-     */
-    public static MemorySegment NILFUNCTION() {
-        return NILFUNCTION;
-    }
-    private static final MemorySegment NILSET = MemorySegment.ofAddress(0L);
-    /**
-     * {@snippet lang=c :
-     * #define NILSET (void*) 0
-     * }
-     */
-    public static MemorySegment NILSET() {
-        return NILSET;
-    }
-    private static final MemorySegment NILGRAPH = MemorySegment.ofAddress(0L);
-    /**
-     * {@snippet lang=c :
-     * #define NILGRAPH (void*) 0
-     * }
-     */
-    public static MemorySegment NILGRAPH() {
-        return NILGRAPH;
-    }
-    /**
-     * {@snippet lang=c :
-     * #define SORTPROG "sort"
-     * }
-     */
-    public static MemorySegment SORTPROG() {
-        class Holder {
-            static final MemorySegment SORTPROG
-                = NautyTraces.LIBRARY_ARENA.allocateFrom("sort");
-        }
-        return Holder.SORTPROG;
-    }
-    /**
-     * {@snippet lang=c :
-     * #define SG_WEIGHT_FMT "%d"
-     * }
-     */
-    public static MemorySegment SG_WEIGHT_FMT() {
-        class Holder {
-            static final MemorySegment SG_WEIGHT_FMT
-                = NautyTraces.LIBRARY_ARENA.allocateFrom("%d");
-        }
-        return Holder.SG_WEIGHT_FMT;
-    }
-    private static final int SG_MINWEIGHT = (int)-2000000002L;
-    /**
-     * {@snippet lang=c :
-     * #define SG_MINWEIGHT -2000000002
-     * }
-     */
-    public static int SG_MINWEIGHT() {
-        return SG_MINWEIGHT;
     }
 }
 
