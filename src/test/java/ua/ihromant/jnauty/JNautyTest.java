@@ -321,6 +321,9 @@ public class JNautyTest {
             }
         }
         assertEquals(1, JNauty.instance().maximalCliques(g).size());
+        assertEquals(1, JNauty.instance().maximalCliques(g, 4).size());
+        assertEquals(4, JNauty.instance().maximalCliques(g, 3).size());
+        assertEquals(3, JNauty.instance().maximalCliques(g, 2).size());
 
         SparseGraph g2 = new SparseGraph();
         g2.connect(0, 1);
@@ -331,6 +334,8 @@ public class JNautyTest {
         g2.connect(2, 3);
         g2.connect(3, 5);
         assertEquals(1, JNauty.instance().maximalCliques(g2).size());
+        assertEquals(1, JNauty.instance().maximalCliques(g2, 3).size());
+        assertEquals(4, JNauty.instance().maximalCliques(g2, 2).size());
     }
 
     private static class SparseGraph implements NautyGraph {

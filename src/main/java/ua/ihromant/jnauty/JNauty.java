@@ -434,6 +434,10 @@ public class JNauty {
     }
 
     public List<long[]> maximalCliques(NautyGraph gw) {
+        return maximalCliques(gw, 0);
+    }
+
+    public List<long[]> maximalCliques(NautyGraph gw, int clSz) {
         int sz = gw.vCount();
         int rowSize = (sz + 63) >>> 6;
         List<long[]> result = new ArrayList<>();
@@ -470,7 +474,7 @@ public class JNauty {
 
             MemorySegment options = arena.allocate(_clique_options.layout());
             _clique_options.user_function(options, ufHolder.segm);
-            NautyTraces_1.clique_find_all(graph, 0, 0, NAUTY_TRUE, options);
+            NautyTraces_1.clique_find_all(graph, clSz, clSz, NAUTY_TRUE, options);
         }
         return result;
     }
