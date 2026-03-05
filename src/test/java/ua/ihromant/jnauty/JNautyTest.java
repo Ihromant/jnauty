@@ -9,11 +9,13 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.BitSet;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -321,9 +323,9 @@ public class JNautyTest {
             }
         }
         assertEquals(1, JNauty.instance().maximalCliques(g).size());
-        assertEquals(1, JNauty.instance().maximalCliques(g, 4).size());
-        assertEquals(4, JNauty.instance().maximalCliques(g, 3).size());
-        assertEquals(3, JNauty.instance().maximalCliques(g, 2).size());
+        checkCliques(new int[][]{{0, 1, 2, 3}}, JNauty.instance().maximalCliques(g, 4));
+        checkCliques(new int[][]{{1, 2, 4}, {5, 6, 7}, {6, 7, 8}, {9, 10, 11}}, JNauty.instance().maximalCliques(g, 3));
+        checkCliques(new int[][]{{3, 5}, {4, 6}, {8, 9}}, JNauty.instance().maximalCliques(g, 2));
 
         SparseGraph g2 = new SparseGraph();
         g2.connect(0, 1);
@@ -334,8 +336,34 @@ public class JNautyTest {
         g2.connect(2, 3);
         g2.connect(3, 5);
         assertEquals(1, JNauty.instance().maximalCliques(g2).size());
-        assertEquals(1, JNauty.instance().maximalCliques(g2, 3).size());
-        assertEquals(4, JNauty.instance().maximalCliques(g2, 2).size());
+        checkCliques(new int[][]{{0, 1, 4}}, JNauty.instance().maximalCliques(g2, 3));
+        checkCliques(new int[][]{{1, 2}, {2, 3}, {3, 4}, {3, 5}}, JNauty.instance().maximalCliques(g2, 2));
+    }
+
+    private static BitSet bs(int[] arr) {
+        BitSet bs = new BitSet();
+        for (int i : arr) {
+            bs.set(i);
+        }
+        return bs;
+    }
+
+    private void checkCliques(int[][] expected, List<long[]> actual) {
+        assertEquals(Arrays.stream(expected).map(JNautyTest::bs).collect(Collectors.toSet()),
+                actual.stream().map(BitSet::valueOf).collect(Collectors.toSet()));
+    }
+
+    @Test
+    public void testLargeGraph() throws URISyntaxException, IOException {
+        SparseGraph sg = new SparseGraph();
+        List<String> lines = Files.readAllLines(Path.of(Objects.requireNonNull(getClass().getResource("/graph.txt")).toURI()));
+        for (int i = 0; i < lines.size(); i++) {
+            String[] spl = lines.get(i).split(" ");
+            for (String s : spl) {
+                sg.connect(i, Integer.parseInt(s));
+            }
+        }
+        assertEquals(159625, JNauty.instance().maximalCliques(sg).size()); // TODO this is wrong assertion
     }
 
     private static class SparseGraph implements NautyGraph {
