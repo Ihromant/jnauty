@@ -18,14 +18,14 @@
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
-            <version>6.0.1</version>
+            <version>6.0.3</version>
             <scope>test</scope>
         </dependency>
 
         <dependency>
             <groupId>tools.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>3.0.2</version>
+            <version>3.1.0</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
