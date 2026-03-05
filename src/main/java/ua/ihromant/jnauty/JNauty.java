@@ -537,7 +537,7 @@ public class JNauty {
         private CliqueUF() {
             this.segm = _clique_options.user_function.allocate((set, gh, _) -> {
                 cons.accept(set.asSlice(0, (long) Long.BYTES * ((_graph_t.n(gh) + 63) >>> 6)).toArray(ValueLayout.JAVA_LONG));
-                return 1;
+                return NAUTY_TRUE;
             }, Arena.global());
         }
 
