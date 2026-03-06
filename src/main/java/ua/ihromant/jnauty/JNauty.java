@@ -28,10 +28,6 @@ public class JNauty {
     private static final int NAUTY_TRUE = 1;
     private static final JNauty INSTANCE = new JNauty();
 
-    private static final ThreadLocal<NautyAutom> na = ThreadLocal.withInitial(NautyAutom::new);
-    private static final ThreadLocal<TracesAutom> ta = ThreadLocal.withInitial(TracesAutom::new);
-    private static final ThreadLocal<CliqueUF> cu = ThreadLocal.withInitial(CliqueUF::new);
-
     public static JNauty instance() {
         return INSTANCE;
     }
@@ -55,8 +51,6 @@ public class JNauty {
     public GraphData nauty(NautyGraph gw) {
         int sz = gw.vCount();
         List<int[]> gens = new ArrayList<>();
-        NautyAutom nautyAutom = na.get();
-        nautyAutom.setCons(gens::add);
         try (Arena arena = Arena.ofConfined()) {
             MemorySegment options = arena.allocate(optionstruct.layout());
 
@@ -85,7 +79,10 @@ public class JNauty {
             optionstruct.extra_options(options, MemorySegment.NULL);
 
             // update defaults
-            optionstruct.userautomproc(options, nautyAutom.segm);
+            optionstruct.userautomproc(options, optionstruct.userautomproc.allocate((_, p, _, _, _, n) -> {
+                int[] arr = p.asSlice(0, (long) Integer.BYTES * n).toArray(ValueLayout.JAVA_INT);
+                gens.add(arr);
+            }, arena));
             optionstruct.defaultptn(options, NAUTY_FALSE);
             optionstruct.invarproc(options, NautyTraces_1.twopaths$address());
             optionstruct.mininvarlevel(options, 1);
@@ -167,8 +164,6 @@ public class JNauty {
     public GraphData sparseNauty(NautyGraph gw) {
         int sz = gw.vCount();
         List<int[]> gens = new ArrayList<>();
-        NautyAutom nautyAutom = na.get();
-        nautyAutom.setCons(gens::add);
         try (Arena arena = Arena.ofConfined()) {
             MemorySegment options = arena.allocate(optionstruct.layout());
 
@@ -197,7 +192,10 @@ public class JNauty {
             optionstruct.extra_options(options, MemorySegment.NULL);
 
             // update defaults
-            optionstruct.userautomproc(options, nautyAutom.segm);
+            optionstruct.userautomproc(options, optionstruct.userautomproc.allocate((_, p, _, _, _, n) -> {
+                int[] arr = p.asSlice(0, (long) Integer.BYTES * n).toArray(ValueLayout.JAVA_INT);
+                gens.add(arr);
+            }, arena));
             optionstruct.defaultptn(options, NAUTY_FALSE);
             optionstruct.tc_level(options, 10);
 
@@ -306,8 +304,6 @@ public class JNauty {
     public GraphData traces(NautyGraph gw) {
         int sz = gw.vCount();
         List<int[]> gens = new ArrayList<>();
-        TracesAutom tracesAutom = ta.get();
-        tracesAutom.setCons(gens::add);
         try (Arena arena = Arena.ofConfined()) {
             MemorySegment options = arena.allocate(TracesOptions.layout());
 
@@ -329,7 +325,10 @@ public class JNauty {
             // override defaults
             TracesOptions.defaultptn(options, NAUTY_FALSE);
             TracesOptions.getcanon(options, NAUTY_TRUE);
-            TracesOptions.userautomproc(options, tracesAutom.segm);
+            TracesOptions.userautomproc(options, TracesOptions.userautomproc.allocate((int _, MemorySegment p, int n) -> {
+                int[] arr = p.asSlice(0, (long) Integer.BYTES * n).toArray(ValueLayout.JAVA_INT);
+                gens.add(arr);
+            }, arena));
 
             int rowSize = (sz + 63) >>> 6;
             int canonSz = rowSize * sz;
@@ -447,8 +446,6 @@ public class JNauty {
 
     public void maximalCliques(NautyGraph gw, int clSz, Consumer<long[]> cons) {
         int sz = gw.vCount();
-        CliqueUF ufHolder = cu.get();
-        ufHolder.setCons(cons);
         try (Arena arena = Arena.ofConfined()) {
             MemorySegment graph = NautyTraces_1.graph_new(sz);
 
@@ -458,7 +455,10 @@ public class JNauty {
             }
 
             MemorySegment options = arena.allocate(_clique_options.layout());
-            _clique_options.user_function(options, ufHolder.segm);
+            _clique_options.user_function(options, _clique_options.user_function.allocate((set, gh, _) -> {
+                cons.accept(set.asSlice(0, (long) Long.BYTES * ((_graph_t.n(gh) + 63) >>> 6)).toArray(ValueLayout.JAVA_LONG));
+                return NAUTY_TRUE;
+            }, arena));
             NautyTraces_1.clique_find_all(graph, clSz, clSz, NAUTY_TRUE, options);
             NautyTraces_1.graph_free(graph);
         }
@@ -480,54 +480,6 @@ public class JNauty {
         MemorySegment w = sparsegraph.w(sg);
         if (!MemorySegment.NULL.equals(w)) {
             NautyTraces_1.free(w);
-        }
-    }
-
-    private static class NautyAutom {
-        private final MemorySegment segm;
-        private Consumer<int[]> cons = _ -> {};
-
-        private NautyAutom() {
-            this.segm = optionstruct.userautomproc.allocate((_, p, _, _, _, n) -> {
-                int[] arr = p.asSlice(0, (long) Integer.BYTES * n).toArray(ValueLayout.JAVA_INT);
-                cons.accept(arr);
-            }, Arena.global());
-        }
-
-        private void setCons(Consumer<int[]> cons) {
-            this.cons = cons;
-        }
-    }
-
-    private static class TracesAutom {
-        private final MemorySegment segm;
-        private Consumer<int[]> cons = _ -> {};
-
-        private TracesAutom() {
-            this.segm = TracesOptions.userautomproc.allocate((int _, MemorySegment p, int n) -> {
-                int[] arr = p.asSlice(0, (long) Integer.BYTES * n).toArray(ValueLayout.JAVA_INT);
-                cons.accept(arr);
-            }, Arena.global());
-        }
-
-        private void setCons(Consumer<int[]> cons) {
-            this.cons = cons;
-        }
-    }
-
-    private static class CliqueUF {
-        private final MemorySegment segm;
-        private Consumer<long[]> cons = _ -> {};
-
-        private CliqueUF() {
-            this.segm = _clique_options.user_function.allocate((set, gh, _) -> {
-                cons.accept(set.asSlice(0, (long) Long.BYTES * ((_graph_t.n(gh) + 63) >>> 6)).toArray(ValueLayout.JAVA_LONG));
-                return NAUTY_TRUE;
-            }, Arena.global());
-        }
-
-        private void setCons(Consumer<long[]> cons) {
-            this.cons = cons;
         }
     }
 }
