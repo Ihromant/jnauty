@@ -434,49 +434,34 @@ public class JNauty {
     }
 
     public List<long[]> maximalCliques(NautyGraph gw) {
-        return maximalCliques(gw, 0);
+        List<long[]> result = new ArrayList<>();
+        maximalCliques(gw, 0, result::add);
+        return result;
     }
 
     public List<long[]> maximalCliques(NautyGraph gw, int clSz) {
-        int sz = gw.vCount();
-        int rowSize = (sz + 63) >>> 6;
         List<long[]> result = new ArrayList<>();
+        maximalCliques(gw, clSz, result::add);
+        return result;
+    }
+
+    public void maximalCliques(NautyGraph gw, int clSz, Consumer<long[]> cons) {
+        int sz = gw.vCount();
         CliqueUF ufHolder = cu.get();
-        ufHolder.setCons(result::add);
+        ufHolder.setCons(cons);
         try (Arena arena = Arena.ofConfined()) {
-            MemorySegment edgesArray = arena.allocate(ValueLayout.ADDRESS, sz);
+            MemorySegment graph = NautyTraces_1.graph_new(sz);
 
-            long[][] gr = new long[sz][rowSize];
             for (int i = 0; i < sz; i++) {
-                for (int j = i + 1; j < sz; j++) {
-                    if (gw.edge(i, j)) {
-                        int iWord = j >>> 6;
-                        gr[i][iWord] |= (1L << j);
-                        int jWord = i >>> 6;
-                        gr[j][jWord] |= (1L << i);
-                    }
-                }
+                _graph_t.edges(graph).getAtIndex(_graph_t.edges$layout(), i).copyFrom(
+                        MemorySegment.ofArray(gw.neighborsArr(i)));
             }
-            for (int i = 0; i < sz; i++) {
-                MemorySegment ms = arena.allocate(ValueLayout.JAVA_LONG, rowSize);
-                ms.copyFrom(MemorySegment.ofArray(gr[i]));
-                edgesArray.setAtIndex(ValueLayout.ADDRESS, i, ms);
-            }
-
-            MemorySegment graph = arena.allocate(_graph_t.layout());
-            _graph_t.n(graph, sz);
-            _graph_t.edges(graph, edgesArray);
-            MemorySegment weights = arena.allocate(ValueLayout.JAVA_INT, sz);
-            for (int i = 0; i < sz; i++) {
-                weights.setAtIndex(ValueLayout.JAVA_INT, i, 1);
-            }
-            _graph_t.weights(graph, weights);
 
             MemorySegment options = arena.allocate(_clique_options.layout());
             _clique_options.user_function(options, ufHolder.segm);
             NautyTraces_1.clique_find_all(graph, clSz, clSz, NAUTY_TRUE, options);
+            NautyTraces_1.graph_free(graph);
         }
-        return result;
     }
 
     private static void freeSparse(MemorySegment sg) {

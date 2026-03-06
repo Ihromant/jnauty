@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -288,7 +289,7 @@ public class JNautyTest {
 
     @Test
     public void testCliques() {
-        for (int n = 4; n < 10; n++) {
+        for (int n = 4; n < 100; n++) {
             SparseGraph g = new SparseGraph();
             for (int i = 0; i < n; i++) {
                 for (int j = i + 1; j < n; j++) {
@@ -363,7 +364,9 @@ public class JNautyTest {
                 sg.connect(i, Integer.parseInt(s));
             }
         }
-        assertEquals(159625, JNauty.instance().maximalCliques(sg).size()); // TODO this is wrong assertion
+        AtomicInteger counter = new AtomicInteger();
+        JNauty.instance().maximalCliques(sg, 0, _ -> counter.incrementAndGet());
+        assertEquals(312498812, counter.get());
     }
 
     private static class SparseGraph implements NautyGraph {

@@ -12,4 +12,16 @@ public interface NautyGraph {
     default int eCount() {
         return 0;
     }
+
+    default long[] neighborsArr(int i) {
+        int sz = vCount();
+        long[] res = new long[(sz + 63) >>> 6];
+        for (int j = 0; j < sz; j++) {
+            if (i != j && edge(i, j)) {
+                int word = j >>> 6;
+                res[word] |= (1L << j);
+            }
+        }
+        return res;
+    }
 }
