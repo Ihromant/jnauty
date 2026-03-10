@@ -464,6 +464,26 @@ public class JNauty {
         }
     }
 
+    public void cliques(NautyGraph gw, int from, int to, Consumer<long[]> cons) {
+        int sz = gw.vCount();
+        try (Arena arena = Arena.ofConfined()) {
+            MemorySegment graph = NautyTraces_1.graph_new(sz);
+
+            for (int i = 0; i < sz; i++) {
+                _graph_t.edges(graph).getAtIndex(_graph_t.edges$layout(), i).copyFrom(
+                        MemorySegment.ofArray(gw.neighborsArr(i)));
+            }
+
+            MemorySegment options = arena.allocate(_clique_options.layout());
+            _clique_options.user_function(options, _clique_options.user_function.allocate((set, gh, _) -> {
+                cons.accept(set.asSlice(0, (long) Long.BYTES * ((_graph_t.n(gh) + 63) >>> 6)).toArray(ValueLayout.JAVA_LONG));
+                return NAUTY_TRUE;
+            }, arena));
+            NautyTraces_1.clique_find_all(graph, from, to, NAUTY_FALSE, options);
+            NautyTraces_1.graph_free(graph);
+        }
+    }
+
     private static void freeSparse(MemorySegment sg) {
         MemorySegment v = sparsegraph.v(sg);
         if (!MemorySegment.NULL.equals(v)) {
