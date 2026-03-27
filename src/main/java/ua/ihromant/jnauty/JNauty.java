@@ -446,6 +446,9 @@ public class JNauty {
 
     public void maximalCliques(NautyGraph gw, int clSz, Consumer<long[]> cons) {
         int sz = gw.vCount();
+        if (sz == 0) {
+            return;
+        }
         try (Arena arena = Arena.ofConfined()) {
             MemorySegment graph = NautyTraces_1.graph_new(sz);
 
@@ -466,6 +469,9 @@ public class JNauty {
 
     public void cliques(NautyGraph gw, int from, int to, Consumer<long[]> cons) {
         int sz = gw.vCount();
+        if (sz == 0) {
+            return;
+        }
         try (Arena arena = Arena.ofConfined()) {
             MemorySegment graph = NautyTraces_1.graph_new(sz);
 
